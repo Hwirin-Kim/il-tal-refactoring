@@ -10,24 +10,61 @@ import { useRecoilValue } from "recoil";
 import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 //ThemeWrap에서 ThemePoster는 페이징처리하여 3개씩 보여주기
-
-const Company = ({ company }) => {
+interface CompanyType {
+  company: {
+    id: number;
+    companyName: string;
+    companyImgUrl: string;
+    location: string;
+    companyScore: number;
+    companyUrl: string;
+    companyLikeCnt: number;
+    address: string;
+    phoneNumber: string;
+    workHour: string;
+    companyLikeCheck: boolean;
+    totalReviewCnt: number;
+    themeList: ThemeList[];
+  };
+}
+interface ThemeList {
+  id: number;
+  themeImgUrl: string;
+  themeName: string;
+  difficulty: number;
+  genre: string;
+  genreFilter: string;
+  playTime: number;
+  synopsis: string;
+  themeScore: number;
+  themeUrl: string;
+  minPeople: number;
+  maxPeople: number;
+  price: number;
+  themeLikeCheck: boolean;
+  totalLikeCnt: number;
+  reviewCnt: number;
+}
+const Company = ({ company }: CompanyType) => {
   const navigator = useNavigate();
   const queryClient = useQueryClient();
-  const companyLike = useMutation((companyId) => companyWish(companyId), {
-    onSuccess: (res) => {
-      queryClient.invalidateQueries(["getCompanyList"]);
-      setWish(res.data.companyLikeCheck);
-    },
-  });
+  const companyLike = useMutation(
+    (companyId: number) => companyWish(companyId),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["getCompanyList"]);
+        setWish(res.data.companyLikeCheck);
+      },
+    }
+  );
 
   //로그인 유무 판별
   const loginCheckState = useRecoilValue(loginCheck);
 
   //좋아요 회원만 가능하도록 알람띄우기
-  const likeOnlyMemeber = () => {
+  const likeOnlyMember = () => {
     if (loginCheckState) {
-      companyLike.mutate({ companyId: company.id });
+      companyLike.mutate(company.id);
     } else {
       Swal.fire({
         title: "로그인 후 이용하세요!",
@@ -105,7 +142,7 @@ const Company = ({ company }) => {
           >
             홈페이지
           </HomepageUrl>
-          <CompanyLike onClick={() => likeOnlyMemeber()}>
+          <CompanyLike onClick={() => likeOnlyMember()}>
             {wish ? <BsSuitHeartFill color={"#06c387"} /> : <BsSuitHeart />}{" "}
           </CompanyLike>
         </CompanyInfo>

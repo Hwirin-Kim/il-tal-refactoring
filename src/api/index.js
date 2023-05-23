@@ -39,7 +39,7 @@ export const companyList = async ({ comPage, comLocation }) => {
 
 //업체&업체상세 찜하기 POST 요청
 export const companyWish = async (userData) => {
-  const { data } = await api.post("/company/wish", userData);
+  const { data } = await api.post("/company/wish", { companyId: userData });
   return data;
 };
 

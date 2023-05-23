@@ -12,11 +12,27 @@ import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
 import prevgreen from "../../asset/prev-green.png";
 import { ref } from "yup";
+import React from "react";
 
 const CompanyList = () => {
   const [comLocation, setComLocation] = useRecoilState(companyLocation);
   const [comPage, setCompanyPage] = useRecoilState(companyPages);
 
+  interface CompanyType {
+    id: number;
+    companyName: string;
+    companyImgUrl: string;
+    location: string;
+    companyScore: number;
+    companyUrl: string;
+    companyLikeCnt: number;
+    address: string;
+    phoneNumber: string;
+    workHour: string;
+    companyLikeCheck: boolean;
+    totalReviewCnt: number;
+    themeList: [];
+  }
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["getCompanyList", comLocation, comPage],
     () => companyList({ comPage, comLocation }),
@@ -27,11 +43,11 @@ const CompanyList = () => {
     }
   );
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setComLocation(e.target.value);
   };
 
-  const onPageHandler = (page) => {
+  const onPageHandler = (page: number) => {
     setCompanyPage(page - 1);
   };
 
@@ -60,7 +76,7 @@ const CompanyList = () => {
         </div>
       </Category>
       <CompanyWrap>
-        {data.data.content.map((company, index) => {
+        {data.data.content.map((company: CompanyType, index: number) => {
           return (
             <div key={`company${index}`}>
               <Company company={company} />

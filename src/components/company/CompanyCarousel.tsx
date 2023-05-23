@@ -9,8 +9,13 @@ import "./CompanyCarousel.css";
 
 // import required modules
 import { Pagination, Navigation } from "swiper";
+import { ReactNode } from "react";
 
-const CompanyCarousel = ({ children }) => {
+type CompanyCarouselProps = {
+  children: ReactNode;
+};
+
+const CompanyCarousel = ({ children }: CompanyCarouselProps) => {
   return (
     <Swiper
       slidesPerView={1}
