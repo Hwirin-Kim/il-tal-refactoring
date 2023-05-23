@@ -10,7 +10,7 @@ import "./CompanyCarousel.css";
 // import required modules
 import { Pagination, Navigation } from "swiper";
 
-export const CompanyCarousel = ({ children }) => {
+const CompanyCarousel = ({ children }) => {
   return (
     <Swiper
       slidesPerView={1}
@@ -20,8 +20,10 @@ export const CompanyCarousel = ({ children }) => {
         clickable: true,
       }}
       navigation={true}
-      modules={[Pagination, Navigation]}>
+      modules={[Pagination, Navigation]}
+    >
       {children}
     </Swiper>
   );
 };
+export { CompanyCarousel };
