@@ -1,19 +1,20 @@
 export interface CompanyType {
-  company: {
-    id: number;
-    companyName: string;
-    companyImgUrl: string;
-    location: string;
-    companyScore: number;
-    companyUrl: string;
-    companyLikeCnt: number;
-    address: string;
-    phoneNumber: string;
-    workHour: string;
-    companyLikeCheck: boolean;
-    totalReviewCnt: number;
-    themeList: ThemeListType[];
-  };
+  company: Company;
+}
+export interface Company {
+  id: number;
+  companyName: string;
+  companyImgUrl: string;
+  location: string;
+  companyScore: number;
+  companyUrl: string;
+  companyLikeCnt: number;
+  address: string;
+  phoneNumber: string;
+  workHour: string;
+  companyLikeCheck: boolean;
+  totalReviewCnt: number;
+  themeList: ThemeListType[];
 }
 
 export interface ThemeListType {
@@ -33,6 +34,7 @@ export interface ThemeListType {
   themeLikeCheck: boolean;
   totalLikeCnt: number;
   reviewCnt: number;
+  companyName: string;
 }
 
 export interface CompanyThemeProps {

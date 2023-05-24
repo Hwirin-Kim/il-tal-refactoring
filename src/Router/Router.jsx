@@ -9,7 +9,7 @@ import CompanyPage from "../page/CompanyPage";
 import MainLayout from "../page/MainLayout";
 import MyPageLayout from "../page/MyPageLayout";
 import KakaoLogin from "../components/modal/KakaoLogin";
-import SerchPage from "../page/SerchPage";
+import SearchPage from "../page/SearchPage";
 import ScrollOnTop from "../utils/ScrollOnTop";
 
 const Router = () => {
@@ -24,7 +24,7 @@ const Router = () => {
           <Route path="/theme/:id" element={<DetailTheme />} />
           <Route path="/company" element={<CompanyPage />} />
           <Route path="/company/:id" element={<DetailCompanyPage />} />
-          <Route path="/serch" element={<SerchPage />} />
+          <Route path="/search" element={<SearchPage />} />
         </Route>
         <Route element={<MyPageLayout />}>
           <Route path="/myaccount" element={<MyPage />} />

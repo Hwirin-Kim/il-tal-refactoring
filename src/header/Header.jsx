@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { useRecoilState } from "recoil";
 import { headerClicked, loginCheck } from "../api/store";
-import SerchForm from "../components/serch/SertchForm";
+import SearchForm from "../components/search/SearchForm";
 import logo from "../asset/HeaderLogo.png";
 import Swal from "sweetalert2";
 
@@ -100,7 +100,7 @@ const Header = (props) => {
             테마별
           </div>
         </div>
-        <SerchForm />
+        <SearchForm />
         {loginState ? (
           <div className="login">
             <LoginBtn onClick={() => navigater("/myaccount")}>

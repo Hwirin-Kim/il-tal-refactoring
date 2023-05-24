@@ -1,6 +1,20 @@
 import styled from "styled-components";
-
-const ThemeSerch = ({ img, topinfo, title, botinfo, score, reivew }) => {
+interface ThemeSearchProps {
+  img: string;
+  topinfo: string;
+  botinfo: string;
+  title: string;
+  score: number;
+  reviewCnt: number;
+}
+const ThemeSearch = ({
+  img,
+  topinfo,
+  title,
+  botinfo,
+  score,
+  reviewCnt,
+}: ThemeSearchProps) => {
   return (
     <Container>
       <Pic>
@@ -12,14 +26,14 @@ const ThemeSerch = ({ img, topinfo, title, botinfo, score, reivew }) => {
         <TextExplain>{botinfo}</TextExplain>
         <TextBottom>
           <div>
-            ⭐ {score} <span>({reivew})</span>
+            ⭐ {score} <span>({reviewCnt})</span>
           </div>
         </TextBottom>
       </TextWrap>
     </Container>
   );
 };
-export default ThemeSerch;
+export default ThemeSearch;
 
 const Container = styled.div`
   height: 440px;

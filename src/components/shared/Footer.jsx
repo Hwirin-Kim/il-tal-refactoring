@@ -8,7 +8,6 @@ const Footer = () => {
   const liam_Geni = "https://github.com/liam-Geni";
   const ggggraceful = "https://github.com/ggggraceful";
   const soojin_dev = "https://github.com/soojin-dev";
-  // const ogaeng1 = "https://github.com/ogaeng1";
   return (
     <Container>
       <div className="layout">

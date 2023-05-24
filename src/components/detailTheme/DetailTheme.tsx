@@ -14,6 +14,10 @@ import ThemePicComponent from "./ThemePicComponent";
 const DetailTheme = () => {
   //상세페이지 조회용 id
   const { id } = useParams();
+  let themeId: number;
+  if (id) {
+    themeId = parseInt(id, 10);
+  }
 
   //로그인 유무 판별
   const loginCheckState = useRecoilValue(loginCheck);
@@ -33,9 +37,9 @@ const DetailTheme = () => {
   const queryClient = useQueryClient();
 
   //좋아요 회원만 가능하도록 알람띄우기
-  const likeOnlyMemeber = () => {
+  const likeOnlyMember = () => {
     if (loginCheckState) {
-      themeLike.mutate({ themeId: id });
+      themeLike.mutate(themeId);
     } else {
       Swal.fire({
         title: "로그인 후 이용하세요!",
@@ -46,22 +50,25 @@ const DetailTheme = () => {
   };
 
   //좋아요기능 mutation
-  const themeLike = useMutation((themeId) => wishTheme(themeId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["getDetail"]);
-    },
-  });
+  const themeLike = useMutation(
+    (themeId: number) => wishTheme({ themeId: themeId }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getDetail"]);
+      },
+    }
+  );
 
-  const difficult = () => {
-    if (data.data.difficulty > 4) {
+  const difficult = (difficulty: number): string | undefined => {
+    if (difficulty > 4) {
       return "매우어려움";
-    } else if (data.data.difficulty > 3) {
+    } else if (difficulty > 3) {
       return "어려움";
-    } else if (data.data.difficulty > 2) {
+    } else if (difficulty > 2) {
       return "보통";
-    } else if (data.data.difficulty > 1) {
+    } else if (difficulty > 1) {
       return "쉬움";
-    } else if (data.data.difficulty > 0) {
+    } else if (difficulty > 0) {
       return "매우쉬움";
     }
   };
@@ -110,7 +117,7 @@ const DetailTheme = () => {
             </TextPrice>
           </ThemeInfo>
           <ThemeBtnWrap>
-            <div onClick={() => likeOnlyMemeber()}>
+            <div onClick={() => likeOnlyMember()}>
               {data.data.themeLikeCheck ? (
                 <Btn>
                   {<BsSuitHeartFill color="var(--color-main)" size="20" />}
@@ -125,7 +132,7 @@ const DetailTheme = () => {
             <Btn onClick={() => navigate(`/company/${data.data.companyId}`)}>
               업체보기
             </Btn>
-            <Btn2 onClick={() => window.open([`${data.data.themeUrl}`])}>
+            <Btn2 onClick={() => window.open(data.data.themeUrl)}>
               예약하기
             </Btn2>
           </ThemeBtnWrap>
@@ -135,7 +142,7 @@ const DetailTheme = () => {
       <ThemeReview props={data.data} />
       {isPic ? null : (
         <Modal closeModal={() => setIsPic(true)}>
-          <ThemePicComponent setClose={setIsPic} pic={data.data.themeImgUrl} />
+          <ThemePicComponent pic={data.data.themeImgUrl} />
         </Modal>
       )}
     </Container>

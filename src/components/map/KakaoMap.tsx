@@ -1,8 +1,16 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-
-const KakaoMap = ({ address, company }) => {
+interface KakaoMapProps {
+  address: string;
+}
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+const KakaoMap = ({ address }: KakaoMapProps) => {
   const { kakao } = window;
+
   useEffect(() => {
     var mapContainer = document.getElementById("map"), // 지도를 표시할 div
       mapOption = {
@@ -23,7 +31,7 @@ const KakaoMap = ({ address, company }) => {
     var geocoder = new kakao.maps.services.Geocoder();
 
     // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(`${address}`, function (result, status) {
+    geocoder.addressSearch(`${address}`, function (result: any, status: any) {
       // 정상적으로 검색이 완료됐으면
       if (status === kakao.maps.services.Status.OK) {
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -44,7 +52,8 @@ const KakaoMap = ({ address, company }) => {
         <div
           className="map"
           id="map"
-          style={{ width: "580px", height: "520px" }}></div>
+          style={{ width: "580px", height: "520px" }}
+        ></div>
       </MapWrap>
     </>
   );

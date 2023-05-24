@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 /**
@@ -6,28 +7,27 @@ import styled from "styled-components";
  * @label 버튼 이름
  * @position absolute, relative, ..
  */
-export const Button = (props) => {
-  return (
-    <ButtonStyle
-      width={props.width}
-      height={props.height}
-      position={props.position}
-      onClick={props.onClick}
-      disabled={props.disabled}
-      top={props.top}
-      bottom={props.bottom}
-      left={props.left}
-      right={props.right}
-      margin={props.margin}
-      padding={props.padding}
-      backgroundColor={props.backgroundColor}
-    >
-      {props.label}
-    </ButtonStyle>
-  );
+interface ButtonProps {
+  width?: string;
+  height?: string;
+  position?: string;
+  disabled?: boolean;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+  margin?: string;
+  padding?: string;
+  backgroundColor?: string;
+  label?: string;
+  onClick?: (e: React.FormEvent) => void;
+}
+
+export const Button = (props: ButtonProps) => {
+  return <ButtonStyle {...props}>{props.label}</ButtonStyle>;
 };
 
-const ButtonStyle = styled.button`
+const ButtonStyle = styled.button<ButtonProps>`
   position: ${(props) => props.position};
   width: ${(props) => props.width};
   height: ${(props) => props.height};

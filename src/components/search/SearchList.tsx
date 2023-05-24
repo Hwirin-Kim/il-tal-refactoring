@@ -3,51 +3,54 @@ import Pagination from "react-js-pagination";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { getSerchCompany, getSerchTheme } from "../../api/serchApi";
-import { serchComPages, serchState, serchThemePages } from "../../api/store";
-import ThemeSerch from "./ThemeSerch";
+import { getSearchCompany, getSearchTheme } from "../../api/searchApi";
+import { searchComPages, searchState, searchThemePages } from "../../api/store";
+import ThemeSearch from "./ThemeSearch";
 import nextgray from "../../asset/next-gray.png";
 import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
 import prevgreen from "../../asset/prev-green.png";
 import noDataImg from "../../asset/no-data-word.png";
+import { Company, CompanyType, ThemeListType } from "components/types";
 
-const SerchList = () => {
+const SearchList = () => {
   //페이지 이동에 사용
   const navigate = useNavigate();
 
   //업체 검색 결과 페이지네이션 전역 스테이트
-  const [serchComPage, setSerchComPage] = useRecoilState(serchComPages);
+  const [searchComPage, setSearchComPage] = useRecoilState(searchComPages);
 
   //테마 검색 결과 페이지네이션 전역 스테이트
-  const [serchThemePage, setSerchThemePage] = useRecoilState(serchThemePages);
+  const [searchThemePage, setSearchThemePage] =
+    useRecoilState(searchThemePages);
 
   //검색어 전역 스테이트
-  const serching = useRecoilValue(serchState);
+  const searching = useRecoilValue(searchState);
 
   //테마검색 GET요청 쿼리
-  const themeList = useQuery(["getThemeSerch", serchThemePage, serching], () =>
-    getSerchTheme({ serchWord, serchThemePage })
+  const themeList = useQuery(
+    ["getThemeSearch", searchThemePage, searching],
+    () => getSearchTheme({ searchWord, searchThemePage })
   );
 
   //업체검색 GET요청 쿼리
   const companyList = useQuery(
-    ["getCompanySerch", serchComPage, serching],
-    () => getSerchCompany({ serchWord, serchComPage })
+    ["getCompanySearch", searchComPage, searching],
+    () => getSearchCompany({ searchWord, searchComPage })
   );
 
   //테마페이지네이션 온체인지
-  const onChangeThemeList = (page) => {
-    setSerchThemePage(page - 1);
+  const onChangeThemeList = (page: number) => {
+    setSearchThemePage(page - 1);
   };
 
   //업체페이지네이션 온체인지
-  const onChangeComList = (page) => {
-    setSerchComPage(page - 1);
+  const onChangeComList = (page: number) => {
+    setSearchComPage(page - 1);
   };
 
   //검색어 전역 스테이트
-  const serchWord = useRecoilValue(serchState);
+  const searchWord = useRecoilValue(searchState);
 
   return (
     <Container>
@@ -59,43 +62,45 @@ const SerchList = () => {
             <Title>업체검색결과 {companyList.data.data.totalElements}개</Title>
             <ListWrap>
               {companyList.data.data.content.length ? (
-                companyList.data.data.content.map((com, index) => {
-                  return (
-                    <div
-                      onClick={() => navigate(`/company/${com.id}`)}
-                      key={`comserch${index}`}
-                    >
-                      <ThemeSerch
-                        img={com.companyImgUrl}
-                        title={com.companyName}
-                        topinfo={com.location}
-                        botinfo={com.address}
-                        score={com.companyScore}
-                        reivew={com.totalReviewCnt}
-                      />
-                    </div>
-                  );
-                })
+                companyList.data.data.content.map(
+                  (com: Company, index: number) => {
+                    return (
+                      <div
+                        onClick={() => navigate(`/company/${com.id}`)}
+                        key={`comsearch${index}`}
+                      >
+                        <ThemeSearch
+                          img={com.companyImgUrl}
+                          title={com.companyName}
+                          topinfo={com.location}
+                          botinfo={com.address}
+                          score={com.companyScore}
+                          reviewCnt={com.totalReviewCnt}
+                        />
+                      </div>
+                    );
+                  }
+                )
               ) : (
                 <img className="no-data" src={noDataImg} alt="no-data" />
               )}
             </ListWrap>
             {companyList.data.data.totalPages > 1 ? (
               <Pagination
-                activePage={serchComPage + 1}
+                activePage={searchComPage + 1}
                 itemsCountPerPage={companyList.data.data.size}
                 totalItemsCount={companyList.data.data.totalElements}
                 pageRangeDisplayed={5}
                 hideFirstLastPages={true}
                 prevPageText={
-                  serchComPage === 0 ? (
+                  searchComPage === 0 ? (
                     <img src={prevgray} alt="next" />
                   ) : (
                     <img src={prevgreen} alt="next" />
                   )
                 }
                 nextPageText={
-                  serchComPage + 1 === companyList.data.data.totalPages ? (
+                  searchComPage + 1 === companyList.data.data.totalPages ? (
                     <img src={nextgray} alt="next" />
                   ) : (
                     <img src={nextgreen} alt="next" />
@@ -115,43 +120,45 @@ const SerchList = () => {
             <Title>테마검색결과 {themeList.data.data.totalElements}개</Title>
             <ListWrap>
               {themeList.data.data.content.length ? (
-                themeList.data.data.content.map((theme, index) => {
-                  return (
-                    <div
-                      onClick={() => navigate(`/theme/${theme.id}`)}
-                      key={`themeserch${index}`}
-                    >
-                      <ThemeSerch
-                        img={theme.themeImgUrl}
-                        title={theme.themeName}
-                        topinfo={theme.companyName}
-                        botinfo={theme.genre}
-                        score={theme.themeScore}
-                        reivew={theme.reviewCnt}
-                      />
-                    </div>
-                  );
-                })
+                themeList.data.data.content.map(
+                  (theme: ThemeListType, index: number) => {
+                    return (
+                      <div
+                        onClick={() => navigate(`/theme/${theme.id}`)}
+                        key={`themesearch${index}`}
+                      >
+                        <ThemeSearch
+                          img={theme.themeImgUrl}
+                          title={theme.themeName}
+                          topinfo={theme.companyName}
+                          botinfo={theme.genre}
+                          score={theme.themeScore}
+                          reviewCnt={theme.reviewCnt}
+                        />
+                      </div>
+                    );
+                  }
+                )
               ) : (
                 <img className="no-data" src={noDataImg} alt="no-data" />
               )}
             </ListWrap>
             {themeList.data.data.totalPages > 1 ? (
               <Pagination
-                activePage={serchThemePage + 1}
+                activePage={searchThemePage + 1}
                 itemsCountPerPage={themeList.data.data.size}
                 totalItemsCount={themeList.data.data.totalElements}
                 pageRangeDisplayed={5}
                 hideFirstLastPages={true}
                 prevPageText={
-                  serchThemePage === 0 ? (
+                  searchThemePage === 0 ? (
                     <img src={prevgray} alt="next" />
                   ) : (
                     <img src={prevgreen} alt="next" />
                   )
                 }
                 nextPageText={
-                  serchThemePage + 1 === themeList.data.data.totalPages ? (
+                  searchThemePage + 1 === themeList.data.data.totalPages ? (
                     <img src={nextgray} alt="next" />
                   ) : (
                     <img src={nextgreen} alt="next" />
@@ -167,7 +174,7 @@ const SerchList = () => {
   );
 };
 
-export default SerchList;
+export default SearchList;
 
 const Container = styled.div`
   width: 100%;

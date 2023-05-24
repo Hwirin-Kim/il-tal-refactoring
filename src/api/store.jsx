@@ -85,20 +85,20 @@ export const onSortState = atom({
 });
 
 //검색어 스테이트
-export const serchState = atom({
-  key: "serchState",
+export const searchState = atom({
+  key: "searchState",
   default: "",
 });
 
 //검색 테마 페이지 전역 스테이트
-export const serchThemePages = atom({
-  key: "serchThemePage",
+export const searchThemePages = atom({
+  key: "searchThemePage",
   default: 0,
 });
 
 //검색 업체 페이지 전역 스테이트
-export const serchComPages = atom({
-  key: "serchComPage",
+export const searchComPages = atom({
+  key: "searchComPage",
   default: 0,
 });
 
