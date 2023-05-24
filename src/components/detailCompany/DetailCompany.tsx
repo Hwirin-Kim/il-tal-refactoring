@@ -13,10 +13,14 @@ import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 import Modal from "../modal/Modal";
 import ThemePicComponent from "../detailTheme/ThemePicComponent";
+import { ThemeListType } from "components/types";
 const DetailCompany = () => {
   //업체 아이디 받기
   const { id } = useParams();
-  const navigate = useNavigate();
+  let companyId: number;
+  if (id) {
+    companyId = parseInt(id, 10);
+  }
 
   //포스터 사진 모달창
   const [isPic, setIsPic] = useState(true);
@@ -32,7 +36,7 @@ const DetailCompany = () => {
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMemeber = () => {
     if (loginCheckState) {
-      companyLike.mutate({ companyId: id });
+      companyLike.mutate(companyId);
     } else {
       Swal.fire({
         title: "로그인 후 이용하세요!",
@@ -50,11 +54,14 @@ const DetailCompany = () => {
   //데이터 refetch 클라이언트
   const queryClient = useQueryClient();
 
-  const companyLike = useMutation((companyId) => companyWish(companyId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["getDetailCompany"]);
-    },
-  });
+  const companyLike = useMutation(
+    (companyId: number) => companyWish(companyId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getDetailCompany"]);
+      },
+    }
+  );
 
   //로딩처리
   if (isLoading) return <div>loading...</div>;
@@ -82,7 +89,8 @@ const DetailCompany = () => {
             <div className="button-wrap">
               <button
                 className="homepage"
-                onClick={() => window.open(data.data.companyUrl)}>
+                onClick={() => window.open(data.data.companyUrl)}
+              >
                 홈페이지
               </button>
               <button onClick={() => likeOnlyMemeber()} className="like">
@@ -113,21 +121,23 @@ const DetailCompany = () => {
             </div>
             <div className="icon-wrap">
               <AiOutlineClockCircle size="25px" />
-              {data.data.workHour.split("\\n").map((data, index) => {
-                return (
-                  <span key={`date${index}`}>
-                    {data}
-                    <br />
-                  </span>
-                );
-              })}
+              {data.data.workHour
+                .split("\\n")
+                .map((data: string, index: number) => {
+                  return (
+                    <span key={`date${index}`}>
+                      {data}
+                      <br />
+                    </span>
+                  );
+                })}
               {/* <span>{data.data.workHour}</span> */}
             </div>
           </CompanyInfo>
         </div>
       </CompanyWrap>
       <ThemeWrap>
-        {data.data.themeList.map((theme, index) => {
+        {data.data.themeList.map((theme: ThemeListType, index: number) => {
           return (
             <div className="test" key={`themes${index}`}>
               <CompanyTheme theme={theme} key={theme.id} />
@@ -137,10 +147,7 @@ const DetailCompany = () => {
       </ThemeWrap>
       {isPic ? null : (
         <Modal closeModal={() => setIsPic(true)}>
-          <ThemePicComponent
-            setClose={setIsPic}
-            pic={data.data.companyImgUrl}
-          />
+          <ThemePicComponent pic={data.data.companyImgUrl} />
         </Modal>
       )}
     </Container>

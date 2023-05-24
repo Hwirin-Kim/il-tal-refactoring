@@ -7,7 +7,9 @@ import { wishTheme } from "../../api/ThemeApi";
 import lock from "../../asset/lock.png";
 import Swal from "sweetalert2";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
-const CompanyTheme = ({ theme }) => {
+import { CompanyThemeProps } from "components/types";
+
+const CompanyTheme = ({ theme }: CompanyThemeProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const themeLike = useMutation(() => wishTheme({ themeId: theme.id }), {

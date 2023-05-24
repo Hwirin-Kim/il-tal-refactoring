@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import SelectBox from "./SelectBox";
-import { useState } from "react";
+import React, { useState } from "react";
 import SelectIndex from "./SelectIndex";
 import { useMutation } from "@tanstack/react-query";
 import { postComment } from "../../api/ThemeApi";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-const CommentForm = ({ setIsEdit, isEdit }) => {
+import { CommentEditType } from "components/types";
+interface CommentEditProps {
+  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const CommentForm = ({ setIsEdit }: CommentEditProps) => {
   //오늘 날짜 (month는 0~11을 출력하므로 +1 필요)
   const today = new Date();
   const date =
@@ -26,13 +30,21 @@ const CommentForm = ({ setIsEdit, isEdit }) => {
   const queryClient = useQueryClient();
 
   //댓글 작성시 테마 id값을 보내기 위해 사용
-  const { id } = useParams();
 
+  const { id } = useParams();
+  let themeId: number;
+  if (id) {
+    themeId = parseInt(id, 10);
+  }
   //댓글 작성시 사용할 데이터 스테이트
   const [cmt, setCmt] = useState(initial);
 
   //댓글 작성 이벤트 값 스테이트에 저장
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setCmt({ ...cmt, [name]: value });
   };
@@ -76,13 +88,17 @@ const CommentForm = ({ setIsEdit, isEdit }) => {
         text: "테마를 이용한 생생한 경험, 모두에게 들려주세요! 👍👍",
       });
     } else {
-      writheComment.mutate({ id: id, data: cmt });
+      writheComment.mutate({ id: themeId, data: cmt });
     }
   };
 
   //댓글 작성 mutaion
+  interface PayloadType {
+    id: number;
+    data: CommentEditType;
+  }
   const writheComment = useMutation(
-    ({ id: id, data: cmt }) => postComment({ id: id, data: cmt }),
+    (payload: PayloadType) => postComment(payload),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["getComments"]);

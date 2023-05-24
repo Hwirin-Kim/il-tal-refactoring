@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ThemePicComponent = ({ pic }) => {
+const ThemePicComponent = ({ pic }: { pic: string }) => {
   return (
     <Container>
       <img src={pic} alt="themepic" />

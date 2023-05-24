@@ -5,13 +5,18 @@ import {
   AiOutlineDelete,
   AiOutlineClose,
 } from "react-icons/ai";
-import { useState } from "react";
+import React, { useState } from "react";
 import SelectBox from "./SelectBox";
 import SelectIndex from "./SelectIndex";
 import { useMutation } from "@tanstack/react-query";
 import { delComment, putComment } from "../../api/ThemeApi";
 import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import {
+  CommentEditType,
+  CommentProps,
+  UserInfoInSessionStorage,
+} from "components/types";
 
 //오늘 날짜 (month는 0~11을 출력하므로 +1 필요)
 const today = new Date();
@@ -27,9 +32,9 @@ const Comment = ({
   difficulty,
   hint,
   comment,
-}) => {
+}: CommentProps) => {
   //수정시 초기값을 원래 댓글에 입력했던 값으로 설정
-  const editInitial = {
+  const editInitial: CommentEditType = {
     comment: comment,
     difficulty: difficulty,
     hint: hint,
@@ -45,20 +50,35 @@ const Comment = ({
   const [isEdit, setIsEdit] = useState(false);
 
   //본인 글 인지 판별하기 위한 유저정보
-  const userinfo = JSON.parse(sessionStorage.getItem("userinfo"));
+  const getUserInfo = (): UserInfoInSessionStorage | null => {
+    const userinfo = sessionStorage.getItem("userinfo");
+    if (userinfo) {
+      return JSON.parse(userinfo);
+    }
+    return null;
+  };
+  const userinfo = getUserInfo();
 
   //수정시 사용할 데이터 스테이트
   const [editValue, setEditValue] = useState(editInitial);
 
   //글 수정 이벤트 값 스테이트에 저장
-  const onChangeEdit = (e) => {
+  const onChangeEdit = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setEditValue({ ...editValue, [name]: value });
   };
 
   //댓글 수정 mutation
+  interface PayloadType {
+    id: number;
+    data: CommentEditType;
+  }
   const editComment = useMutation(
-    ({ id: id, data: editValue }) => putComment({ id: id, data: editValue }),
+    (payload: PayloadType) => putComment(payload),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["getComments"]);
@@ -74,7 +94,7 @@ const Comment = ({
   );
 
   //댓글 삭제 mutation
-  const deleteComment = useMutation((id) => delComment(id), {
+  const deleteComment = useMutation((id: number) => delComment(id), {
     onSuccess: () => {
       queryClient.invalidateQueries(["getComments"]);
       queryClient.invalidateQueries(["getDetail"]);
@@ -222,7 +242,7 @@ const Comment = ({
               className="edit-text"
               name="comment"
               defaultValue={comment}
-              onChange={onChangeEdit}
+              onChange={(e) => onChangeEdit(e)}
             />
           </div>
         ) : (
