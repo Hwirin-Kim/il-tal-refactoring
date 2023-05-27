@@ -6,7 +6,15 @@ import styled from "styled-components";
  *  @param { Integer } goal 목표치
  *  @param { Integer } height 높이 `1.2rem`
  */
-const ProgressBar = (props) => {
+interface ProgressBarType {
+  bgcolor: string;
+  completed: number;
+  goal: number;
+  height: string;
+  width: string;
+  shadow: string;
+}
+const ProgressBar = (props: ProgressBarType) => {
   const { bgcolor, completed, goal, height, width, shadow } = props;
   return (
     <Container height={height} width={width}>
@@ -15,7 +23,7 @@ const ProgressBar = (props) => {
         completed={(completed / goal) * 100}
         shadow={shadow}
       >
-        <LabelStyles shadow={shadow}>
+        <LabelStyles>
           {completed === 0
             ? "아직 달성한 뱃지가 없습니다"
             : `${completed}/${goal}`}
@@ -25,7 +33,13 @@ const ProgressBar = (props) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{
+  height?: string;
+  width?: string;
+  shadow?: string;
+  completed?: number;
+  goal?: number;
+}>`
   height: ${(props) => props.height};
   width: ${(props) => props.width || `calc(100% - 5rem)`};
   background-color: #cccccc;
@@ -38,7 +52,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const FillerStyles = styled.div`
+const FillerStyles = styled.div<{ completed: number; shadow: string }>`
   height: 90%;
   margin: 2px;
   width: ${(props) => props.completed || 100}%;

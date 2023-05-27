@@ -6,11 +6,10 @@ import App from "./App";
 import { RecoilRoot } from "recoil";
 import GlobalStyle from "./styles/GlobalStyle";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 const queryClient = new QueryClient();
 
 root.render(
-  // <React.StrictMode>
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>
       <GlobalStyle />
@@ -18,5 +17,4 @@ root.render(
       <ReactQueryDevtools />
     </RecoilRoot>
   </QueryClientProvider>
-  // </React.StrictMode>
 );

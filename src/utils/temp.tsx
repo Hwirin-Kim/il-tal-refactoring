@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 //SelectBox 컴포넌트
-const SelectBox = ({ index, onChangeHandler, name }) => {
+const SelectBox: React.FC = ({ index, onChangeHandler, name }) => {
   return (
     <Select name={name} onChange={onChangeHandler}>
       {index.map((option) => (

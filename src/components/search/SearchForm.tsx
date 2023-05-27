@@ -15,7 +15,7 @@ const SearchForm = () => {
   //검색어 스테이트
   const [onChange, setOnChange] = useState("");
 
-  //검색어 이벤트값 스테이트에 담고 엔터키 누르면 onSubmitHander()실행
+  //검색어 이벤트값 스테이트에 담고 엔터키 누르면 onSubmitHandler()실행
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOnChange(e.target.value);
   };

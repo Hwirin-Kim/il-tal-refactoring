@@ -5,7 +5,8 @@ import { ko } from "date-fns/locale";
  *  @return {string}  현재 날짜와 입력된 날짜간의 차이를 반환
  *  calcDate("2022-10-04")
  */
-export const calcDate = (date) => {
+
+export const calcDate = (date: string) => {
   const writeDate = new Date(date);
   const now = Date.now();
   const diffDate = (now - writeDate.getTime()) / 1000;
@@ -22,7 +23,7 @@ export const calcDate = (date) => {
  * @param { Date } date 날짜값 입력
  * @return { Date } 날짜를 입력받으면 한국 표기로 출력
  */
-export const korDate = (date) => {
+export const korDate = (date: string) => {
   const localeDate = new Date(date);
   return format(localeDate, "PPP", { locale: ko });
 };

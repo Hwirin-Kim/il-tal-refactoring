@@ -12,7 +12,6 @@ import Genre from "./component/Genre";
 import Modal from "../modal/Modal";
 import GenreModal from "../modal/GenreModal";
 import { useNavigate } from "react-router-dom";
-import TendencyRadar from "../../utils/Radar";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { loginCheck } from "../../api/store";
@@ -22,6 +21,7 @@ import NotLike from "./component/NotLike";
 import setting from "../../asset/img/settings.png";
 import down from "../../asset/img/down.png";
 import up from "../../asset/img/up.png";
+import TendencyRadar from "utils/TendencyRadar";
 
 const MyInfo = () => {
   const mapData = [1, 2, 3, 4, 5];
@@ -121,6 +121,7 @@ const MyInfo = () => {
                       ))
                     : " 오른쪽 톱니바퀴를 눌러 성향을 등록해보세요"}
                 </div>
+                {/* <TendencyRadar data={Tendata} /> */}
                 <TendencyRadar data={Tendata} />
               </Styled.TendencyBox>
             </Styled.BoxWrap>

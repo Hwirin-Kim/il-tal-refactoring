@@ -10,8 +10,10 @@ import "./carousel.css";
 
 // import required modules
 import { Navigation, Autoplay } from "swiper";
-
-export const Carousel = ({ children }) => {
+interface Carousel {
+  children: React.ReactNode;
+}
+export const Carousel = ({ children }: Carousel) => {
   return (
     <Swiper
       slidesPerView={4}
