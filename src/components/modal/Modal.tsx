@@ -1,18 +1,22 @@
 import styled from "styled-components";
 import ReactDOM from "react-dom";
+interface ModalProps {
+  closeModal: () => void;
+  children: React.ReactNode;
+}
 
-const Modal = (props) => {
+const Modal: React.FC<ModalProps> = (props) => {
   function closeModal() {
     props.closeModal();
   }
-
+  const modalroot = document.getElementById("modal-root");
   return ReactDOM.createPortal(
     <StModal onClick={closeModal}>
       <div className="modalBody" onClick={(e) => e.stopPropagation()}>
         {props.children}
       </div>
     </StModal>,
-    document.getElementById("modal-root")
+    modalroot as HTMLElement
   );
 };
 

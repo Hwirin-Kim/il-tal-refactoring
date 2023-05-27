@@ -1,6 +1,9 @@
+import React, { ReactElement, ReactNode } from "react";
 import styled from "styled-components";
-
-function Layout({ children }) {
+interface LayoutProps {
+  children: ReactNode;
+}
+function Layout({ children }: LayoutProps) {
   return <STLayout>{children}</STLayout>;
 }
 export default Layout;

@@ -4,16 +4,16 @@ import Maze from "../utils/Maze";
 // import error css
 import "./ErrorPage.css";
 
-const ErrorPage = () => {
+const ErrorPage: React.FC = () => {
   const navigate = useNavigate();
   return (
     <ErrorBox>
       <Maze />
-      <div class="container">
-        <div class="neon" onClick={() => navigate("/")}>
+      <div className="container">
+        <div className="neon" onClick={() => navigate("/")}>
           404
         </div>
-        <div class="flux" onClick={() => navigate("/")}>
+        <div className="flux" onClick={() => navigate("/")}>
           PAGE NOT FOUND
         </div>
       </div>

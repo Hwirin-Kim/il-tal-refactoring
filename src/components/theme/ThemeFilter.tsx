@@ -14,8 +14,16 @@ import {
   themePages,
 } from "../../api/store";
 import lock from "../../asset/lock.png";
-
-const ThemeFilter = ({ refetch, filterCnt }) => {
+interface ThemeFilterProps {
+  refetch: Function;
+  filterData: any;
+  filterIsLoading: boolean;
+}
+const ThemeFilter = ({
+  refetch,
+  filterData,
+  filterIsLoading,
+}: ThemeFilterProps) => {
   //전역변수로 선언된 각 필터별 스테이트 (Recoil)
   const [genre, setGenre] = useRecoilState(genreState);
   const [location, setLocation] = useRecoilState(locationState);
@@ -69,6 +77,14 @@ const ThemeFilter = ({ refetch, filterCnt }) => {
 
   //페이지 변경 (필터 적용 후 페이지 0으로 초기화시켜주기 위해 사용)
   const setPage = useSetRecoilState(themePages);
+
+  const onChangeFilter = (e: number | number[], setState: Function): void => {
+    if (typeof e === "number") {
+      setState([e]);
+    } else {
+      setState(e);
+    }
+  };
 
   return (
     <Container>
@@ -137,7 +153,7 @@ const ThemeFilter = ({ refetch, filterCnt }) => {
               pushable
               draggableTrack
               value={score}
-              onChange={(e) => setScore(e)}
+              onChange={(e) => onChangeFilter(e, setScore)}
             />
           </SliderWrap>
         </div>
@@ -165,7 +181,7 @@ const ThemeFilter = ({ refetch, filterCnt }) => {
               allowCross={false}
               pushable
               draggableTrack
-              onChange={(e) => setDifficulty(e)}
+              onChange={(e) => onChangeFilter(e, setDifficulty)}
             />
           </SliderWrap>
         </div>
@@ -178,9 +194,7 @@ const ThemeFilter = ({ refetch, filterCnt }) => {
             setPage(0);
           }}
         >
-          {filterCnt.isLoading
-            ? "Loading.."
-            : `총 ${filterCnt.data.data}개 결과`}
+          {filterIsLoading ? "Loading.." : `총 ${filterData.data}개 결과`}
         </SearchBtn>
       </div>
     </Container>

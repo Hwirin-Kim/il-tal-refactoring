@@ -16,12 +16,13 @@ import {
 } from "../../api/store";
 
 import Pagination from "react-js-pagination";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import nextgray from "../../asset/next-gray.png";
 import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
 import prevgreen from "../../asset/prev-green.png";
+import { Company, ThemeListType } from "components/types";
 
 const ThemeList = () => {
   //페이지 전역상태
@@ -60,7 +61,7 @@ const ThemeList = () => {
     }
   );
   //정렬 토글
-  const onChangeSort = (e) => {
+  const onChangeSort = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSort(e.target.value);
   };
 
@@ -70,26 +71,30 @@ const ThemeList = () => {
   }, [refetch, sort]);
 
   //페이지네이션이 눌릴때마다 themePage를 페이지에 맞게 설정
-  const onPageHandler = (page) => {
+  const onPageHandler = (page: number) => {
     setThemePage(page - 1);
   };
 
   //필터링된 테마 개수 미리보기 API GET요청
-  const filterCnt = useQuery(
+  const { data: filterData, isLoading: filterIsLoading } = useQuery(
     ["getFilterCnt", genre, location, score, people, difficulty],
     () => getFilterCnt({ genre, location, score, people, difficulty })
   );
 
   // 로딩 및 에러 처리
   if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error! {error.toString()}</div>;
+  if (isError) return <div>Error!</div>;
 
   return (
     <Container>
       <div className="filter-label">
         <div className="label">필터</div>
 
-        <ThemeFilter refetch={refetch} filterCnt={filterCnt} />
+        <ThemeFilter
+          refetch={refetch}
+          filterData={filterData}
+          filterIsLoading={filterIsLoading}
+        />
       </div>
       <div className="theme-label">
         <div className="label-sort-wrap">
@@ -101,7 +106,7 @@ const ThemeList = () => {
               value="reviewCnt"
               id="review"
               name="sort"
-              defaultChecked={sort}
+              defaultChecked={sort ? true : false}
               onChange={onChangeSort}
             />
             <label htmlFor="review">· 리뷰순</label>
@@ -137,7 +142,7 @@ const ThemeList = () => {
         </div>
         <BodyWrap>
           <PosterWrap>
-            {data.data.content.map((theme) => {
+            {data.data.content.map((theme: Company) => {
               return (
                 <div className="theme-wrap" key={`poster${theme.id}`}>
                   <ThemePoster theme={theme} />

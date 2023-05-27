@@ -4,10 +4,9 @@ import { Outlet } from "react-router-dom";
 import Layout from "../components/shared/Layout";
 import styled from "styled-components";
 
-
-const MainLayout = (props) => {
+const MainLayout: React.FC = (props) => {
   return (
-    <LayoutBody >
+    <LayoutBody>
       <Header />
       <Layout>
         <Outlet />
@@ -19,5 +18,4 @@ const MainLayout = (props) => {
 
 export default MainLayout;
 
-const LayoutBody = styled.div`
-`
+const LayoutBody = styled.div``;

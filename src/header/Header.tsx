@@ -9,8 +9,9 @@ import { headerClicked, loginCheck } from "../api/store";
 import SearchForm from "../components/search/SearchForm";
 import logo from "../asset/HeaderLogo.png";
 import Swal from "sweetalert2";
+import { UserInfoInSessionStorage } from "components/types";
 
-const Header = (props) => {
+const Header = (props: { color?: string }) => {
   //페이지 이동에 사용
   const navigater = useNavigate();
 
@@ -40,8 +41,16 @@ const Header = (props) => {
   };
 
   //로그인 체크 후 스테이트값 변경
+  const getUserInfo = (): UserInfoInSessionStorage | null => {
+    const userinfo = sessionStorage.getItem("userinfo");
+    if (userinfo) {
+      return JSON.parse(userinfo);
+    }
+    return null;
+  };
+
   useEffect(() => {
-    const userinformation = JSON.parse(sessionStorage.getItem("userinfo"));
+    const userinformation = getUserInfo();
     if (userinformation) {
       setLoginState(true);
     }

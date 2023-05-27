@@ -58,6 +58,15 @@ export const wishTheme = async (payload) => {
 };
 
 //테마 필터 적용시 미리 개수 보여주는 GET요청
+interface FilterCntParameterType {
+  genre: string[];
+  location: string[];
+  score: number[];
+  people: string[];
+  difficulty: number[];
+  themePagenation?: number;
+  sort?: string;
+}
 export const getFilterCnt = async ({
   genre,
   location,
@@ -66,7 +75,7 @@ export const getFilterCnt = async ({
   difficulty,
   themePagenation,
   sort,
-}) => {
+}: FilterCntParameterType) => {
   const { data } = await api.get(
     `/themes/filterCnt?location=${location}&genreFilter=${genre}&people=${people}&themeScore=${score}&difficulty=${difficulty}`
   );
