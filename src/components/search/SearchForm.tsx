@@ -4,6 +4,7 @@ import { searchState } from "../../api/store";
 import { BsSearch } from "react-icons/bs";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { devices } from "styles/devices";
 
 const SearchForm = () => {
   //페이지 이동에 사용
@@ -34,7 +35,7 @@ const SearchForm = () => {
     <Container>
       <Input
         onChange={onChangeSearch}
-        placeholder="찾고 싶은 업체나 테마를 검색해 보세요"
+        placeholder="검색"
         onKeyPress={onKeyPressHandler}
       />
       <button onClick={onSubmitHandler}>
@@ -47,19 +48,29 @@ const SearchForm = () => {
 export default SearchForm;
 
 const Container = styled.div`
+  width: 100%;
+  max-width: 500px;
+  padding: 0 20px;
+  display: flex;
   button {
     background-color: transparent;
     border: none;
     cursor: pointer;
   }
+  @media ${devices.lg} {
+    max-width: 700px;
+  }
 `;
 const Input = styled.input`
-  width: 550px;
-  height: 40px;
-  font-size: 21px;
+  width: 100%;
+  height: 1.4rem;
+  font-size: 1rem;
   border: none;
   border-bottom: 1px solid var(--color-border);
   &:focus {
     outline: none;
+  }
+  @media ${devices.lg} {
+    font-size: 1.5rem;
   }
 `;

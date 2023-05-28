@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../../asset/HeaderLogo.png";
+import logo from "../../../asset/HeaderLogo.png";
 
 const Footer = () => {
   const clorose = "https://github.com/clorose";

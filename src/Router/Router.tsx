@@ -11,6 +11,7 @@ import MyPageLayout from "../page/MyPageLayout";
 import KakaoLogin from "../components/modal/KakaoLogin";
 import SearchPage from "../page/SearchPage";
 import ScrollOnTop from "../utils/ScrollOnTop";
+import Main2 from "components/mainPage/Main2";
 
 const Router = () => {
   return (
@@ -18,6 +19,7 @@ const Router = () => {
       <ScrollOnTop />
       <Routes>
         <Route element={<MainLayout />}>
+          <Route path="/1" element={<Main2 />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/kakao/callback" element={<KakaoLogin />} />
           <Route path="/theme" element={<ThemePage />} />

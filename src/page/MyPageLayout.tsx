@@ -1,7 +1,7 @@
-import Footer from "../components/shared/Footer";
-import Header from "../header/Header";
+import Footer from "../components/layout/footer/Footer";
+import Header from "../components/layout/header/Header";
 import { Outlet } from "react-router-dom";
-import Layout from "../components/shared/Layout";
+import Layout from "../components/layout/Layout";
 import styled from "styled-components";
 
 const MyPageLayout: React.FC = (props) => {
