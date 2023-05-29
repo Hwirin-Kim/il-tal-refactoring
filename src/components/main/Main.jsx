@@ -8,30 +8,27 @@ import PopularTheme from "./component/PopularTheme";
 import RecommandTheme from "./component/RecommandTheme";
 import Notice from "../modal/Notice";
 import { useRecoilValue } from "recoil";
-import { loginCheck } from "../../api/store";
+
 import { useNavigate } from "react-router-dom";
 import MainScreen from "./component/MainScreen";
 import GuestScreen from "./component/GuestScreen";
 import * as Styled from "./mainStyle";
 import NoticeList from "../modal/NoticeList";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 
 const Main = () => {
   //로그인 유무 판별
   const navigate = useNavigate();
-  const loginCheckState = useRecoilValue(loginCheck);
-  const achieve = useQuery(["getAchieve", loginCheckState], getAchieve, {
+  const { isLogin, setIsLogin } = useLoginCheck();
+  const achieve = useQuery(["getAchieve", isLogin], getAchieve, {
     enabled: sessionStorage.userinfo ? true : false,
   });
-  const best = useQuery(
-    ["getBest"],
-    getBest,
-    { staleTime: Infinity },
-    {
-      onError: (err) => {
-        navigate("/error");
-      },
-    }
-  );
+  const best = useQuery(["getBest"], getBest, {
+    staleTime: Infinity,
+    onError: () => {
+      navigate("/error");
+    },
+  });
   const random = useQuery(["getRandom"], getRandom, {
     staleTime: Infinity,
     onError: (err) => {
@@ -47,15 +44,12 @@ const Main = () => {
   const totalAchievement = 10;
   return (
     <Styled.Container>
-      {loginCheckState ? (
+      {isLogin ? (
         achieve.isLoading ? (
-          <MainScreen
-            isLoading={achieve.isLoading}
-            loginCheckState={loginCheckState}
-          />
+          <MainScreen isLoading={achieve.isLoading} loginCheckState={isLogin} />
         ) : (
           <MainScreen
-            loginCheckState={loginCheckState}
+            loginCheckState={isLogin}
             isLoading={achieve.isLoading}
             nickname={achieve.data.nickname}
             mainBadgeName={achieve.data.mainBadgeName}

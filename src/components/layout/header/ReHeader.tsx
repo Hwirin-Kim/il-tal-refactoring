@@ -5,24 +5,25 @@ import Modal from "../../modal/Modal";
 import { useEffect, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { useRecoilState } from "recoil";
-import { headerClicked, loginCheck } from "../../../api/store";
+import { headerClicked } from "../../../api/store";
 import SearchForm from "../../search/SearchForm";
 import logo from "../../../asset/HeaderLogo.png";
 import Swal from "sweetalert2";
 import { UserInfoInSessionStorage } from "components/types";
 import MenuButton from "../common/MenuButton";
 import { devices } from "styles/devices";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 
 const ReHeader = (props: { color?: string }) => {
   //페이지 이동에 사용
   const navigator = useNavigate();
 
   //로그인 모달창 토글 스테이트
-  const [isLogin, setIsLogin] = useState(true);
+  const [loginModal, setLoginModal] = useState(false);
 
-  //로그인 체크 전역 스테이트
-  const [loginState, setLoginState] = useRecoilState(loginCheck);
-  //로그아웃
+  //로그인 유무 컨텍스트
+  const { isLogin, setIsLogin } = useLoginCheck();
+
   //로그아웃
   const onLogout = () => {
     Swal.fire({
@@ -37,7 +38,7 @@ const ReHeader = (props: { color?: string }) => {
         sessionStorage.removeItem("userinfo");
         sessionStorage.removeItem("access_token");
         sessionStorage.removeItem("refresh_token");
-        setLoginState(false);
+        setIsLogin(false);
       }
     });
   };
@@ -54,9 +55,9 @@ const ReHeader = (props: { color?: string }) => {
   useEffect(() => {
     const userinformation = getUserInfo();
     if (userinformation) {
-      setLoginState(true);
+      setIsLogin(true);
     }
-  }, [setLoginState]);
+  }, [setIsLogin]);
 
   //로고 클릭시 홈이동
   const onClickLogo = () => {
@@ -87,7 +88,7 @@ const ReHeader = (props: { color?: string }) => {
         <SearchForm />
 
         <RightButtonWrapper>
-          {loginState ? (
+          {isLogin ? (
             <>
               <MenuButton onClick={() => navigator("/myaccount")}>
                 마이페이지
@@ -100,15 +101,15 @@ const ReHeader = (props: { color?: string }) => {
               />
             </>
           ) : (
-            <MenuButton onClick={() => setIsLogin(false)}>로그인</MenuButton>
+            <MenuButton onClick={() => setLoginModal(true)}>로그인</MenuButton>
           )}
         </RightButtonWrapper>
       </Layout>
-      {isLogin ? null : (
-        <Modal closeModal={() => setIsLogin(true)}>
-          <LoginRegisterForm setIsLogin={setIsLogin} />
+      {loginModal ? (
+        <Modal closeModal={() => setLoginModal(false)}>
+          <LoginRegisterForm setLoginModal={setLoginModal} />
         </Modal>
-      )}
+      ) : null}
     </Container>
   );
 };

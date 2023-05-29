@@ -67,11 +67,11 @@ export const themePages = atom({
   default: 0,
 });
 
-//로그인 유무 판별 스테이트
-export const loginCheck = atom({
-  key: "loginCheck",
-  default: false,
-});
+// //로그인 유무 판별 스테이트
+// export const loginCheck = atom({
+//   key: "loginCheck",
+//   default: false,
+// });
 
 //테마페이지 정렬 스테이트
 export const sortState = atom({

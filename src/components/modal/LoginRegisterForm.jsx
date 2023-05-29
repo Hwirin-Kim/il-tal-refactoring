@@ -10,13 +10,14 @@ import {
   dupNickname,
 } from "../../api/index";
 import kakaoLogo from "../../asset/kakaoLogo.png";
-import { loginCheck } from "../../api/store";
+
 import { useRecoilState } from "recoil";
 import Logo from "../../asset/LoginLogo.png";
 import Swal from "sweetalert2";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 
-const RegisterForm = ({ setIsLogin }) => {
-  const [loginState, setLoginState] = useRecoilState(loginCheck);
+const RegisterForm = ({ setLoginModal }) => {
+  const { isLogin, setIsLogin } = useLoginCheck();
 
   const navigator = useNavigate();
 
@@ -36,7 +37,7 @@ const RegisterForm = ({ setIsLogin }) => {
         title: "회원가입 완료",
         text: "일탈에 회원이 되신것을 환영합니다!",
       });
-      setLogIn(true);
+      setLogIn(false);
     },
     onError: ({ response }) => {
       Swal.fire({
@@ -102,8 +103,8 @@ const RegisterForm = ({ setIsLogin }) => {
       sessionStorage.setItem("access_token", res.headers.access_token);
       sessionStorage.setItem("refresh_token", res.headers.refresh_token);
       sessionStorage.setItem("userinfo", JSON.stringify(res.data.data));
-      setLoginState(true);
       setIsLogin(true);
+      setLoginModal(false);
     },
     onError: (err) => {
       Swal.fire({
@@ -168,8 +169,9 @@ const RegisterForm = ({ setIsLogin }) => {
       <LogoBox
         onClick={() => {
           navigator("/");
-          setIsLogin(true);
-        }}>
+          setLoginModal(false);
+        }}
+      >
         <img src={Logo} alt="iltalLogo" />
       </LogoBox>
       {logIn ? (

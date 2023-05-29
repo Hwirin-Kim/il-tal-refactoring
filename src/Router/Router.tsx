@@ -27,8 +27,6 @@ const Router = () => {
           <Route path="/company" element={<CompanyPage />} />
           <Route path="/company/:id" element={<DetailCompanyPage />} />
           <Route path="/search" element={<SearchPage />} />
-        </Route>
-        <Route element={<MyPageLayout />}>
           <Route path="/myaccount" element={<MyPage />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />

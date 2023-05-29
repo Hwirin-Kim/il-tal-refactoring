@@ -14,7 +14,6 @@ import GenreModal from "../modal/GenreModal";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 import UserProfile from "./component/UserProfile";
 import NotLike from "./component/NotLike";
@@ -22,6 +21,7 @@ import setting from "../../asset/img/settings.png";
 import down from "../../asset/img/down.png";
 import up from "../../asset/img/up.png";
 import TendencyRadar from "utils/TendencyRadar";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 
 const MyInfo = () => {
   const mapData = [1, 2, 3, 4, 5];
@@ -52,10 +52,10 @@ const MyInfo = () => {
     ? ""
     : User.data?.stylePreference?.split(" ").filter(Boolean);
 
-  const loginCheckState = useRecoilValue(loginCheck);
+  const { isLogin, setIsLogin } = useLoginCheck();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!loginCheckState && !User.isLoading) {
+    if (!isLogin && !User.isLoading) {
       navigate("/");
       Swal.fire({
         icon: "error",
@@ -63,7 +63,7 @@ const MyInfo = () => {
         text: "로그인 한 사용자만 이용 가능합니다.",
       });
     }
-  }, [loginCheckState, navigate, User.isLoading]);
+  }, [isLogin, navigate, User.isLoading]);
   return (
     <>
       {isModal ? (

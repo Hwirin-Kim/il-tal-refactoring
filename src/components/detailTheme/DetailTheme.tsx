@@ -8,9 +8,10 @@ import ThemeReview from "./ThemeReview";
 import ThemeSynopsis from "./ThemeSynopsis";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { useRecoilValue } from "recoil";
-import { loginCheck } from "../../api/store";
+// import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 import ThemePicComponent from "./ThemePicComponent";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 const DetailTheme = () => {
   //상세페이지 조회용 id
   const { id } = useParams();
@@ -20,7 +21,7 @@ const DetailTheme = () => {
   }
 
   //로그인 유무 판별
-  const loginCheckState = useRecoilValue(loginCheck);
+  const { isLogin, setIsLogin } = useLoginCheck();
 
   //포스터 사진 모달창
   const [isPic, setIsPic] = useState(true);
@@ -29,7 +30,7 @@ const DetailTheme = () => {
   const navigate = useNavigate();
 
   //테마 상세정보 조회 GET 요청 useQuery
-  const { data, isLoading } = useQuery(["getDetail", loginCheckState], () =>
+  const { data, isLoading } = useQuery(["getDetail", isLogin], () =>
     getDetailTheme(id)
   );
 
@@ -38,7 +39,7 @@ const DetailTheme = () => {
 
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMember = () => {
-    if (loginCheckState) {
+    if (isLogin) {
       themeLike.mutate(themeId);
     } else {
       Swal.fire({
