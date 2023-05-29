@@ -23,16 +23,12 @@ const Main = () => {
   const achieve = useQuery(["getAchieve", isLogin], getAchieve, {
     enabled: sessionStorage.userinfo ? true : false,
   });
-  const best = useQuery(
-    ["getBest"],
-    getBest,
-    { staleTime: Infinity },
-    {
-      onError: (err) => {
-        navigate("/error");
-      },
-    }
-  );
+  const best = useQuery(["getBest"], getBest, {
+    staleTime: Infinity,
+    onError: () => {
+      navigate("/error");
+    },
+  });
   const random = useQuery(["getRandom"], getRandom, {
     staleTime: Infinity,
     onError: (err) => {

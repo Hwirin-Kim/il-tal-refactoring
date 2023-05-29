@@ -7,13 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import LoginRegisterForm from "../../modal/LoginRegisterForm";
 import Modal from "components/modal/Modal";
+import { devices } from "styles/devices";
 export default function BottomMenuBar() {
   const navigator = useNavigate();
   const { isLogin } = useLoginCheck();
   const [loginModal, setLoginModal] = useState(false);
   return (
     <Container>
-      <MenuButton>
+      <MenuButton onClick={() => navigator("/")}>
         <Img src={logo} alt="home" />
       </MenuButton>
       <MenuButton onClick={() => navigator("/company")}>업체별</MenuButton>
@@ -33,10 +34,14 @@ export default function BottomMenuBar() {
     </Container>
   );
 }
-const Container = styled.div`
+const Container = styled.nav`
   width: 100%;
   height: 100%;
   display: flex;
+  justify-content: space-between;
+  @media ${devices.md} {
+    display: none;
+  }
 `;
 
 const Img = styled.img`

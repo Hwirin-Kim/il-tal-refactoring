@@ -18,7 +18,7 @@ const ReFooter = () => {
 export default ReFooter;
 
 const Container = styled.footer`
-  position: sticky;
+  position: fixed;
   bottom: 0;
   background-color: white;
   z-index: 1;
@@ -29,19 +29,8 @@ const Container = styled.footer`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .layout {
-    height: 92%;
-    width: 1440px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  @media ${devices.md} {
+    height: 100px;
+    position: static;
   }
-`;
-
-const Logo = styled.div`
-  display: flex;
-  /* margin: 0 30px; */
-  align-items: center;
-  font-size: 48px;
 `;
