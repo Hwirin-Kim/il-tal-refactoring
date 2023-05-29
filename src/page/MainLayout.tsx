@@ -5,6 +5,7 @@ import Layout from "../components/layout/Layout";
 import styled from "styled-components";
 import ReHeader from "components/layout/header/ReHeader";
 import ReFooter from "components/layout/footer/ReFooter";
+import BottomMenuBar from "components/layout/mobileMenu/BottomMenuBar";
 
 const MainLayout: React.FC = (props) => {
   return (

@@ -7,12 +7,14 @@ import { SwiperSlide } from "swiper/react";
 import { CompanyCarousel } from "./CompanyCarousel";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { useRecoilValue } from "recoil";
-import { loginCheck } from "../../api/store";
+// import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 import { CompanyType } from "components/types";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 //ThemeWrap에서 ThemePoster는 페이징처리하여 3개씩 보여주기
 
 const Company = ({ company }: CompanyType) => {
+  const { isLogin, setIsLogin } = useLoginCheck();
   const navigator = useNavigate();
   const queryClient = useQueryClient();
   const companyLike = useMutation(
@@ -25,12 +27,9 @@ const Company = ({ company }: CompanyType) => {
     }
   );
 
-  //로그인 유무 판별
-  const loginCheckState = useRecoilValue(loginCheck);
-
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMember = () => {
-    if (loginCheckState) {
+    if (isLogin) {
       companyLike.mutate(company.id);
     } else {
       Swal.fire({

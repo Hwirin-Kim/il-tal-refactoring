@@ -1,33 +1,16 @@
+import { useLoginCheck } from "components/context/LoginCheckContext";
+import useRouteOnClick from "hooks/useRouteOnClick";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import logo from "../../../asset/HeaderLogo.png";
+import BottomMenuBar from "../mobileMenu/BottomMenuBar";
+import FooterCredits from "./FooterCredits";
 
 const ReFooter = () => {
-  const clorose = "https://github.com/clorose";
-  const hwirin_Kim = "https://github.com/Hwirin-Kim";
-  const hyemin0901 = "https://github.com/hyemin0901";
-  const liam_Geni = "https://github.com/liam-Geni";
-  const ggggraceful = "https://github.com/ggggraceful";
-  const soojin_dev = "https://github.com/soojin-dev";
   return (
     <Container>
-      <div className="layout">
-        <Logo>
-          <img src={logo} alt="logo" />
-        </Logo>
-        <STFooter>
-          <span>Copyright &copy; 2022</span>
-          <DevPart>UI/UX</DevPart>
-          <DevInfo>전현주</DevInfo>
-          <DevPart>FE</DevPart>
-          <DevInfo onClick={() => window.open(clorose)}>정영훈</DevInfo>
-          <DevInfo onClick={() => window.open(hwirin_Kim)}>김휘린</DevInfo>
-          <DevInfo onClick={() => window.open(hyemin0901)}>박혜민</DevInfo>
-          <DevPart>BE</DevPart>
-          <DevInfo onClick={() => window.open(liam_Geni)}>이기재</DevInfo>
-          <DevInfo onClick={() => window.open(ggggraceful)}>남궁은</DevInfo>
-          <DevInfo onClick={() => window.open(soojin_dev)}>한수진</DevInfo>
-        </STFooter>
-      </div>
+      <FooterCredits />
+      <BottomMenuBar />
     </Container>
   );
 };
@@ -35,9 +18,13 @@ const ReFooter = () => {
 export default ReFooter;
 
 const Container = styled.footer`
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  z-index: 1;
   width: 100%;
   margin-top: 2rem;
-  height: 175px;
+  height: 50px;
   border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: center;
@@ -57,19 +44,4 @@ const Logo = styled.div`
   /* margin: 0 30px; */
   align-items: center;
   font-size: 48px;
-`;
-
-const STFooter = styled.div`
-  display: flex;
-  align-items: center;
-  color: grey;
-`;
-
-const DevPart = styled.span`
-  margin: 3px;
-  font-size: 1.25rem;
-`;
-
-const DevInfo = styled.span`
-  margin: 5px;
 `;

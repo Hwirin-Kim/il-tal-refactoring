@@ -8,7 +8,6 @@ import {
   difficultyState,
   genreState,
   locationState,
-  loginCheck,
   peopleState,
   scoreState,
   sortState,
@@ -23,6 +22,7 @@ import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
 import prevgreen from "../../asset/prev-green.png";
 import { Company, ThemeListType } from "components/types";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 
 const ThemeList = () => {
   //페이지 전역상태
@@ -36,14 +36,13 @@ const ThemeList = () => {
   const difficulty = useRecoilValue(difficultyState);
 
   //로그인 유무 판별
-  const loginCheckState = useRecoilValue(loginCheck);
-
+  const { isLogin, setIsLogin } = useLoginCheck();
   //정렬 전역 스테이트
   const [sort, setSort] = useRecoilState(sortState);
 
   //페이징처리된 데이터 받아오기
   const { data, isError, error, isLoading, refetch } = useQuery(
-    ["getThemes", themePagenation, loginCheckState],
+    ["getThemes", themePagenation, isLogin],
     () =>
       getFilterTheme({
         genre,

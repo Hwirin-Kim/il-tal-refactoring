@@ -9,11 +9,12 @@ import { FiMapPin, FiPhone } from "react-icons/fi";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { useRecoilValue } from "recoil";
-import { loginCheck } from "../../api/store";
+// import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 import Modal from "../modal/Modal";
 import ThemePicComponent from "../detailTheme/ThemePicComponent";
 import { ThemeListType } from "components/types";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 const DetailCompany = () => {
   //업체 아이디 받기
   const { id } = useParams();
@@ -31,11 +32,11 @@ const DetailCompany = () => {
   );
 
   //로그인 유무 판별
-  const loginCheckState = useRecoilValue(loginCheck);
+  const { isLogin, setIsLogin } = useLoginCheck();
 
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMemeber = () => {
-    if (loginCheckState) {
+    if (isLogin) {
       companyLike.mutate(companyId);
     } else {
       Swal.fire({
@@ -75,7 +76,7 @@ const DetailCompany = () => {
           <CompanyMap>
             <KakaoMap
               address={data.data.address}
-              company={data.data.companyName}
+              // company={data.data.companyName}
             />
           </CompanyMap>
         </div>

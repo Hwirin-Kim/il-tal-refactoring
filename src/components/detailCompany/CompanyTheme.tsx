@@ -2,12 +2,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { loginCheck } from "../../api/store";
+// import { loginCheck } from "../../api/store";
 import { wishTheme } from "../../api/ThemeApi";
 import lock from "../../asset/lock.png";
 import Swal from "sweetalert2";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { CompanyThemeProps } from "components/types";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 
 const CompanyTheme = ({ theme }: CompanyThemeProps) => {
   const navigate = useNavigate();
@@ -19,11 +20,11 @@ const CompanyTheme = ({ theme }: CompanyThemeProps) => {
   });
 
   //로그인 유무 판별
-  const loginCheckState = useRecoilValue(loginCheck);
+  const { isLogin, setIsLogin } = useLoginCheck();
 
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMemeber = () => {
-    if (loginCheckState) {
+    if (isLogin) {
       themeLike.mutate();
     } else {
       Swal.fire({

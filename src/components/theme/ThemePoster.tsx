@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { wishTheme } from "../../api/ThemeApi";
 import { useRecoilValue } from "recoil";
-import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 import { useInView } from "react-intersection-observer";
+import { useLoginCheck } from "components/context/LoginCheckContext";
 
 const ThemePoster = ({ theme }) => {
   //페이지 이동에 사용
@@ -25,11 +25,10 @@ const ThemePoster = ({ theme }) => {
   });
 
   //로그인 유무 판별
-  const loginCheckState = useRecoilValue(loginCheck);
-
+  const { isLogin, setIsLogin } = useLoginCheck();
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMemeber = () => {
-    if (loginCheckState) {
+    if (isLogin) {
       themeLike.mutate({ themeId: theme.id });
     } else {
       Swal.fire({
