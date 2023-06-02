@@ -8,6 +8,8 @@ import { useRecoilState } from "recoil";
 import { headerClicked } from "../../../api/store";
 import SearchForm from "../../search/SearchForm";
 import logo from "../../../asset/HeaderLogo.png";
+import logoWhite from "../../../asset/kakaoGrey2.png";
+
 import Swal from "sweetalert2";
 import { UserInfoInSessionStorage } from "components/types";
 import MenuButton from "../common/MenuButton";
@@ -77,6 +79,7 @@ const ReHeader = (props: { color?: string }) => {
   return (
     <Container>
       <Layout>
+        <Logo src={logoWhite} />
         <LeftButtonWrapper>
           <MenuButton onClick={onClickLogo}>
             <img src={logo} alt="logo" />
@@ -121,9 +124,13 @@ const Container = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid var(--color-border);
-  background-color: white;
+
+  background-color: var(--color-main);
+
   @media ${devices.md} {
+    border-bottom: 1px solid var(--color-border);
+    background-color: white;
+
     position: sticky;
     top: 0;
     z-index: 10;
@@ -134,10 +141,10 @@ const Container = styled.header`
 `;
 const Layout = styled.div`
   height: 92%;
-  width: 100%;
+  width: 90%;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   @media ${devices.md} {
     justify-content: space-between;
@@ -162,4 +169,9 @@ const RightButtonWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+`;
+
+const Logo = styled.img`
+  filter: brightness(120%);
+  width: 50px;
 `;

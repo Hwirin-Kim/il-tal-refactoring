@@ -9,12 +9,13 @@ function Layout({ children }: LayoutProps) {
 export default Layout;
 
 const STLayout = styled.div`
-  width: 1440px;
+  max-width: 1280px;
+  width: 100%;
   height: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   margin: 0 auto;
 `;
