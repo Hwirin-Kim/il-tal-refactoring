@@ -174,4 +174,7 @@ const RightButtonWrapper = styled.div`
 const Logo = styled.img`
   filter: brightness(120%);
   width: 50px;
+  @media ${devices.md} {
+    display: none;
+  }
 `;
