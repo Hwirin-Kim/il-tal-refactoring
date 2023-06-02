@@ -1,9 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAchieve } from "api/mainApi";
-import { useLoginCheck } from "components/context/LoginCheckContext";
+import BadgeImg from "components/main/common/BadgeImg";
+import { badgeTitle } from "components/main/common/badgeTitle";
 import ProgressBar from "components/main/common/ProgressBar";
-import React from "react";
-import { filterProps } from "recharts/types/util/types";
 import styled from "styled-components";
 import { devices } from "styles/devices";
 
@@ -12,6 +9,8 @@ interface IUserDataType {
   achieveBadgeCnt: number;
   nickname: string;
   totalAchieveCnt: number;
+  badgeImgUrl: string[];
+  mainBadgeName: string;
 }
 interface IMainUserInfoProps {
   data: IUserDataType;
@@ -24,6 +23,8 @@ export default function MainUserInfo({
   blur,
   isLoading,
 }: IMainUserInfoProps) {
+  const badgeScale = -20;
+
   if (isLoading) {
     return <Container>Loading...</Container>;
   }
@@ -35,19 +36,25 @@ export default function MainUserInfo({
         {data.mainBadgeImg === "none" ? (
           <NoneBadgeImg />
         ) : (
-          <MainBadgeImg src={data.mainBadgeImg} />
+          <BadgeImg url={data.mainBadgeImg} scale={0} />
         )}
 
         <TextProgressWrapper>
           <BannerText>
-            <span>{data.nickname ? `${data.nickname}님` : "Guest님"}</span>{" "}
+            <span>{data.nickname ? `${data.nickname}님 ` : "Guest님 "}</span>
             탈출할 준비되셨나요?
           </BannerText>
-
+          <ProgressText>{data.mainBadgeName}</ProgressText>
           <ProgressBar num={data.totalAchieveCnt} maxNum={10}>
             {data.totalAchieveCnt}/10
           </ProgressBar>
         </TextProgressWrapper>
+
+        <BadgeList>
+          <BadgeImg url={data.badgeImgUrl[0]} scale={badgeScale} />
+          <BadgeImg url={data.badgeImgUrl[1]} scale={badgeScale} />
+          <BadgeImg url={data.badgeImgUrl[2]} scale={badgeScale} />
+        </BadgeList>
       </Wrapper>
     </Container>
   );
@@ -57,14 +64,24 @@ const Container = styled.div`
   width: 90%;
   height: 6rem;
   background-color: white;
-  padding: 0.3rem;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   position: absolute;
   left: 50;
   bottom: -3rem;
   border-radius: 0.5rem;
-  box-shadow: 2px 2px 5px rgba(41, 39, 39, 0.087);
+  box-shadow: 5px 5px 8px rgba(41, 39, 39, 0.087);
+  @media ${devices.md} {
+    height: 6.5rem;
+  }
+  @media ${devices.lg} {
+    height: 7rem;
+  }
+  @media ${devices.xlg} {
+    height: 9rem;
+    padding: 0 2rem;
+  }
 `;
 const Wrapper = styled.div<{ blur: boolean }>`
   width: 100%;
@@ -74,11 +91,6 @@ const Wrapper = styled.div<{ blur: boolean }>`
   align-items: center;
   flex-grow: 1;
   ${(props) => props.blur && "filter:blur(1rem)"}
-`;
-
-const MainBadgeImg = styled.img`
-  width: 75px;
-  margin-left: 10px;
 `;
 
 const NoneBadgeImg = styled.div`
@@ -91,7 +103,7 @@ const NoneBadgeImg = styled.div`
 `;
 
 const TextProgressWrapper = styled.div`
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   width: 250px;
   display: flex;
   flex-direction: column;
@@ -104,10 +116,7 @@ const BannerText = styled.div`
     font-weight: bold;
   }
   @media ${devices.md} {
-    font-size: 1.2rem;
-  }
-  @media ${devices.lg} {
-    font-size: 1.5rem;
+    display: none;
   }
 `;
 
@@ -119,4 +128,28 @@ const LoginText = styled.div`
   width: 100%;
   height: 100%;
   font-size: 1.5rem;
+  color: black;
+`;
+
+const BadgeList = styled.div`
+  display: none;
+
+  @media ${devices.md} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 250px;
+  }
+  @media ${devices.xlg} {
+    width: 350px;
+  }
+`;
+
+const ProgressText = styled.div`
+  display: none;
+  @media${devices.md} {
+    display: flex;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
 `;

@@ -47,8 +47,9 @@ const SearchForm = () => {
 export default SearchForm;
 
 const Container = styled.div`
-  width: 85%;
-  max-width: 500px;
+  width: 100%;
+  margin-left: 1rem;
+
   font-size: 0.8rem;
   justify-content: center;
   align-items: center;
@@ -60,9 +61,6 @@ const Container = styled.div`
     background-color: transparent;
     border: none;
     cursor: pointer;
-  }
-  @media ${devices.lg} {
-    max-width: 700px;
   }
 `;
 const Input = styled.input`

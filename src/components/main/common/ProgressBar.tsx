@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 
 interface IProgressBarProps {
   children: React.ReactNode;
@@ -37,4 +38,7 @@ const Bar = styled.div<{ ratio: number }>`
   border-radius: 1rem;
   font-size: 0.5rem;
   width: ${(props) => props.ratio + "%"};
+  @media ${devices.md} {
+    font-size: 0.8rem;
+  }
 `;

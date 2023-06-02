@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { devices } from "styles/devices";
 import mainImg from "../../../../asset/main.png";
 import MainUserInfo from "./MainUserInfo";
-import mainNukki from "../../../../asset/main-nukki.png";
 
 export default function MainBanner() {
   const initialUserInfo = {
@@ -14,12 +13,36 @@ export default function MainBanner() {
     achieveBadgeCnt: 0,
     nickname: "Guest",
     totalAchieveCnt: 0,
+    badgeImgUrl: [],
+    mainBadgeName: "",
   };
   const { isLogin } = useLoginCheck();
-  const { data, isLoading } = useQuery(["getAchieve"], () => getAchieve());
+  const { data, isLoading } = useQuery(["getAchieve", isLogin], () =>
+    getAchieve()
+  );
 
   return (
     <Container>
+      <BannerText>
+        {isLogin ? (
+          isLoading ? (
+            <span>
+              <p className="bold">Guest님</p>
+              <p>탈출할 준비되셨나요?</p>
+            </span>
+          ) : (
+            <span>
+              <p className="bold">{data.nickname}님</p>
+              <p>탈출할 준비되셨나요?</p>
+            </span>
+          )
+        ) : (
+          <span>
+            <p className="bold">일상의 방탈출</p>
+            <p>도전해보세요!</p>
+          </span>
+        )}
+      </BannerText>
       <BannerImg src={mainImg} />
       {isLogin ? (
         <MainUserInfo data={data} blur={false} isLoading={isLoading} />
@@ -55,13 +78,25 @@ const BannerImg = styled.img`
 `;
 
 const BannerText = styled.div`
-  position: absolute;
-  left: 1%;
-  top: 5%;
+  display: none;
+  white-space: pre-line;
+  color: white;
+  .bold {
+    font-weight: bold;
+  }
+  p {
+    margin: 1rem 0;
+  }
+
   @media ${devices.md} {
+    display: flex;
     font-size: 1.2rem;
+    position: absolute;
+    left: 5%;
+    top: 10%;
   }
   @media ${devices.lg} {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    top: 15%;
   }
 `;
