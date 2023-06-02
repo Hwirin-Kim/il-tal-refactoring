@@ -38,9 +38,8 @@ const SearchForm = () => {
         placeholder="검색"
         onKeyPress={onKeyPressHandler}
       />
-      <button onClick={onSubmitHandler}>
-        <BsSearch size="21" />
-      </button>
+
+      <BsSearch size="15" onClick={onSubmitHandler} />
     </Container>
   );
 };
@@ -48,10 +47,15 @@ const SearchForm = () => {
 export default SearchForm;
 
 const Container = styled.div`
-  width: 100%;
+  width: 85%;
   max-width: 500px;
-  padding: 0 20px;
+  font-size: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2rem;
   display: flex;
+  background-color: white;
+  overflow: hidden;
   button {
     background-color: transparent;
     border: none;
@@ -62,13 +66,15 @@ const Container = styled.div`
   }
 `;
 const Input = styled.input`
-  width: 100%;
+  width: 90%;
   height: 1.4rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   border: none;
-  border-bottom: 1px solid var(--color-border);
   &:focus {
     outline: none;
+  }
+  @media ${devices.md} {
+    border-bottom: 1px solid var(--color-border);
   }
   @media ${devices.lg} {
     font-size: 1.5rem;
