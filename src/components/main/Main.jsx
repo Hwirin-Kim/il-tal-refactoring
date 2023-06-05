@@ -42,6 +42,10 @@ const Main = () => {
     },
   });
   const totalAchievement = 10;
+  const images = [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM39h_MI29Vc0A10s9cr4McEqW8PGNRm4jCg&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzTTH47nsUHWfmXiXYdKtUkXeiFFlI64pSaQ&usqp=CAU",
+  ];
   return (
     <Styled.Container>
       {isLogin ? (
@@ -109,14 +113,26 @@ const Main = () => {
             </SwiperSlide>
           </>
         ) : (
+          // <Carousel>
+          //   {random.data.map((data, index) => (
+          //     <SwiperSlide key={"Recommand" + index}>
+          //       <RecommandTheme
+          //         id={data.id}
+          //         companyName={data.companyName}
+          //         themeName={data.themeName}
+          //         themeImgUrl={data.themeImgUrl}
+          //       />
+          //     </SwiperSlide>
+          //   ))}
+          // </Carousel>
           <Carousel>
-            {random.data.map((data, index) => (
+            {images.map((data, index) => (
               <SwiperSlide key={"Recommand" + index}>
                 <RecommandTheme
-                  id={data.id}
-                  companyName={data.companyName}
-                  themeName={data.themeName}
-                  themeImgUrl={data.themeImgUrl}
+                  id="아이디"
+                  companyName="회사"
+                  themeName="이름"
+                  themeImgUrl={data}
                 />
               </SwiperSlide>
             ))}

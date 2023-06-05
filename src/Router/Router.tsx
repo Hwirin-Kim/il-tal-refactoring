@@ -13,6 +13,7 @@ import SearchPage from "../page/SearchPage";
 import ScrollOnTop from "../utils/ScrollOnTop";
 import Main2 from "components/mainPage/Main2";
 import ReMain from "components/main/ReMain";
+import Carousel from "components/main/common/Carousel";
 
 const Router = () => {
   return (
@@ -29,6 +30,7 @@ const Router = () => {
           <Route path="/company/:id" element={<DetailCompanyPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/myaccount" element={<MyPage />} />
+          <Route path="/test" element={<Carousel />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
