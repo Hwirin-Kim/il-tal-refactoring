@@ -7,13 +7,11 @@ import MyPage from "../page/MyPage";
 import ErrorPage from "../page/ErrorPage";
 import CompanyPage from "../page/CompanyPage";
 import MainLayout from "../page/MainLayout";
-import MyPageLayout from "../page/MyPageLayout";
 import KakaoLogin from "../components/modal/KakaoLogin";
 import SearchPage from "../page/SearchPage";
 import ScrollOnTop from "../utils/ScrollOnTop";
-import Main2 from "components/mainPage/Main2";
 import ReMain from "components/main/ReMain";
-import Carousel from "components/main/common/Carousel";
+import BestTheme from "components/main/component/BestTheme/BestTheme";
 
 const Router = () => {
   return (
@@ -30,7 +28,7 @@ const Router = () => {
           <Route path="/company/:id" element={<DetailCompanyPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/myaccount" element={<MyPage />} />
-          <Route path="/test" element={<Carousel />} />
+          <Route path="/test" element={<BestTheme />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>

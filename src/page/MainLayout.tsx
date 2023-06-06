@@ -22,5 +22,6 @@ const MainLayout: React.FC = (props) => {
 export default MainLayout;
 
 const LayoutBody = styled.div`
-  width: 100%;
+  width: 100vw;
+  overflow-x: hidden;
 `;
