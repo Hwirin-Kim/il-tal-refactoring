@@ -22,7 +22,7 @@ const Badge = styled.img<{
   background-position: center;
   width: ${(props) => `${props.scale + 75}px`};
   height: ${(props) => `${props.scale + 75}px`};
-  background-color: grey;
+  background-color: #dedede;
   border-radius: 50%;
   box-shadow: 6px 8px 8px -3px rgba(0, 0, 0, 0.51);
   -webkit-box-shadow: 6px 8px 8px -3px rgba(0, 0, 0, 0.51);

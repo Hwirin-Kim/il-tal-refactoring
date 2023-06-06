@@ -61,12 +61,14 @@ export default function MainUserInfo({
 }
 
 const Container = styled.div`
+  box-sizing: border-box;
   width: 90%;
   height: 6rem;
   background-color: white;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   position: absolute;
   left: 50;
   bottom: -3rem;
@@ -103,7 +105,8 @@ const NoneBadgeImg = styled.div`
 `;
 
 const TextProgressWrapper = styled.div`
-  padding: 0 2rem;
+  box-sizing: border-box;
+  padding: 0 1rem;
   width: 250px;
   display: flex;
   flex-direction: column;
@@ -121,13 +124,14 @@ const BannerText = styled.div`
 `;
 
 const LoginText = styled.div`
+  z-index: 10;
   position: absolute;
   display: flex;
+  text-align: center;
+
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: black;
 `;
 
