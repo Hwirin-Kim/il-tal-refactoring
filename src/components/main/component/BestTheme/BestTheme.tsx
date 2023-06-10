@@ -74,5 +74,8 @@ const BestThemeListSection = styled.div`
   @media (min-width: 650px) {
     display: flex;
     width: 100%;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-sizing: border-box;
   }
 `;

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 
 interface IBestThemeData {
   id: number;
@@ -32,8 +33,24 @@ export default function BestThemePoster({ data, rank }: IBestThemePosterProps) {
 
 const Container = styled.div`
   width: 250px;
-  height: 150px;
+  height: 200px;
   position: relative;
+  @media (min-width: 650px) {
+    width: 200px;
+    height: 250px;
+  }
+  @media ${devices.md} {
+    width: 240px;
+    height: 280px;
+  }
+  @media ${devices.lg} {
+    width: 300px;
+    height: 340px;
+  }
+  @media ${devices.xlg} {
+    width: 330px;
+    height: 370px;
+  }
 `;
 const Img = styled.img`
   width: 100%;
