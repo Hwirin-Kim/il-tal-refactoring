@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { devices } from "styles/devices";
 
-interface IBestThemeData {
+interface IRecommendedThemeData {
   id: number;
   themeImgUrl: string;
   themeName: string;
@@ -13,15 +13,15 @@ interface IBestThemeData {
   reviewCnt: number;
   themeLikeCheck: boolean;
 }
-interface IBestThemePosterProps {
-  data: IBestThemeData;
-  rank?: number;
+interface IRecommendedThemePosterProps {
+  data: IRecommendedThemeData;
 }
 
-export default function BestThemePoster({ data, rank }: IBestThemePosterProps) {
+export default function RecommendedThemePoster({
+  data,
+}: IRecommendedThemePosterProps) {
   return (
     <Container>
-      {rank ? <Rank>{rank}</Rank> : null}
       <Img src={data.themeImgUrl} />
       <ThemeInfoWrapper>
         <CompanyName>{data.companyName}</CompanyName>
@@ -59,26 +59,6 @@ const Img = styled.img`
   filter: brightness(50%);
   position: absolute;
   border-radius: 0.5rem;
-`;
-const Rank = styled.div`
-  z-index: 1;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.3rem;
-  width: 1.5rem;
-  height: 2.5rem;
-  left: 0.5rem;
-  top: -0.5rem;
-  border-radius: 0 0 0.3rem 0.3rem;
-  position: absolute;
-  background-color: var(--color-main);
-  @media ${devices.lg} {
-    width: 2.5rem;
-    height: 3.5rem;
-    font-size: 1.8rem;
-  }
 `;
 
 const ThemeInfoWrapper = styled.div`
