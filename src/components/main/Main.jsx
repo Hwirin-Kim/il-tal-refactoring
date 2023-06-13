@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { SwiperSlide } from "swiper/react";
-import { getAchieve, getBest, getHOf, getRandom } from "../../api/mainApi";
+import { getAchieve, getBest, getHOf, getRecommended } from "../../api/mainApi";
 import { Carousel } from "../../utils/carousel";
 import BestUser from "./component/BestUser";
 import PopSkel from "./PopSkel";
@@ -29,7 +29,7 @@ const Main = () => {
       navigate("/error");
     },
   });
-  const random = useQuery(["getRandom"], getRandom, {
+  const random = useQuery(["getRandom"], getRecommended, {
     staleTime: Infinity,
     onError: (err) => {
       navigate("/error");

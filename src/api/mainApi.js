@@ -11,7 +11,7 @@ export const getBest = async () => {
   return data.data.data;
 };
 
-export const getRandom = async () => {
+export const getRecommended = async () => {
   const data = await api.get("/main/random");
   return data.data.data;
 };
