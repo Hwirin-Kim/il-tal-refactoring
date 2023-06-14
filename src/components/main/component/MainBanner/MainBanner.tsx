@@ -17,8 +17,12 @@ export default function MainBanner() {
     mainBadgeName: "",
   };
   const { isLogin } = useLoginCheck();
-  const { data, isLoading } = useQuery(["getAchieve", isLogin], () =>
-    getAchieve()
+  const { data, isLoading } = useQuery(
+    ["getAchieve", isLogin],
+    () => getAchieve(),
+    {
+      enabled: isLogin ? true : false,
+    }
   );
 
   return (

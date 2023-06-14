@@ -38,7 +38,7 @@ export default function BestTheme() {
     <Container>
       <SectionTitle>인기 테마</SectionTitle>
       <BestThemeCarouselSection>
-        <SwiperCarousel width={200}>
+        <SwiperCarousel slidePerView={2}>
           {best.data.map((item: IBestThemeData, index: number) => {
             return (
               <SwiperSlide>
@@ -64,6 +64,7 @@ const Container = styled.section`
 
 const BestThemeCarouselSection = styled.div`
   width: 100%;
+
   @media (min-width: 650px) {
     display: none;
   }

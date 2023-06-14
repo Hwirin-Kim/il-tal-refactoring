@@ -32,24 +32,24 @@ export default function RecommendedThemePoster({
 }
 
 const Container = styled.div`
-  width: 250px;
+  width: 300px;
   height: 200px;
   position: relative;
   @media (min-width: 650px) {
-    width: 200px;
+    width: 100%;
     height: 250px;
   }
   @media ${devices.md} {
-    width: 240px;
-    height: 280px;
+    width: 100%;
+    height: 250px;
   }
   @media ${devices.lg} {
-    width: 300px;
-    height: 340px;
+    width: 100%;
+    height: 250px;
   }
   @media ${devices.xlg} {
-    width: 330px;
-    height: 370px;
+    width: 100%;
+    height: 250px;
   }
 `;
 const Img = styled.img`
@@ -71,17 +71,35 @@ const ThemeInfoWrapper = styled.div`
 `;
 
 const CompanyName = styled.p`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media ${devices.sm} {
+    font-size: 0.9rem;
+  }
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.2rem;
+  }
 `;
 const ThemeName = styled.p`
   margin-top: 0.5rem;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media ${devices.sm} {
+    font-size: 1.1rem;
+  }
+  @media ${devices.md} {
+    font-size: 1.2rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.4rem;
+  }
 `;

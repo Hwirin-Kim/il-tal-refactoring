@@ -32,7 +32,7 @@ export default function BestThemePoster({ data, rank }: IBestThemePosterProps) {
 }
 
 const Container = styled.div`
-  width: 250px;
+  width: 100%;
   height: 200px;
   position: relative;
   @media (min-width: 650px) {
@@ -66,11 +66,11 @@ const Rank = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   width: 1.5rem;
   height: 2.5rem;
   left: 0.5rem;
-  top: -0.5rem;
+  top: -0.8rem;
   border-radius: 0 0 0.3rem 0.3rem;
   position: absolute;
   background-color: var(--color-main);
@@ -91,17 +91,35 @@ const ThemeInfoWrapper = styled.div`
 `;
 
 const CompanyName = styled.p`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media ${devices.sm} {
+    font-size: 0.9rem;
+  }
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.2rem;
+  }
 `;
 const ThemeName = styled.p`
   margin-top: 0.5rem;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media ${devices.sm} {
+    font-size: 1.1rem;
+  }
+  @media ${devices.md} {
+    font-size: 1.2rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.4rem;
+  }
 `;
