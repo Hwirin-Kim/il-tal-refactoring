@@ -37,7 +37,7 @@ export default function RecommendedTheme() {
     <Container>
       <SectionTitle>이런 테마는 어떠세요?</SectionTitle>
       <RecommendedThemeCarouselSection>
-        <SwiperCarousel width={100}>
+        <SwiperCarousel slidePerView={3}>
           {recommended.data.map((item: IRecommendedThemeData) => {
             return (
               <SwiperSlide key={item.id}>
@@ -53,8 +53,12 @@ export default function RecommendedTheme() {
 
 const Container = styled.section`
   width: 100%;
+  margin-top: 20px;
 `;
 
 const RecommendedThemeCarouselSection = styled.div`
   display: flex;
+  padding: 0 10px;
+  width: 100%;
+  overflow: hidden;
 `;
