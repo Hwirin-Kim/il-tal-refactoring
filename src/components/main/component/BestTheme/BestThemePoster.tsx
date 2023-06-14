@@ -32,7 +32,7 @@ export default function BestThemePoster({ data, rank }: IBestThemePosterProps) {
 }
 
 const Container = styled.div`
-  width: 200px;
+  width: 100%;
   height: 200px;
   position: relative;
   @media (min-width: 650px) {

@@ -3,6 +3,7 @@ import { getBest } from "api/mainApi";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import BestTheme from "./component/BestTheme/BestTheme";
+import BestUser from "./component/BestUser/BestUser";
 import MainBanner from "./component/MainBanner/MainBanner";
 import RecommendedTheme from "./component/RecommendedTheme/RecommendedTheme";
 
@@ -12,6 +13,7 @@ export default function ReMain() {
       <MainBanner />
       <BestTheme />
       <RecommendedTheme />
+      <BestUser />
     </>
   );
 }

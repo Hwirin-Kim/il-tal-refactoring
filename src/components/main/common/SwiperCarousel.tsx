@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Swiper } from "swiper/react";
-import { Autoplay, Navigation } from "swiper";
+import { Autoplay, Navigation, Pagination } from "swiper";
 
 interface ISwiperCarouselProps {
   children: React.ReactNode;
@@ -17,9 +17,12 @@ export default function SwiperCarousel({
     <CustomSwiper
       width={width}
       slidesPerView={slidePerView}
+      slidesPerGroup={2}
       spaceBetween={10}
+      pagination={true}
       loop={true}
       breakpoints={{ 650: { slidesPerView: 4 } }}
+      modules={[Pagination]}
       // autoplay={{
       //   delay: 2500,
       //   disableOnInteraction: false,
@@ -35,6 +38,10 @@ export default function SwiperCarousel({
 }
 
 const CustomSwiper = styled(Swiper)<{ width?: number }>`
-  width: ${(props) => (props.width ? `${props.width}px` : "110%")};
+  width: calc(100% - 20px);
+  /* width: ${(props) => (props.width ? `${props.width}px` : "100%")}; */
   overflow: visible;
+  .swiper-pagination {
+    bottom: -20px;
+  }
 `;
