@@ -71,9 +71,6 @@ const Container = styled.section`
 
 const BannerImg = styled.img`
   display: none;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 
   @media ${devices.md} {
     display: inline;
@@ -96,7 +93,7 @@ const BannerText = styled.div`
     display: flex;
     font-size: 1.2rem;
     position: absolute;
-    left: 5%;
+    left: 10px;
     top: 10%;
   }
   @media ${devices.lg} {
