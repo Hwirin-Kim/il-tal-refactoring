@@ -62,7 +62,7 @@ export default function MainUserInfo({
 
 const Container = styled.div`
   box-sizing: border-box;
-  width: 90%;
+  width: calc(100% - 20px);
   height: 6rem;
   background-color: white;
   padding: 0 0.5rem;
@@ -131,8 +131,11 @@ const LoginText = styled.div`
 
   justify-content: center;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: black;
+  @media ${devices.md} {
+    font-size: 1.3rem;
+  }
 `;
 
 const BadgeList = styled.div`

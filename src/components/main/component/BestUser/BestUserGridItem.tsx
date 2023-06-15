@@ -69,6 +69,9 @@ const TitleBadgeName = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 0.8rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
 `;
 
 const Nickname = styled.div`
@@ -77,6 +80,9 @@ const Nickname = styled.div`
   align-items: center;
   font-weight: bold;
   font-size: 0.8rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
 `;
 
 const AchievementCounter = styled.div`

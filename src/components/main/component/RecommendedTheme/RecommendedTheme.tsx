@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Autoplay } from "swiper";
 import { SwiperSlide } from "swiper/react";
+import BestThemePoster from "../BestTheme/BestThemePoster";
 import RecommendedThemePoster from "./RecommendedThemePoster";
 interface IRecommendedThemeData {
   id: number;
@@ -40,7 +41,7 @@ export default function RecommendedTheme() {
           {recommended.data.map((item: IRecommendedThemeData) => {
             return (
               <SwiperSlide key={item.id}>
-                <RecommendedThemePoster data={item} />
+                <BestThemePoster data={item} />
               </SwiperSlide>
             );
           })}

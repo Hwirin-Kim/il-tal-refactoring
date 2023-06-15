@@ -48,26 +48,28 @@ export default function BestTheme() {
           })}
         </SwiperCarousel>
       </BestThemeCarouselSection>
-      <BestThemeListSection>
+      {/* <BestThemeListSection>
         {best.data.map((item: IBestThemeData, index: number) => {
           return <BestThemePoster key={item.id} data={item} rank={index + 1} />;
         })}
-      </BestThemeListSection>
+      </BestThemeListSection> */}
     </Container>
   );
 }
 
 const Container = styled.section`
   width: 100%;
-  margin-top: 50px;
+  margin-top: 100px;
+  overflow: hidden;
+  padding-bottom: 20px;
 `;
 
 const BestThemeCarouselSection = styled.div`
   width: 100%;
 
-  @media (min-width: 650px) {
+  /* @media (min-width: 650px) {
     display: none;
-  }
+  } */
 `;
 
 const BestThemeListSection = styled.div`
