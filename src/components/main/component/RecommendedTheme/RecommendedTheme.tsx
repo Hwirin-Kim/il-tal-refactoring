@@ -53,7 +53,8 @@ export default function RecommendedTheme() {
 const Container = styled.section`
   width: 100%;
   margin-top: 20px;
-  margin-bottom: 30px;
+  padding-bottom: 30px;
+  overflow: hidden;
 `;
 
 const RecommendedThemeCarouselSection = styled.div`

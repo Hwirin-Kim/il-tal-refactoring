@@ -1,6 +1,8 @@
+import MenuGrid from "components/main/common/MenuGrid";
 import ProgressBar from "components/main/common/ProgressBar";
 import React from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 
 interface IBestUserData {
   achieveBadgeCnt: number;
@@ -13,20 +15,19 @@ interface IBestUserData {
 
 interface IBestUserGridItemProps {
   data: IBestUserData;
-  rank: number;
+  rank: number | string;
 }
 
 export default function BestUserGridItem({
   data,
   rank,
 }: IBestUserGridItemProps) {
-  console.log(data);
   return (
     <MenuGrid>
       <Rank>{rank}</Rank>
       <TitleBadge>
         <TitleBadgeImg src={data.mainBadgeImg} />
-        {data.mainBadgeName}
+        <TitleBadgeName>{data.mainBadgeName}</TitleBadgeName>
       </TitleBadge>
       <Nickname>{data.nickname}</Nickname>
       <ProgressBar num={data.achieveBadgeCnt} maxNum={10}>
@@ -36,42 +37,46 @@ export default function BestUserGridItem({
     </MenuGrid>
   );
 }
-const MenuGrid = styled.div`
-  width: 100%;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  grid-template-columns: 0.5fr 1.5fr 1.5fr 5fr 1.5fr;
-  p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
+
 const Rank = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
 `;
 
 const TitleBadge = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: none;
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 20px;
+  @media ${devices.md} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const TitleBadgeImg = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 `;
 
-const TitleBadgeName = styled.div``;
+const TitleBadgeName = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+`;
 
 const Nickname = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
+  font-size: 0.8rem;
 `;
 
 const AchievementCounter = styled.div`

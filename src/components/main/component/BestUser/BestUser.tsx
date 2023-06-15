@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getHOf } from "api/mainApi";
+import MenuGrid from "components/main/common/MenuGrid";
 import SectionTitle from "components/main/common/SectionTitle";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BestUserGridItem from "./BestUserGridItem";
+import crown from "../../../../asset/img/crown.png";
+import { devices } from "styles/devices";
 
 interface IBestUserData {
   achieveBadgeCnt: number;
@@ -14,6 +17,13 @@ interface IBestUserData {
   nickname: string;
   totalAchieveCnt: number;
 }
+
+const menuData = {
+  nickname: "닉네임",
+  titleBadge: "칭호",
+  successRate: "달성률",
+  successCnt: "성공횟수",
+};
 
 export default function BestUser() {
   const navigator = useNavigate();
@@ -32,11 +42,11 @@ export default function BestUser() {
       <SectionTitle>명예의 전당</SectionTitle>
       <BestUserListSection>
         <MenuGrid>
-          <p>순위</p>
-          <p>뱃지명</p>
-          <p>닉네임</p>
-          <p>프로그레스바</p>
-          <p>성공횟수</p>
+          <MenuRankIcon src={crown} />
+          <MenuTitle displayNone={true}>{menuData.titleBadge}</MenuTitle>
+          <MenuTitle>{menuData.nickname}</MenuTitle>
+          <MenuTitle>{menuData.successRate}</MenuTitle>
+          <MenuTitle>{menuData.successCnt}</MenuTitle>
         </MenuGrid>
         {bestUserData.data.content.map((item: IBestUserData, index: number) => {
           return <BestUserGridItem data={item} rank={index + 1} />;
@@ -53,17 +63,26 @@ const Container = styled.section`
 `;
 
 const BestUserListSection = styled.div`
-  width: 100%;
-  padding: 0 10px;
+  box-sizing: border-box;
+  width: calc(100% - 20px);
+  padding: 0 10px 20px 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 1rem;
+  margin: 0 10px;
 `;
 
-const MenuGrid = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 0.5fr 1.5fr 1.5fr 5fr 1.5fr;
-  p {
+const MenuRankIcon = styled.img`
+  width: 2rem;
+  height: 2rem;
+`;
+
+const MenuTitle = styled.div<{ displayNone?: boolean }>`
+  display: ${(props) => (props.displayNone ? "none" : "flex")};
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  @media ${devices.md} {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 1rem;
   }
 `;
