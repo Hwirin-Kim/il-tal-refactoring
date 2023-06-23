@@ -19,7 +19,6 @@ const Router = () => {
       <ScrollOnTop />
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/1" element={<ReMain />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/kakao/callback" element={<KakaoLogin />} />
           <Route path="/theme" element={<ThemePage />} />
