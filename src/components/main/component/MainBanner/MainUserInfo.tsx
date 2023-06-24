@@ -1,6 +1,6 @@
 import BadgeImg from "components/main/common/BadgeImg";
 import { badgeTitle } from "components/main/common/badgeTitle";
-import ProgressBar from "components/main/common/ProgressBar";
+import ProgressBar from "components/common/ProgressBar";
 import styled from "styled-components";
 import { devices } from "styles/devices";
 

@@ -1,5 +1,5 @@
 import MenuGrid from "components/main/common/MenuGrid";
-import ProgressBar from "components/main/common/ProgressBar";
+import ProgressBar from "components/common/ProgressBar";
 import React from "react";
 import styled from "styled-components";
 import { devices } from "styles/devices";
