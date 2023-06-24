@@ -52,7 +52,7 @@ const MyInfo = () => {
     ? ""
     : User.data?.stylePreference?.split(" ").filter(Boolean);
 
-  const { isLogin, setIsLogin } = useLoginCheck();
+  const { isLogin } = useLoginCheck();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLogin && !User.isLoading) {
