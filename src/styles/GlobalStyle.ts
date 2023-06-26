@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
-  body{
+  body {
     font-family:  'Noto Sans KR', sans-serif;
     box-sizing: border-box;
   }

@@ -7,6 +7,12 @@ interface IProgressBarProps {
   num: number;
   maxNum: number;
 }
+/**
+ * children에 num / maxNum 텍스트로 넣어서 사용
+ * @param num 분자에 해당하는 숫자
+ * @param maxNum 분모에 해당하는 숫자
+ * @returns
+ */
 
 export default function ProgressBar({
   children,
@@ -23,6 +29,7 @@ export default function ProgressBar({
 }
 
 const Container = styled.div`
+  box-sizing: border-box;
   width: 100%;
   background-color: #d6d6d6;
   display: flex;
