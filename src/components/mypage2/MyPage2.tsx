@@ -8,12 +8,13 @@ import UserInfo from "./components/userinfo/UserInfo";
 import styled from "styled-components";
 
 export default function MyPage2() {
-  const User = useQuery(["getMyPage"], api.getMyPage);
+  const userData = useQuery(["getMyPage"], api.getMyPage);
 
+  console.log(userData.data);
   const navigator = useNavigate();
   const { isLogin } = useLoginCheck();
   useEffect(() => {
-    if (!isLogin && !User.isLoading) {
+    if (!isLogin && !userData.isLoading) {
       navigator("/");
       Swal.fire({
         icon: "error",
@@ -21,11 +22,19 @@ export default function MyPage2() {
         text: "로그인 한 사용자만 이용 가능합니다.",
       });
     }
-  }, [isLogin, navigator, User.isLoading]);
+  }, [isLogin, navigator, userData.isLoading]);
+
+  if (userData.isLoading) {
+    return null;
+  }
 
   return (
     <Container>
-      <UserInfo />
+      <UserInfo
+        nickname={userData.data.nickname}
+        mainBadgeImg={userData.data.mainBadgeImg}
+        mainBadgeName={userData.data.mainBadgeName}
+      />
     </Container>
   );
 }
