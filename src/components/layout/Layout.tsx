@@ -11,7 +11,7 @@ export default Layout;
 const STLayout = styled.div`
   max-width: 1280px;
   width: 100%;
-  height: 100%;
+  height: calc(100% + 8rem);
   min-height: 100vh;
   display: flex;
   flex-direction: column;

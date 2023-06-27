@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRecommended } from "api/mainApi";
-import SectionTitle from "components/main/common/SectionTitle";
+import SectionTitle from "components/common/SectionTitle";
 import SwiperCarousel from "components/main/common/SwiperCarousel";
 
 import { useNavigate } from "react-router-dom";
