@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import UserInfo from "./components/userinfo/UserInfo";
 import styled from "styled-components";
+import Tendency from "./components/tendency/Tendency";
+import MyBadgeList from "./components/mybadge/MyBadgeList";
 
 export default function MyPage2() {
   const userData = useQuery(["getMyPage"], api.getMyPage);
@@ -35,6 +37,19 @@ export default function MyPage2() {
         mainBadgeImg={userData.data.mainBadgeImg}
         mainBadgeName={userData.data.mainBadgeName}
       />
+      <Tendency
+        tendencyData={{
+          lessScare: userData.data.lessScare,
+          roomSize: userData.data.roomSize,
+          lockStyle: userData.data.lockStyle,
+          device: userData.data.device,
+          interior: userData.data.interior,
+          excitePreference: userData.data.excitePreference,
+          stylePreference: userData.data.stylePreference,
+          genrePreference: userData.data.genrePreference,
+        }}
+      />
+      <MyBadgeList />
     </Container>
   );
 }

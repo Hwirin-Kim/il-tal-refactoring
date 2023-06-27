@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getHOf } from "api/mainApi";
 import MenuGrid from "components/main/common/MenuGrid";
-import SectionTitle from "components/main/common/SectionTitle";
+import SectionTitle from "components/common/SectionTitle";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
