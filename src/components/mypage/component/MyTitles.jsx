@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getMemberBadges,
   putMainBadge,
-  reciveBadges,
+  receiveBadges,
 } from "../../../api/myAccount";
 import Swal from "sweetalert2";
 import { useState } from "react";
@@ -51,7 +51,7 @@ const MyTitles = (props) => {
     }
   });
   const giveBadge = useMutation(
-    ({ badgeId: id }) => reciveBadges({ badgeId: id }),
+    ({ badgeId: id }) => receiveBadges({ badgeId: id }),
     {
       onSuccess: () => {
         Swal.fire({

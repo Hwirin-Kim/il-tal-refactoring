@@ -17,8 +17,9 @@ export const editNickName = async (userName) => {
   return data;
 };
 
-export const reciveBadges = async (badgeId) => {
+export const receiveBadges = async (badgeId) => {
   const data = await api.post("/badge/give", badgeId);
+  console.log(data, "axios DATA");
   return data;
 };
 export const putMainBadge = async (badgeId) => {
