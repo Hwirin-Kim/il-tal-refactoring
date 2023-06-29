@@ -1,7 +1,7 @@
 import SectionTitle from "components/common/SectionTitle";
 import Modal from "components/modal/Modal";
 import { stringParsing } from "components/mypage2/utils/stringParsing";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TendencyRadar from "utils/TendencyRadar";
 import setting from "../../../../asset/img/settings.png";
@@ -18,13 +18,13 @@ export interface ITendencyData {
   device: number;
   interior: number;
   excitePreference: number;
-  genrePreference: string;
-  stylePreference: string;
+  genrePreference: string | null;
+  stylePreference: string | null;
 }
 
 export default function Tendency({ tendencyData }: ITendencyProps) {
   const [isSetting, setIsSetting] = useState(false);
-
+  // const [preferenceData, setPreferenceData] = useState<string[] | string>([]);
   const tenData = [
     { name: "겁", value: tendencyData?.lessScare },
     { name: "방", value: tendencyData?.roomSize },
@@ -34,10 +34,29 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
     { name: "활동성", value: tendencyData?.excitePreference },
   ];
 
-  const preferenceData = stringParsing([
-    tendencyData.genrePreference ?? "",
-    tendencyData.stylePreference ?? "",
-  ]);
+  const preferenceData = stringParsing(
+    tendencyData.genrePreference,
+    tendencyData.stylePreference
+  );
+
+  // useEffect(() => {
+  //   if (tendencyData.genrePreference !== null) {
+  //     let parsedData = tendencyData.genrePreference.split(" ").filter(Boolean);
+  //     setPreferenceData((prev) => [...prev, ...parsedData]);
+  //   }
+  //   if (tendencyData.stylePreference !== null) {
+  //     let parsedData = tendencyData.stylePreference.split(" ").filter(Boolean);
+  //     setPreferenceData((prev) => [...prev, ...parsedData]);
+  //   }
+  //   if (
+  //     tendencyData.genrePreference === null ||
+  //     tendencyData.stylePreference === null
+  //   ) {
+  //     setPreferenceData(
+  //       "성향 수정버튼을 눌러 선호하는 장르나 스타일을 골라주세요"
+  //     );
+  //   }
+  // }, [tendencyData]);
 
   return (
     <Container>
@@ -47,10 +66,10 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
       />
       <SectionTitle>나의 성향</SectionTitle>
       <TendencySettingWrapper hide={isSetting}>
-        <TendencySetting
+        {/* <TendencySetting
           data={tendencyData}
           setIsSetting={() => setIsSetting(false)}
-        />
+        /> */}
       </TendencySettingWrapper>
 
       <TendencyWrapper>
@@ -58,9 +77,11 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
       </TendencyWrapper>
       <SectionTitle>선호 유형</SectionTitle>
       <PreferenceDataWrapper>
-        {preferenceData.map((data) => {
-          return <PreferenceData key={data}>{data}</PreferenceData>;
-        })}
+        {typeof preferenceData === "string"
+          ? preferenceData
+          : preferenceData.map((data) => {
+              return <PreferenceData key={data}>{data}</PreferenceData>;
+            })}
       </PreferenceDataWrapper>
     </Container>
   );
