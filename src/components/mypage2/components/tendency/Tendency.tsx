@@ -1,7 +1,7 @@
 import SectionTitle from "components/common/SectionTitle";
 import Modal from "components/modal/Modal";
 import { stringParsing } from "components/mypage2/utils/stringParsing";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TendencyRadar from "utils/TendencyRadar";
 import setting from "../../../../asset/img/settings.png";
@@ -34,29 +34,20 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
     { name: "활동성", value: tendencyData?.excitePreference },
   ];
 
-  const preferenceData = stringParsing(
+  const parsing = (
+    str1: string | null,
+    str2: string | null
+  ): string[] | never[] => {
+    let newArr: string[] = [];
+    let arr1 = stringParsing(str1);
+    let arr2 = stringParsing(str2);
+    return (newArr = [...newArr, ...arr1, ...arr2]);
+  };
+
+  const preferenceData = parsing(
     tendencyData.genrePreference,
     tendencyData.stylePreference
   );
-
-  // useEffect(() => {
-  //   if (tendencyData.genrePreference !== null) {
-  //     let parsedData = tendencyData.genrePreference.split(" ").filter(Boolean);
-  //     setPreferenceData((prev) => [...prev, ...parsedData]);
-  //   }
-  //   if (tendencyData.stylePreference !== null) {
-  //     let parsedData = tendencyData.stylePreference.split(" ").filter(Boolean);
-  //     setPreferenceData((prev) => [...prev, ...parsedData]);
-  //   }
-  //   if (
-  //     tendencyData.genrePreference === null ||
-  //     tendencyData.stylePreference === null
-  //   ) {
-  //     setPreferenceData(
-  //       "성향 수정버튼을 눌러 선호하는 장르나 스타일을 골라주세요"
-  //     );
-  //   }
-  // }, [tendencyData]);
 
   return (
     <Container>
@@ -66,10 +57,10 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
       />
       <SectionTitle>나의 성향</SectionTitle>
       <TendencySettingWrapper hide={isSetting}>
-        {/* <TendencySetting
+        <TendencySetting
           data={tendencyData}
           setIsSetting={() => setIsSetting(false)}
-        /> */}
+        />
       </TendencySettingWrapper>
 
       <TendencyWrapper>
@@ -77,8 +68,8 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
       </TendencyWrapper>
       <SectionTitle>선호 유형</SectionTitle>
       <PreferenceDataWrapper>
-        {typeof preferenceData === "string"
-          ? preferenceData
+        {preferenceData.length === 0
+          ? "No data"
           : preferenceData.map((data) => {
               return <PreferenceData key={data}>{data}</PreferenceData>;
             })}
@@ -95,7 +86,7 @@ const Container = styled.section`
 
 const TendencyWrapper = styled.div`
   width: 100%;
-  height: 320px;
+  height: 300px;
 `;
 
 const TendencySetBtn = styled.img`

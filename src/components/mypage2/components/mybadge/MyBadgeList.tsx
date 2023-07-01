@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllBadges, getMemberBadges } from "api/myAccount";
+import SectionTitle from "components/common/SectionTitle";
 import React from "react";
 import styled from "styled-components";
 import MyBadge from "./MyBadge";
@@ -14,23 +15,15 @@ export interface IBadgeData {
 
 export default function MyBadgeList() {
   const totalBadges = useQuery(["totalBadges"], getAllBadges);
-  const myBadges = useQuery(["myBadges"], getMemberBadges);
 
-  const activeBadges = (
-    myBadgeArr: IBadgeData[],
-    currentId: number
-  ): boolean => {
-    return myBadgeArr.some((badge) => badge.id === currentId) ? true : false;
-  };
-
-  if (totalBadges.isLoading || myBadges.isLoading) {
+  if (totalBadges.isLoading) {
     return null;
   }
   return (
     <Container>
+      <SectionTitle>내가 획득한 뱃지</SectionTitle>
       {totalBadges.data.map((data: IBadgeData) => {
-        const isActive = activeBadges(myBadges.data, data.id);
-        return <MyBadge data={data} key={data.id} isActive={isActive} />;
+        return <MyBadge data={data} key={data.id} />;
       })}
     </Container>
   );

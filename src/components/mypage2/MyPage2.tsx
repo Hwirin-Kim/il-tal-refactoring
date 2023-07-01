@@ -8,6 +8,8 @@ import UserInfo from "./components/userinfo/UserInfo";
 import styled from "styled-components";
 import Tendency from "./components/tendency/Tendency";
 import MyBadgeList from "./components/mybadge/MyBadgeList";
+import SectionTitle from "components/common/SectionTitle";
+import MyReview from "./components/myReview/MyReviewList";
 
 export default function MyPage2() {
   const userData = useQuery(["getMyPage"], api.getMyPage);
@@ -50,6 +52,7 @@ export default function MyPage2() {
         }}
       />
       <MyBadgeList />
+      <MyReview />
     </Container>
   );
 }
@@ -58,4 +61,5 @@ const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 0 0.8rem;
+  margin-bottom: 100px;
 `;
