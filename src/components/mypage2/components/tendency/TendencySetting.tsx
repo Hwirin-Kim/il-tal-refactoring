@@ -17,10 +17,10 @@ export default function TendencySetting({
   data,
   setIsSetting,
 }: ITendencySettingProps) {
-  // const genrePreference = stringParsing([data.genrePreference]);
-  // const stylePreference = stringParsing([data.stylePreference]);
-  // const [genre, setGenre] = useState(genrePreference || []);
-  // const [quest, setQuest] = useState(stylePreference || []);
+  const genrePreference = stringParsing(data.genrePreference);
+  const stylePreference = stringParsing(data.stylePreference);
+  const [genre, setGenre] = useState(genrePreference || []);
+  const [quest, setQuest] = useState(stylePreference || []);
   const [scare, setScare] = useState(data.lessScare || 1);
   const [room, setRoom] = useState(data.roomSize || 1);
   const [lock, setLock] = useState(data.lockStyle || 1);

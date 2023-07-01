@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { putMainBadge, receiveBadges } from "api/myAccount";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMemberBadges, putMainBadge, receiveBadges } from "api/myAccount";
 import { AxiosError } from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { IBadgeData } from "./MyBadgeList";
 
 interface IMyBadgeProps {
   data: IBadgeData;
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 interface IErrorData {
@@ -22,8 +22,11 @@ interface IError {
   message: string;
 }
 
-export default function MyBadge({ data, isActive }: IMyBadgeProps) {
+export default function MyBadge({ data }: IMyBadgeProps) {
+  const [isActive, setIsActive] = useState(false);
   const queryClient = useQueryClient();
+  const myBadges = useQuery(["myBadges"], getMemberBadges);
+
   const achieveBadgeMutation = useMutation(
     (id: number) => receiveBadges({ badgeId: id }),
     {
@@ -35,7 +38,7 @@ export default function MyBadge({ data, isActive }: IMyBadgeProps) {
           showConfirmButton: false,
           timer: 1000,
         });
-        queryClient.invalidateQueries(["totalBadges"]);
+        queryClient.invalidateQueries(["myBadges"]);
       },
 
       onError: (err: AxiosError<IErrorData>) => {
@@ -50,8 +53,19 @@ export default function MyBadge({ data, isActive }: IMyBadgeProps) {
       },
     }
   );
-  const changeBadgeMutation = useMutation((id: number) =>
-    putMainBadge({ badgeId: id })
+  const changeBadgeMutation = useMutation(
+    (id: number) => putMainBadge({ badgeId: id }),
+    {
+      onSuccess: () => {
+        Swal.fire({
+          icon: "success",
+          title: "칭호가 변경되었습니다.",
+          showConfirmButton: true,
+          timer: 800,
+        });
+        queryClient.invalidateQueries(["getMyPage"]);
+      },
+    }
   );
 
   const onClickBadge = () => {
@@ -60,6 +74,21 @@ export default function MyBadge({ data, isActive }: IMyBadgeProps) {
       : achieveBadgeMutation.mutate(data.id);
   };
 
+  const activeBadges = (
+    myBadgeArr: IBadgeData[],
+    currentId: number
+  ): boolean => {
+    return myBadgeArr.some((badge) => badge.id === currentId) ? true : false;
+  };
+
+  useEffect(() => {
+    if (myBadges.isLoading === false) {
+      setIsActive(activeBadges(myBadges.data, data.id));
+    }
+  }, [isActive, myBadges, data]);
+  if (myBadges.isLoading) {
+    return null;
+  }
   return (
     <BadgeImg
       src={data.badgeImgUrl}
@@ -70,9 +99,10 @@ export default function MyBadge({ data, isActive }: IMyBadgeProps) {
 }
 
 const BadgeImg = styled.img<{ isActive: boolean }>`
-  width: 100px;
-  height: 100px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
+  margin: 0.5rem;
   box-shadow: 5px 5px 5px 1px rgb(0, 0, 0, 0.5);
 
   filter: grayscale(${(props) => (props.isActive ? 0 : 1)});
