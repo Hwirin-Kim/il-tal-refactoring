@@ -9,11 +9,17 @@ interface CategoryItem {
 interface CategoryBtnProps {
   categoryIndex: CategoryItem[];
   state: string[];
+  fontSize: string;
   setState: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 //카테고리 필터용 버튼 컴포넌트 (인덱스로 각 항목별 인덱스 넣고, props로 state와 setState를 각각 보내서 사용)
-const CategoryBtn = ({ categoryIndex, state, setState }: CategoryBtnProps) => {
+const CategoryBtn = ({
+  categoryIndex,
+  state,
+  setState,
+  fontSize,
+}: CategoryBtnProps) => {
   const categoryHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     //해당 State에 클릭한 카테고리가 있는지 확인한다. (있다면 클릭한 카테고리를 반환하고, 없다면 undefined가 됨)
     const isInclude = state.find(
@@ -41,6 +47,7 @@ const CategoryBtn = ({ categoryIndex, state, setState }: CategoryBtnProps) => {
     <>
       {categoryIndex.map((element) => (
         <Btn
+          fontSize={fontSize}
           name={element.name}
           key={`${element.name}${element.value}`}
           type="button"
@@ -61,12 +68,13 @@ interface BtnProps {
   onClick: Function;
   value: any;
   backgroundColor: string | undefined;
+  fontSize: string;
 }
 const Btn = styled.button<BtnProps>`
   min-width: 70px;
   height: 35px;
   margin: 3px;
-  font-size: 16px;
+  font-size: ${(props) => `${props.fontSize}px`};
   color: ${({ backgroundColor }) => (backgroundColor ? "white" : "black")};
   background-color: ${({ backgroundColor }) =>
     backgroundColor ? "var(--color-main)" : "#fff"};

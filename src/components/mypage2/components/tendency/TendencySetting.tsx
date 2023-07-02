@@ -132,6 +132,7 @@ export default function TendencySetting({
     <Container>
       <BtnWrapper>
         <CategoryBtn
+          fontSize="0.8rem"
           categoryIndex={tendencyIndex.GenreTend}
           state={genre}
           setState={setGenre}
@@ -139,6 +140,7 @@ export default function TendencySetting({
       </BtnWrapper>
       <BtnWrapper>
         <CategoryBtn
+          fontSize="0.8rem"
           categoryIndex={tendencyIndex.questTend}
           state={quest}
           setState={setQuest}
@@ -164,8 +166,10 @@ export default function TendencySetting({
 }
 const Container = styled.div`
   width: 100%;
-  background-color: #e5ffeccb;
+  box-sizing: border-box;
+  border: 1px solid var(--color-main);
   padding: 1rem 0;
+  margin-bottom: 1rem;
   border-radius: 1rem;
 `;
 
@@ -178,13 +182,14 @@ const SetSliderWrapper = styled.div`
 `;
 
 const BtnWrapper = styled.div<{ center?: boolean }>`
+  padding: 0 0.5rem;
   display: flex;
   flex-wrap: wrap;
   ${(props) => props.center && `justify-content:center;`}
 `;
 
 const Btn = styled.button`
-  font-size: 1.2rem;
+  font-size: 1rem;
   background-color: #fff;
   border: 1px solid #e5e5e5;
   padding: 0.2rem 1rem;

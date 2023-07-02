@@ -1,5 +1,4 @@
 import SectionTitle from "components/common/SectionTitle";
-import Modal from "components/modal/Modal";
 import { stringParsing } from "components/mypage2/utils/stringParsing";
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -56,6 +55,13 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
         onClick={() => setIsSetting((prev) => !prev)}
       />
       <SectionTitle>나의 성향</SectionTitle>
+      <PreferenceDataWrapper>
+        {preferenceData.length === 0
+          ? "나의 성향을 추가해보세요!"
+          : preferenceData.map((data) => {
+              return <PreferenceData key={data}>{data}</PreferenceData>;
+            })}
+      </PreferenceDataWrapper>
       <TendencySettingWrapper hide={isSetting}>
         <TendencySetting
           data={tendencyData}
@@ -66,14 +72,6 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
       <TendencyWrapper>
         <TendencyRadar data={tenData} />
       </TendencyWrapper>
-      <SectionTitle>선호 유형</SectionTitle>
-      <PreferenceDataWrapper>
-        {preferenceData.length === 0
-          ? "No data"
-          : preferenceData.map((data) => {
-              return <PreferenceData key={data}>{data}</PreferenceData>;
-            })}
-      </PreferenceDataWrapper>
     </Container>
   );
 }
@@ -87,6 +85,7 @@ const Container = styled.section`
 const TendencyWrapper = styled.div`
   width: 100%;
   height: 300px;
+  font-size: 0.8rem;
 `;
 
 const TendencySetBtn = styled.img`
@@ -94,10 +93,13 @@ const TendencySetBtn = styled.img`
   height: 20px;
   position: absolute;
   right: 0.3rem;
-  top: 0.3rem;
+  top: 0rem;
 `;
 
-const PreferenceDataWrapper = styled.div``;
+const PreferenceDataWrapper = styled.div`
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+`;
 
 const PreferenceData = styled.div`
   padding: 0.5rem;
@@ -110,7 +112,7 @@ const PreferenceData = styled.div`
 
 const TendencySettingWrapper = styled.div<{ hide: boolean }>`
   width: 100%;
-  max-height: ${({ hide }) => (hide ? "850px" : "0")};
+  max-height: ${({ hide }) => (hide ? "900px" : "0")};
   overflow: hidden;
-  transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.8s ease-in-out;
 `;

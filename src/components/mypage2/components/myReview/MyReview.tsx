@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IMyReviewData } from "./MyReviewList";
 
@@ -7,28 +8,52 @@ interface IMyReviewProps {
 }
 
 export default function MyReview({ data }: IMyReviewProps) {
+  const navigator = useNavigate();
+  const onClickToTheme = () => {
+    navigator(`/theme/${data.id}`);
+  };
+
   return (
-    <Container>
+    <Container onClick={onClickToTheme}>
       <ThemeName>{data.themeName}</ThemeName>
+      <ScoreStars>{"★".repeat(data.score)}</ScoreStars>
       <Comment>{data.comment}</Comment>
+      <PlayDate>{data.playDate}</PlayDate>
     </Container>
   );
 }
 
 const Container = styled.div`
+  width: 7rem;
+  margin: 0 0.5rem;
   margin-bottom: 1rem;
 `;
 
-const ThemeName = styled.span`
-  display: inline-block;
+const ThemeName = styled.p`
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  padding: 0.1rem;
   margin-bottom: 0.3rem;
-`;
-const Comment = styled.span`
-  width: 100%;
-  display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+const Comment = styled.p`
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-wrap: break-word;
+  line-height: 1rem;
+  height: 2.9rem;
+  margin: 0.3rem 0;
+`;
+
+const ScoreStars = styled.p`
+  color: var(--color-main);
+  font-size: 0.8rem;
+`;
+const PlayDate = styled.p`
+  font-size: 0.8rem;
+  color: grey;
 `;

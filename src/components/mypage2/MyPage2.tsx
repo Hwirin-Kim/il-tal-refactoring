@@ -8,15 +8,41 @@ import UserInfo from "./components/userinfo/UserInfo";
 import styled from "styled-components";
 import Tendency from "./components/tendency/Tendency";
 import MyBadgeList from "./components/mybadge/MyBadgeList";
-import SectionTitle from "components/common/SectionTitle";
-import MyReview from "./components/myReview/MyReviewList";
+import MyReviewList from "./components/myReview/MyReviewList";
+import MyLikeThemeList from "./common/myLikeList/MyLikeItemList";
+import MyLikeItem from "./common/myLikeList/MyLikeItem";
+
+export interface ILikeThemeData {
+  companyName: string;
+  id: number;
+  reviewCnt: number;
+  themeImgUrl: string;
+  themeLikeCnt: number;
+  themeName: string;
+  themeScore: number;
+}
+export interface ILikeCompanyData {
+  id: number;
+  companyName: string;
+  companyImgUrl: string;
+  companyScore: number;
+  companyUrl: string;
+  location: string;
+  address: string;
+  phoneNumber: string;
+  workHour: string;
+  totalReviewCnt: number;
+  totalLikeCnt: number;
+}
 
 export default function MyPage2() {
   const userData = useQuery(["getMyPage"], api.getMyPage);
+  const myLikeThemes = useQuery(["myLikeThemes"], api.getMyTheme);
+  const myLikeCompanies = useQuery(["myLikeCompanies"], api.getMyCompany);
 
-  console.log(userData.data);
   const navigator = useNavigate();
   const { isLogin } = useLoginCheck();
+  console.log(userData.data);
   useEffect(() => {
     if (!isLogin && !userData.isLoading) {
       navigator("/");
@@ -28,13 +54,18 @@ export default function MyPage2() {
     }
   }, [isLogin, navigator, userData.isLoading]);
 
-  if (userData.isLoading) {
+  if (
+    userData.isLoading ||
+    myLikeThemes.isLoading ||
+    myLikeCompanies.isLoading
+  ) {
     return null;
   }
 
   return (
     <Container>
       <UserInfo
+        achieveBadgeCnt={userData.data.achieveBadgeCnt}
         nickname={userData.data.nickname}
         mainBadgeImg={userData.data.mainBadgeImg}
         mainBadgeName={userData.data.mainBadgeName}
@@ -52,7 +83,38 @@ export default function MyPage2() {
         }}
       />
       <MyBadgeList />
-      <MyReview />
+      <MyReviewList />
+
+      <MyLikeThemeList
+        length={myLikeThemes.data.length}
+        sectionTitle="내가 찜한 테마"
+      >
+        {myLikeThemes.data.slice(0, 3).map((data: ILikeThemeData) => {
+          return (
+            <MyLikeItem
+              key={data.id}
+              img={data.themeImgUrl}
+              topText={data.themeName}
+              bottomText={data.companyName}
+            />
+          );
+        })}
+      </MyLikeThemeList>
+      <MyLikeThemeList
+        length={myLikeCompanies.data.length}
+        sectionTitle="내가 찜한 업체"
+      >
+        {myLikeCompanies.data.slice(0, 3).map((data: ILikeCompanyData) => {
+          return (
+            <MyLikeItem
+              key={data.id}
+              img={data.companyImgUrl}
+              topText={data.companyName}
+              bottomText={data.location}
+            />
+          );
+        })}
+      </MyLikeThemeList>
     </Container>
   );
 }
