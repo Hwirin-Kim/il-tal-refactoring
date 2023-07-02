@@ -10,8 +10,8 @@ export default function BadgeIcon({ mainBadgeImg }: IBadgeIconProps) {
 }
 
 const Container = styled.div<{ mainBadgeImg?: string }>`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background-image: url(${(props) => props.mainBadgeImg});
   background-size: cover;

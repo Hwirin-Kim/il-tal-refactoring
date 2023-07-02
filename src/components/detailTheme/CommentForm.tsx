@@ -3,7 +3,7 @@ import SelectBox from "./SelectBox";
 import React, { useState } from "react";
 import SelectIndex from "./SelectIndex";
 import { useMutation } from "@tanstack/react-query";
-import { postComment } from "../../api/ThemeApi";
+import { postBadgeCheck, postComment } from "../../api/ThemeApi";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
@@ -92,7 +92,9 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
     }
   };
 
-  //댓글 작성 mutaion
+  const getBadgeMutation = useMutation(postBadgeCheck);
+
+  //댓글 작성 mutation
   interface PayloadType {
     id: number;
     data: CommentEditType;
@@ -111,6 +113,7 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
         });
         setIsEdit(true);
         setCmt(initial);
+        getBadgeMutation.mutate();
       },
       onError: () => {
         Swal.fire({

@@ -10,9 +10,9 @@ import MainLayout from "../page/MainLayout";
 import KakaoLogin from "../components/modal/KakaoLogin";
 import SearchPage from "../page/SearchPage";
 import ScrollOnTop from "../utils/ScrollOnTop";
-import ReMain from "components/main/ReMain";
 import BestTheme from "components/main/component/BestTheme/BestTheme";
 import MyPage2 from "components/mypage2/MyPage2";
+import MyReviewPage from "components/mypage2/MyReviewPage";
 
 const Router = () => {
   return (
@@ -22,6 +22,7 @@ const Router = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/1" element={<MyPage2 />} />
+          <Route path="/mypage/reviews" element={<MyReviewPage />} />
 
           <Route path="/kakao/callback" element={<KakaoLogin />} />
           <Route path="/theme" element={<ThemePage />} />

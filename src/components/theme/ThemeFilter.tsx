@@ -100,6 +100,7 @@ const ThemeFilter = ({
             전체
           </button>
           <CategoryBtn
+            fontSize="1rem"
             categoryIndex={Category.LocationCategory}
             state={location}
             setState={setLocation}
@@ -115,6 +116,7 @@ const ThemeFilter = ({
             전체
           </button>
           <CategoryBtn
+            fontSize="1rem"
             categoryIndex={Category.GenreCategory}
             state={genre}
             setState={setGenre}
@@ -129,6 +131,7 @@ const ThemeFilter = ({
             전체
           </button>
           <CategoryBtn
+            fontSize="1rem"
             categoryIndex={Category.PeopleCategory}
             state={people}
             setState={setPeople}

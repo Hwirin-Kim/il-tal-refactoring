@@ -81,3 +81,8 @@ export const getFilterCnt = async ({
   );
   return data;
 };
+
+export const postBadgeCheck = async () => {
+  const { data } = await api.post("/badge/check");
+  return data;
+};

@@ -7,6 +7,7 @@ import NicknameForm from "./NicknameForm";
 
 interface IUserInfoProps {
   nickname: string;
+  achieveBadgeCnt: number;
   mainBadgeName: string;
   mainBadgeImg: string;
 }
@@ -15,9 +16,10 @@ export default function UserInfo({
   nickname,
   mainBadgeName,
   mainBadgeImg,
+  achieveBadgeCnt,
 }: IUserInfoProps) {
   const [isEditModeOn, setIsEditModeOn] = useState(false);
-
+  const totalBadgeCnt = 10;
   return (
     <Container>
       <Wrapper>
@@ -35,12 +37,17 @@ export default function UserInfo({
           ) : (
             <UserInfoTextWrapper>
               <Nickname>{nickname}</Nickname>
-              <UserId>kimhuirin</UserId>
+              <UserId>
+                {" "}
+                {sessionStorage.getItem("userinfo") === null
+                  ? ""
+                  : JSON.parse(sessionStorage.getItem("userinfo")!).username}
+              </UserId>
             </UserInfoTextWrapper>
           )}
         </TextWrapper>
-        <ProgressBar num={7} maxNum={10}>
-          7 / 10
+        <ProgressBar num={achieveBadgeCnt} maxNum={totalBadgeCnt}>
+          {achieveBadgeCnt} / {totalBadgeCnt}
         </ProgressBar>
         <SettingButton
           src={setting}
@@ -58,7 +65,7 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 45px;
 `;
 
 const Wrapper = styled.div`
