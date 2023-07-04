@@ -45,8 +45,8 @@ export default function MainUserInfo({
             탈출할 준비되셨나요?
           </BannerText>
           <ProgressText>{data.mainBadgeName}</ProgressText>
-          <ProgressBar num={data.totalAchieveCnt} maxNum={10}>
-            {data.totalAchieveCnt}/10
+          <ProgressBar num={data.achieveBadgeCnt} maxNum={10}>
+            {data.achieveBadgeCnt}/10
           </ProgressBar>
         </TextProgressWrapper>
 

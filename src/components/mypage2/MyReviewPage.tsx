@@ -1,12 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
-import { getMyReview } from "api/myAccount";
-import React from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { getMyEscapeCnt } from "api/myAccount";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import MyReviewPageList from "./components/myReviewPage/MyReviewPageList";
 
 export default function MyReviewPage() {
-  const myReviews = useQuery(["myReviews"], getMyReview);
+  const myEscapeCnt = useQuery(["myEscapeCnt"], getMyEscapeCnt);
+  const [totalCnt, setTotalCnt] = useState(0);
+  const [successCnt, setSuccessCnt] = useState(0);
+  const [failCnt, setFailCnt] = useState(0);
 
-  if (myReviews.isLoading) {
+  useEffect(() => {
+    if (!myEscapeCnt.isLoading) {
+      setSuccessCnt(myEscapeCnt.data.successCnt);
+      setFailCnt(myEscapeCnt.data.failCnt);
+      setTotalCnt(myEscapeCnt.data.successCnt + myEscapeCnt.data.failCnt);
+    }
+  }, [myEscapeCnt]);
+
+  if (myEscapeCnt.isLoading) {
     return null;
   }
 
@@ -14,10 +26,11 @@ export default function MyReviewPage() {
     <Container>
       <PageTitle>내가 남긴 리뷰</PageTitle>
       <InfoWrapper>
-        <TotalText>총 90회</TotalText>
-        <SuccessFailCnt>성공 32회</SuccessFailCnt>
-        <SuccessFailCnt>실패 58회</SuccessFailCnt>
+        <TotalText>총 {totalCnt}회</TotalText>
+        <SuccessFailCnt>성공 {successCnt}회</SuccessFailCnt>
+        <SuccessFailCnt>실패 {failCnt}회</SuccessFailCnt>
       </InfoWrapper>
+      <MyReviewPageList />
     </Container>
   );
 }
@@ -36,6 +49,7 @@ const PageTitle = styled.div`
 
 const InfoWrapper = styled.div`
   margin-top: 0.5rem;
+  margin-bottom: 3rem;
 `;
 
 const TotalText = styled.span`
