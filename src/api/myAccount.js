@@ -56,3 +56,13 @@ export const getMemberBadges = async () => {
   const data = await api.get("/member/badges");
   return data.data.data.sort((a, b) => a.id - b.id);
 };
+
+export const getMyReviews = async (page) => {
+  const data = await api.get(`/myreviews/paging?page=${page}`);
+  return data.data.data;
+};
+
+export const getMyEscapeCnt = async () => {
+  const data = await api.get("/my-escape-count");
+  return data.data.data;
+};

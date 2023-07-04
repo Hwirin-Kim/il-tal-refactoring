@@ -31,7 +31,7 @@ const Container = styled.div`
 
 const ThemeName = styled.p`
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   padding: 0.1rem;
   margin-bottom: 0.3rem;
   overflow: hidden;
@@ -44,9 +44,11 @@ const Comment = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-wrap: break-word;
+  font-size: 0.7rem;
   line-height: 1rem;
   height: 2.9rem;
-  margin: 0.3rem 0;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 `;
 
 const ScoreStars = styled.p`

@@ -44,6 +44,10 @@ const TopText = styled.p`
   position: absolute;
   font-size: 0.8rem;
   left: 0.5rem;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   top: 50%;
   color: rgba(255, 255, 255, 1);
 `;

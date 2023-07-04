@@ -108,3 +108,8 @@ export const commnetPages = atom({
   key: "commentPages",
   default: 0,
 });
+
+export const myReviewPages = atom({
+  key: "myReviewPages",
+  default: 0,
+});
