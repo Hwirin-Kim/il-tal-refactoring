@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface ThemeInfoCardProps {
@@ -8,6 +9,7 @@ interface ThemeInfoCardProps {
   companyName: string;
   themeScore: number;
   reviewCnt: number;
+  themeId: number;
 }
 
 export default function ThemeInfoCard({
@@ -17,13 +19,19 @@ export default function ThemeInfoCard({
   companyName,
   themeScore,
   reviewCnt,
+  themeId,
 }: ThemeInfoCardProps) {
+  const navigator = useNavigate();
+  const onClickToTheme = () => {
+    navigator(`/theme/${themeId}`);
+  };
+
   return (
     <ThemeInfoWrapper>
-      <ThemePoster src={themeImgUrl} />
+      <ThemePoster src={themeImgUrl} onClick={onClickToTheme} />
       <ThemeInfo>
         <Genre>{genre}</Genre>
-        <ThemeName>{themeName}</ThemeName>
+        <ThemeName onClick={onClickToTheme}>{themeName}</ThemeName>
         <CompanyName>{companyName}</CompanyName>
         <Score>
           <Star>★</Star>
@@ -43,6 +51,7 @@ const ThemePoster = styled.img`
   width: 4.5rem;
   height: 6.5rem;
   border-radius: 0.5rem;
+  cursor: pointer;
 `;
 
 const ThemeInfo = styled.div`
@@ -61,6 +70,7 @@ const ThemeName = styled.p`
   font-size: 1.1rem;
   font-weight: bold;
   margin-bottom: 0.3rem;
+  cursor: pointer;
 `;
 
 const CompanyName = styled.p`
