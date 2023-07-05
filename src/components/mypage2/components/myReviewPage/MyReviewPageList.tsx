@@ -2,9 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyReviews } from "api/myAccount";
 import { myReviewPages } from "api/store";
 import React, { useState } from "react";
+import Pagination from "react-js-pagination";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import MyReviewPageItem from "./MyReviewPageItem";
+import nextgray from "../../../../asset/next-gray.png";
+import prevgray from "../../../../asset/prev-gray.png";
+import nextgreen from "../../../../asset/next-green.png";
+import prevgreen from "../../../../asset/prev-green.png";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export interface ReviewData {
   comment: string;
@@ -24,10 +31,32 @@ export interface ReviewData {
 }
 
 export default function MyReviewPageList() {
-  const [page, setPage] = useRecoilState(myReviewPages);
+  const { page } = useParams();
+  const pageNumber = parseInt(page!, 10);
 
-  const myReviews = useQuery(["myReviewPage"], () => getMyReviews(page));
-  console.log(myReviews, page, "왜안될까요");
+  const navigator = useNavigate();
+  const myReviews = useQuery(
+    ["myReviewPage", pageNumber],
+    () => getMyReviews(pageNumber - 1),
+    {
+      onSuccess: (res) => {
+        console.log(res.content.length);
+        if (res.content.length === 0 && pageNumber > 1) {
+          navigator("/mypage/reviews/1");
+          Swal.fire({
+            icon: "error",
+            title: "접근 오류",
+            text: "해당 페이지가 없습니다. 첫 페이지로 이동됩니다.",
+          });
+        }
+      },
+    }
+  );
+
+  const onChangePageNum = (page: number) => {
+    navigator(`/mypage/reviews/${page}`);
+  };
+
   if (myReviews.isLoading) {
     return null;
   }
@@ -37,7 +66,53 @@ export default function MyReviewPageList() {
       {myReviews.data.content.map((reviewData: ReviewData, index: number) => {
         return <MyReviewPageItem key={index} reviewData={reviewData} />;
       })}
+      {myReviews.data.totalPages > 1 && (
+        <Pagination
+          activePage={pageNumber}
+          itemsCountPerPage={myReviews.data.size}
+          totalItemsCount={myReviews.data.totalElements}
+          pageRangeDisplayed={5}
+          hideFirstLastPages={true}
+          prevPageText={
+            pageNumber === 1 ? (
+              <img src={prevgray} alt="next" />
+            ) : (
+              <img src={prevgreen} alt="next" />
+            )
+          }
+          nextPageText={
+            pageNumber === myReviews.data.totalPages ? (
+              <img src={nextgray} alt="next" />
+            ) : (
+              <img src={nextgreen} alt="next" />
+            )
+          }
+          onChange={onChangePageNum}
+        />
+      )}
     </Container>
   );
 }
-const Container = styled.div``;
+const Container = styled.div`
+  margin-bottom: 4rem;
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      font-size: 1.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      margin: 0 0.5rem;
+      color: black;
+      &:visited {
+      }
+    }
+    .active {
+      a {
+        color: var(--color-main);
+      }
+    }
+  }
+`;

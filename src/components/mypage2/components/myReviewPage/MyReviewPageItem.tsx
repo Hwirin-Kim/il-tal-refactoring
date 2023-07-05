@@ -20,6 +20,7 @@ export default function MyReviewPageItem({
         companyName={reviewData.companyName}
         themeScore={reviewData.themeScore}
         reviewCnt={reviewData.reviewCnt}
+        themeId={reviewData.themeId}
       />
       <CommentCard
         id={reviewData.reviewId}

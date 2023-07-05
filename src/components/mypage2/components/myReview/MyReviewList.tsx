@@ -25,7 +25,7 @@ export default function MyReviewList() {
   const navigator = useNavigate();
 
   const onClickToReview = () => {
-    navigator("/mypage/reviews");
+    navigator("/mypage/reviews/1");
   };
 
   if (myReviews.isLoading) {
@@ -38,6 +38,7 @@ export default function MyReviewList() {
         <SectionTitle>내가 남긴 리뷰</SectionTitle>
         <MorePages onClick={onClickToReview}>more {">"}</MorePages>
       </TopWrapper>
+
       {myReviews.data.length === 0 ? (
         <NoReview>{noReview}</NoReview>
       ) : (
@@ -54,6 +55,7 @@ export default function MyReviewList() {
 }
 
 const Container = styled.section`
+  width: 100%;
   margin-top: 2rem;
 `;
 
@@ -75,5 +77,7 @@ const NoReview = styled.div`
 `;
 
 const Reviews = styled.div`
+  width: 100%;
   display: flex;
+  justify-content: space-between;
 `;

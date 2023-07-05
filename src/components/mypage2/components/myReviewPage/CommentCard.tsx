@@ -163,6 +163,7 @@ export default function CommentCard({
                 defaultValue={editValue.score}
                 onChangeHandler={onChangeEdit}
                 index={selectIndex.star}
+                color="var(--color-main)"
               />
             </>
           ) : (

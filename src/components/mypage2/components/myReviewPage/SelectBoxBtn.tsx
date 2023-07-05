@@ -12,6 +12,7 @@ interface SelectBoxBtnProps {
   defaultValue: number | string;
   onChangeHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   index: IndexType[];
+  color?: string;
 }
 /**
  * 이것은 셀렉트 박스입니다.
@@ -23,6 +24,7 @@ interface SelectBoxBtnProps {
  * @returns select box
  */
 export default function SelectBoxBtn({
+  color,
   name,
   defaultValue,
   index,
@@ -34,6 +36,7 @@ export default function SelectBoxBtn({
       required
       onChange={onChangeHandler}
       defaultValue={defaultValue}
+      color={color}
     >
       {index.map((item) => {
         return (
@@ -46,12 +49,13 @@ export default function SelectBoxBtn({
   );
 }
 
-const SelectBox = styled.select`
+const SelectBox = styled.select<{ color?: string }>`
   background-color: #f3f3f3;
   border: none;
   border-radius: 0.5rem;
   font-size: 0.5rem;
   padding: 0.2rem 0;
+  ${(props) => props.color && `color:${props.color}`}
 `;
 
 const Option = styled.option`
