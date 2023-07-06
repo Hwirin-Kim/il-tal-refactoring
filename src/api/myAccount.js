@@ -67,7 +67,9 @@ export const getMyEscapeCnt = async () => {
   return data.data.data;
 };
 
-export const getMyThemes = async (page) => {
-  const data = await api.get(`/mythemes/paging?page=${page}`);
+export const getMyThemes = async ({ pageParam }) => {
+  console.log(pageParam);
+  const data = await api.get(`/mythemes/paging?page=${pageParam}`);
+
   return data.data.data;
 };

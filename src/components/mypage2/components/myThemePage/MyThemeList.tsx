@@ -12,14 +12,31 @@ export interface ThemeDataType {
   themeLikeCnt: number;
   themeName: string;
   themeScore: number;
+  genre: string;
+  price: string;
+  difficulty: number;
+  playTime: number;
+  themeLikeCheck: boolean;
 }
 
 export default function MyThemeList() {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useInfiniteQuery(["myThemes"], () => getMyThemes(0));
+    useInfiniteQuery(
+      ["myThemes"],
+      ({ pageParam = 0 }) => getMyThemes({ pageParam }),
+      {
+        getNextPageParam: (lastpage, allpages) => {
+          if (allpages.length < lastpage.totalPages) {
+            return allpages.length;
+          } else {
+            return undefined;
+          }
+        },
+      }
+    );
 
   console.log(data?.pages);
-  if (isLoading) {
+  if (isLoading === true || data === undefined || data.pages === undefined) {
     return null;
   }
   return (
