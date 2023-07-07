@@ -79,16 +79,15 @@ export default function MyThemeItem({ data }: MyThemeItemProps) {
           </Score>
         </InfoWrapper>
         <ReservationWrapper>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
-          <ReservationTimeButton>10:00</ReservationTimeButton>
+          {data.reservationDay1[0] === "" ? (
+            <NoReservation>예약 정보가 없습니다!</NoReservation>
+          ) : (
+            data.reservationDay1.map((time) => {
+              return (
+                <ReservationTimeButton key={time}>{time}</ReservationTimeButton>
+              );
+            })
+          )}
         </ReservationWrapper>
       </ThemeInfoTextWrapper>
     </Container>
@@ -177,4 +176,9 @@ const ReservationTimeButton = styled.span`
   font-size: 0.7rem;
   border-radius: 0.4rem;
   border: 1px solid var(--color-grey-btn);
+`;
+
+const NoReservation = styled.p`
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
 `;

@@ -88,7 +88,7 @@ export default function MyPage2() {
       <MyLikeThemeList
         length={myLikeThemes.data.length}
         sectionTitle="내가 찜한 테마"
-        url="/mypage/mythemes"
+        url="/mypage/themes"
       >
         {myLikeThemes.data.slice(0, 3).map((data: ILikeThemeData) => {
           return (
@@ -104,7 +104,7 @@ export default function MyPage2() {
       <MyLikeThemeList
         length={myLikeCompanies.data.length}
         sectionTitle="내가 찜한 업체"
-        url="/mypage/mycompanies"
+        url="/mypage/companies"
       >
         {myLikeCompanies.data.slice(0, 3).map((data: ILikeCompanyData) => {
           return (
