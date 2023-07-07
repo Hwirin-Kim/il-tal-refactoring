@@ -87,7 +87,7 @@ export default function MyCompanyItem({ data }: MyCompanyItemProps) {
 const Container = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const Poster = styled.img`
