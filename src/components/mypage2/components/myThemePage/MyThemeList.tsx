@@ -17,6 +17,7 @@ export interface ThemeDataType {
   difficulty: number;
   playTime: number;
   themeLikeCheck: boolean;
+  reservationDay1: string[];
 }
 
 export default function MyThemeList() {

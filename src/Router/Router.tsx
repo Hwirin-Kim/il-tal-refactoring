@@ -14,6 +14,7 @@ import BestTheme from "components/main/component/BestTheme/BestTheme";
 import MyPage2 from "components/mypage2/MyPage2";
 import MyReviewPage from "components/mypage2/MyReviewPage";
 import MyThemePage from "components/mypage2/MyThemePage";
+import MyCompanyPage from "components/mypage2/MyCompanyPage";
 
 const Router = () => {
   return (
@@ -24,7 +25,8 @@ const Router = () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/1" element={<MyPage2 />} />
           <Route path="/mypage/reviews/:page" element={<MyReviewPage />} />
-          <Route path="/mypage/mythemes" element={<MyThemePage />} />
+          <Route path="/mypage/themes" element={<MyThemePage />} />
+          <Route path="/mypage/companies" element={<MyCompanyPage />} />
           <Route path="/kakao/callback" element={<KakaoLogin />} />
           <Route path="/theme" element={<ThemePage />} />
           <Route path="/theme/:id" element={<DetailTheme />} />
