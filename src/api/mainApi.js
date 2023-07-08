@@ -17,7 +17,7 @@ export const getRecommended = async () => {
 };
 
 export const getHOf = async () => {
-  const data = await api.get("/main/hof");
+  const data = await api.get("/main/hof/new");
   return data.data.data;
 };
 

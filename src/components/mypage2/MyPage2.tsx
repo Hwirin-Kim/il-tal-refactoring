@@ -11,6 +11,8 @@ import MyBadgeList from "./components/mybadge/MyBadgeList";
 import MyReviewList from "./components/myReview/MyReviewList";
 import MyLikeThemeList from "./common/myLikeList/MyLikeItemList";
 import MyLikeItem from "./common/myLikeList/MyLikeItem";
+import { devices } from "styles/devices";
+import WebUserInfo from "./components/userinfo/WebUserInfo";
 
 export interface ILikeThemeData {
   companyName: string;
@@ -64,24 +66,26 @@ export default function MyPage2() {
 
   return (
     <Container>
-      <UserInfo
-        achieveBadgeCnt={userData.data.achieveBadgeCnt}
-        nickname={userData.data.nickname}
-        mainBadgeImg={userData.data.mainBadgeImg}
-        mainBadgeName={userData.data.mainBadgeName}
-      />
-      <Tendency
-        tendencyData={{
-          lessScare: userData.data.lessScare,
-          roomSize: userData.data.roomSize,
-          lockStyle: userData.data.lockStyle,
-          device: userData.data.device,
-          interior: userData.data.interior,
-          excitePreference: userData.data.excitePreference,
-          stylePreference: userData.data.stylePreference,
-          genrePreference: userData.data.genrePreference,
-        }}
-      />
+      <UserInfoTendencyWrapper>
+        <UserInfo
+          achieveBadgeCnt={userData.data.achieveBadgeCnt}
+          nickname={userData.data.nickname}
+          mainBadgeImg={userData.data.mainBadgeImg}
+          mainBadgeName={userData.data.mainBadgeName}
+        />
+        <Tendency
+          tendencyData={{
+            lessScare: userData.data.lessScare,
+            roomSize: userData.data.roomSize,
+            lockStyle: userData.data.lockStyle,
+            device: userData.data.device,
+            interior: userData.data.interior,
+            excitePreference: userData.data.excitePreference,
+            stylePreference: userData.data.stylePreference,
+            genrePreference: userData.data.genrePreference,
+          }}
+        />
+      </UserInfoTendencyWrapper>
       <MyBadgeList />
       <MyReviewList />
 
@@ -126,4 +130,11 @@ const Container = styled.div`
   width: 100%;
   padding: 0 0.8rem;
   margin-bottom: 100px;
+`;
+
+const UserInfoTendencyWrapper = styled.div`
+  display: block;
+  @media ${devices.lg} {
+    display: flex;
+  }
 `;

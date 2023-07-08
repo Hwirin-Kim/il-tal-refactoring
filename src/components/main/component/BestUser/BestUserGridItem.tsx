@@ -3,15 +3,7 @@ import ProgressBar from "components/common/ProgressBar";
 import React from "react";
 import styled from "styled-components";
 import { devices } from "styles/devices";
-
-interface IBestUserData {
-  achieveBadgeCnt: number;
-  id: number;
-  mainBadgeImg: string;
-  mainBadgeName: string;
-  nickname: string;
-  totalAchieveCnt: number;
-}
+import { IBestUserData } from "./BestUser";
 
 interface IBestUserGridItemProps {
   data: IBestUserData;
@@ -30,10 +22,10 @@ export default function BestUserGridItem({
         <TitleBadgeName>{data.mainBadgeName}</TitleBadgeName>
       </TitleBadge>
       <Nickname>{data.nickname}</Nickname>
-      <ProgressBar num={data.achieveBadgeCnt} maxNum={10}>
-        {data.achieveBadgeCnt} / 10
+      <ProgressBar num={data.successCnt} maxNum={data.totalPlayCnt}>
+        {data.successCnt} / {data.totalPlayCnt}
       </ProgressBar>
-      <AchievementCounter>{data.totalAchieveCnt}</AchievementCounter>
+      <AchievementCounter>{data.successCnt}</AchievementCounter>
     </MenuGrid>
   );
 }

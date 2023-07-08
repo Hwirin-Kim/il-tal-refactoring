@@ -4,6 +4,7 @@ import { stringParsing } from "components/mypage2/utils/stringParsing";
 import CategoryBtn from "components/theme/CategoryBtn";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import SetSlider from "./SetSlider";
 import { sliderIndex } from "./sliderIndex";
 import { ITendencyData } from "./Tendency";
@@ -171,6 +172,11 @@ const Container = styled.div`
   padding: 1rem 0;
   margin-bottom: 1rem;
   border-radius: 1rem;
+  @media ${devices.md} {
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 6px 7px 15px 1px rgba(0, 0, 0, 0.75);
+  }
 `;
 
 const SetSliderWrapper = styled.div`

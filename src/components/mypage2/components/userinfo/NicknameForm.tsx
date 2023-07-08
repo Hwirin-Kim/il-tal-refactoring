@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editNickName } from "api/myAccount";
 import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import Swal from "sweetalert2";
 
 interface INicknameForm {
@@ -77,7 +78,11 @@ export default function NicknameForm({
   );
 }
 
-const Container = styled.form``;
+const Container = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const InputForm = styled.input`
   border: none;
@@ -85,16 +90,36 @@ const InputForm = styled.input`
   /* border-bottom: 1px solid var(--color-border); */
 
   outline: none;
-
+  color: white;
   &::placeholder {
     color: rgba(255, 255, 255, 0.9);
+  }
+  @media ${devices.md} {
+    color: black;
+    font-size: 1.2rem;
+    &::placeholder {
+      color: grey;
+    }
   }
 `;
 
 const Button = styled.button`
   border: none;
   border-radius: 0.5rem;
-  background-color: var(--color-border);
+  background-color: var(--color-grey-btn);
   padding: 2px 1rem;
   margin: 0 0.5rem;
+  &:hover {
+    background-color: var(--color-main);
+    color: white;
+  }
+  @media ${devices.md} {
+    color: black;
+    font-size: 1rem;
+    padding: 0.2rem 0.7rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.1rem;
+    padding: 0.2rem 1.3rem;
+  }
 `;

@@ -18,7 +18,7 @@ interface TendencyRadarProps {
 export default function TendencyRadar({ data }: TendencyRadarProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="90%" data={data}>
+      <RadarChart cx="50%" cy="50%" outerRadius="78%" data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="name" />
         <PolarRadiusAxis
