@@ -9,13 +9,14 @@ import BestUserGridItem from "./BestUserGridItem";
 import crown from "../../../../asset/img/crown.png";
 import { devices } from "styles/devices";
 
-interface IBestUserData {
+export interface IBestUserData {
   achieveBadgeCnt: number;
   id: number;
   mainBadgeImg: string;
   mainBadgeName: string;
   nickname: string;
-  totalAchieveCnt: number;
+  successCnt: number;
+  totalPlayCnt: number;
 }
 
 const menuData = {
@@ -30,10 +31,10 @@ export default function BestUser() {
   const bestUserData = useQuery(["bestUserData"], getHOf, {
     onSuccess: () => {},
     onError: (err) => {
-      navigator("/error");
+      // navigator("/error");
     },
   });
-  if (bestUserData.isLoading) {
+  if (bestUserData.isLoading || bestUserData.isError) {
     return null;
   }
 
@@ -48,7 +49,7 @@ export default function BestUser() {
           <MenuTitle>{menuData.successRate}</MenuTitle>
           <MenuTitle>{menuData.successCnt}</MenuTitle>
         </MenuGrid>
-        {bestUserData.data.content.map((item: IBestUserData, index: number) => {
+        {bestUserData.data.map((item: IBestUserData, index: number) => {
           return <BestUserGridItem data={item} rank={index + 1} />;
         })}
       </BestUserListSection>

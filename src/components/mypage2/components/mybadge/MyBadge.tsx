@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { putMainBadge } from "api/myAccount";
 
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import Swal from "sweetalert2";
 import { IBadgeData } from "./MyBadgeList";
 
@@ -41,4 +42,8 @@ const BadgeImg = styled.img`
   border-radius: 50%;
   margin: 0.3rem;
   box-shadow: 5px 5px 5px 1px rgb(0, 0, 0, 0.5);
+  @media ${devices.md} {
+    width: 100px;
+    height: 100px;
+  }
 `;

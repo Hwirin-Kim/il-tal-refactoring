@@ -79,7 +79,7 @@ const ReHeader = (props: { color?: string }) => {
   return (
     <Container>
       <Layout>
-        <Logo src={logoWhite} />
+        <Logo src={logoWhite} onClick={onClickLogo} />
         <LeftButtonWrapper>
           <MenuButton onClick={onClickLogo}>
             <img src={logo} alt="logo" />
@@ -174,6 +174,7 @@ const RightButtonWrapper = styled.div`
 const Logo = styled.img`
   filter: brightness(120%);
   width: 50px;
+  cursor: pointer;
   @media ${devices.md} {
     display: none;
   }
