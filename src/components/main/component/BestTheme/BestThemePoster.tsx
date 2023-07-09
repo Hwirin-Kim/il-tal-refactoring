@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { devices } from "styles/devices";
 
@@ -19,8 +20,12 @@ interface IBestThemePosterProps {
 }
 
 export default function BestThemePoster({ data, rank }: IBestThemePosterProps) {
+  const navigator = useNavigate();
+  const onClickToPage = () => {
+    navigator(`/theme/${data.id}`);
+  };
   return (
-    <Container>
+    <Container onClick={onClickToPage}>
       {rank ? <Rank>{rank}</Rank> : null}
       <Img src={data.themeImgUrl} />
       <ThemeInfoWrapper>
@@ -35,6 +40,7 @@ const Container = styled.div`
   width: 100%;
   height: 200px;
   position: relative;
+  cursor: pointer;
   @media (min-width: 650px) {
     width: 200px;
     height: 250px;

@@ -2,13 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getRecommended } from "api/mainApi";
 import SectionTitle from "components/common/SectionTitle";
 import SwiperCarousel from "components/main/common/SwiperCarousel";
-
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Autoplay } from "swiper";
 import { SwiperSlide } from "swiper/react";
 import BestThemePoster from "../BestTheme/BestThemePoster";
-import RecommendedThemePoster from "./RecommendedThemePoster";
+
 interface IRecommendedThemeData {
   id: number;
   themeImgUrl: string;

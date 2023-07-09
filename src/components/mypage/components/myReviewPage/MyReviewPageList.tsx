@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMyReviews } from "api/myAccount";
-import { myReviewPages } from "api/store";
-import React, { useState } from "react";
 import Pagination from "react-js-pagination";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import MyReviewPageItem from "./MyReviewPageItem";
 import nextgray from "../../../../asset/next-gray.png";
@@ -40,7 +37,6 @@ export default function MyReviewPageList() {
     () => getMyReviews(pageNumber - 1),
     {
       onSuccess: (res) => {
-        console.log(res.content.length);
         if (res.content.length === 0 && pageNumber > 1) {
           navigator("/mypage/reviews/1");
           Swal.fire({

@@ -6,11 +6,13 @@ interface IProgressBarProps {
   children: React.ReactNode;
   num: number;
   maxNum: number;
+  percent?: boolean;
 }
 /**
  * children에 num / maxNum 텍스트로 넣어서 사용
  * @param num 분자에 해당하는 숫자
  * @param maxNum 분모에 해당하는 숫자
+ * @param percent boolean true인 경우 text가 퍼센트로 보임
  * @returns
  */
 
@@ -18,12 +20,13 @@ export default function ProgressBar({
   children,
   num,
   maxNum,
+  percent,
 }: IProgressBarProps) {
   const ratio = Math.floor((num / maxNum) * 100);
   return (
     <Container>
       <Bar ratio={ratio}></Bar>
-      <Text>{children}</Text>
+      <Text>{percent ? ratio + "%" : children}</Text>
     </Container>
   );
 }

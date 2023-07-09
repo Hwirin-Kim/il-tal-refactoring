@@ -9,7 +9,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   function closeModal() {
     props.closeModal();
   }
-  console.log(props.closeModal);
+
   const modalroot = document.getElementById("modal-root");
   return ReactDOM.createPortal(
     <StModal onClick={closeModal}>

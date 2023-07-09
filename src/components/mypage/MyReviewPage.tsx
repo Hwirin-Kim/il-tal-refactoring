@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getMyEscapeCnt } from "api/myAccount";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";

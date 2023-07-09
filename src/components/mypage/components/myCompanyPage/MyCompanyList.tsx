@@ -32,7 +32,6 @@ export default function MyCompanyList() {
       },
     }
   );
-  console.log(data?.pages);
 
   if (isLoading) {
     return null;

@@ -22,7 +22,11 @@ export default function BestUserGridItem({
         <TitleBadgeName>{data.mainBadgeName}</TitleBadgeName>
       </TitleBadge>
       <Nickname>{data.nickname}</Nickname>
-      <ProgressBar num={data.successCnt} maxNum={data.totalPlayCnt}>
+      <ProgressBar
+        percent={true}
+        num={data.successCnt}
+        maxNum={data.totalPlayCnt}
+      >
         {data.successCnt} / {data.totalPlayCnt}
       </ProgressBar>
       <AchievementCounter>{data.successCnt}</AchievementCounter>
