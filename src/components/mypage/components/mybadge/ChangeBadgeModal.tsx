@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { putMainBadge } from "api/myAccount";
 import Modal from "components/modal/Modal";
-import BadgeIcon from "components/mypage/common/BadgeIcon";
-import React from "react";
+import { HiOutlineX } from "react-icons/hi";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 
@@ -47,7 +46,9 @@ export default function ChangeBadgeModal({
   return (
     <Modal closeModal={() => setOpenModal(false)}>
       <Container>
-        <TopMenu>X</TopMenu>
+        <Cancel onClick={() => setOpenModal(false)}>
+          <HiOutlineX />
+        </Cancel>
         <Icon mainBadgeImg={badgeImgUrl} />
         <BadgeName>{badgeName}</BadgeName>
         <BadgeGoal>달성조건 : 성공3회</BadgeGoal>
@@ -99,13 +100,15 @@ const Icon = styled.div<{ mainBadgeImg?: string }>`
     overflow: hidden;
   }
 `;
-const TopMenu = styled.div`
-  width: 100%;
+const Cancel = styled.div`
+  margin-left: auto;
   font-size: 1.3rem;
   color: grey;
-  padding-top: 0.5rem;
-  padding-right: 1rem;
-  text-align: right;
+  cursor: pointer;
+  &:hover {
+    color: var(--color-main);
+    font-weight: bold;
+  }
 `;
 
 const BadgeName = styled.p`
