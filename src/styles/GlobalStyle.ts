@@ -21,6 +21,14 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family:  'Noto Sans KR', sans-serif;
     box-sizing: border-box;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      width:6px;
+    }
+    ::-webkit-scrollbar-thumb {
+    background: rgba(6, 195, 135, 0.7);
+    
+  }
   }
   html {
     --color-main:  #06c387; //main point color
