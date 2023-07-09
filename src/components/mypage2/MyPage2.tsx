@@ -57,6 +57,10 @@ export default function MyPage2() {
     }
   }, [isLogin, navigator, userData.isLoading]);
 
+  const onClickToPage = (url: string, id: number) => {
+    navigator(`/${url}/${id}`);
+  };
+
   if (
     userData.isLoading ||
     myLikeThemes.isLoading ||
@@ -99,6 +103,7 @@ export default function MyPage2() {
           return (
             <SwiperSlide key={data.id}>
               <MyLikeItem
+                onClick={() => onClickToPage("theme", data.id)}
                 img={data.themeImgUrl}
                 topText={data.themeName}
                 bottomText={data.companyName}
@@ -117,6 +122,7 @@ export default function MyPage2() {
           return (
             <SwiperSlide key={data.id}>
               <MyLikeItem
+                onClick={() => onClickToPage("company", data.id)}
                 img={data.companyImgUrl}
                 topText={data.companyName}
                 bottomText={data.location}

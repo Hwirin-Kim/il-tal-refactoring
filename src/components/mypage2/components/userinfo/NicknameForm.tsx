@@ -66,10 +66,7 @@ export default function NicknameForm({
   console.log(nameInput);
   return (
     <Container onSubmit={onSubmit}>
-      <InputForm
-        placeholder="변경할 닉네임 입력"
-        onChange={onChangeNicknameInput}
-      />
+      <InputForm placeholder="변경할 닉네임" onChange={onChangeNicknameInput} />
       <Button type="submit">완료</Button>
       <Button type="button" onClick={() => setIsEditModeOn(false)}>
         취소
@@ -88,13 +85,14 @@ const InputForm = styled.input`
   border: none;
   background-color: transparent;
   /* border-bottom: 1px solid var(--color-border); */
-
+  width: 90px;
   outline: none;
   color: white;
   &::placeholder {
     color: rgba(255, 255, 255, 0.9);
   }
   @media ${devices.md} {
+    width: 130px;
     color: black;
     font-size: 1.2rem;
     &::placeholder {
@@ -107,7 +105,8 @@ const Button = styled.button`
   border: none;
   border-radius: 0.5rem;
   background-color: var(--color-grey-btn);
-  padding: 2px 1rem;
+  font-size: 0.8rem;
+  padding: 2px 0.5rem;
   margin: 0 0.5rem;
   &:hover {
     background-color: var(--color-main);

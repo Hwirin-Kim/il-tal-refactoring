@@ -6,15 +6,19 @@ interface MyLikeThemeProps {
   img: string;
   topText: string;
   bottomText: string;
+
+  onClick: () => void;
 }
 
 export default function MyLikeItem({
   img,
   topText,
   bottomText,
+
+  onClick,
 }: MyLikeThemeProps) {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <BGImg src={img} />
       <TextWrapper>
         <TopText>{topText}</TopText>
@@ -29,6 +33,12 @@ const Container = styled.div`
   width: 115px;
   height: 100px;
   position: relative;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  &:hover {
+    box-shadow: 0 0 5px 3px rgba(6, 195, 135, 0.505);
+  }
 
   @media ${devices.md} {
     width: 200px;

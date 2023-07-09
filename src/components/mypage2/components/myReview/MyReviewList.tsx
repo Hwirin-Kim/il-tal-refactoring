@@ -53,7 +53,6 @@ export default function MyReviewList() {
             spaceBetween={40}
             breakpoints={{
               650: { slidesPerView: 4 },
-              768: { slidesPerView: 5 },
             }}
           >
             {myReviews.data.map((data: IMyReviewData, index: number) => {
