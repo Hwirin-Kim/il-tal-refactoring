@@ -1,9 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { putMainBadge } from "api/myAccount";
-
+import { useState } from "react";
 import styled from "styled-components";
 import { devices } from "styles/devices";
-import Swal from "sweetalert2";
+import ChangeBadgeModal from "./ChangeBadgeModal";
 import { IBadgeData } from "./MyBadgeList";
 
 interface IMyBadgeProps {
@@ -12,28 +10,27 @@ interface IMyBadgeProps {
 }
 
 export default function MyBadge({ data }: IMyBadgeProps) {
-  const queryClient = useQueryClient();
-
-  const changeBadgeMutation = useMutation(
-    (id: number) => putMainBadge({ badgeId: id }),
-    {
-      onSuccess: () => {
-        Swal.fire({
-          icon: "success",
-          title: "칭호가 변경되었습니다.",
-          showConfirmButton: true,
-          timer: 800,
-        });
-        queryClient.invalidateQueries(["getMyPage"]);
-      },
-    }
-  );
+  const [openModal, setOpenModal] = useState(false);
 
   const onClickBadge = () => {
-    changeBadgeMutation.mutate(data.id);
+    setOpenModal(true);
   };
 
-  return <BadgeImg src={data.badgeImgUrl} onClick={onClickBadge} />;
+  return (
+    <>
+      <BadgeImg src={data.badgeImgUrl} onClick={onClickBadge} />
+      {openModal && (
+        <ChangeBadgeModal
+          id={data.id}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          badgeExplain={data.badgeExplain}
+          badgeName={data.badgeName}
+          badgeImgUrl={data.badgeImgUrl}
+        />
+      )}
+    </>
+  );
 }
 
 const BadgeImg = styled.img`

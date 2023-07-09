@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = (props) => {
 export default Modal;
 
 const StModal = styled.div`
-  z-index: 999;
+  z-index: 100;
   position: fixed;
   top: 0;
   left: 0;
