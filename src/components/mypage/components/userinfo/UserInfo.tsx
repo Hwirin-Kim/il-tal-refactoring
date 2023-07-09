@@ -1,5 +1,5 @@
 import ProgressBar from "components/common/ProgressBar";
-import BadgeIcon from "components/mypage2/common/BadgeIcon";
+import BadgeIcon from "components/mypage/common/BadgeIcon";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { devices } from "styles/devices";

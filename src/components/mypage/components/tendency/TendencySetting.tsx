@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editTendency, postTendency } from "api/myAccount";
-import { stringParsing } from "components/mypage2/utils/stringParsing";
+import { stringParsing } from "components/mypage/utils/stringParsing";
 import CategoryBtn from "components/theme/CategoryBtn";
 import React, { useState } from "react";
 import styled from "styled-components";

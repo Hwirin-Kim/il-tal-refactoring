@@ -11,10 +11,10 @@ import KakaoLogin from "../components/modal/KakaoLogin";
 import SearchPage from "../page/SearchPage";
 import ScrollOnTop from "../utils/ScrollOnTop";
 import BestTheme from "components/main/component/BestTheme/BestTheme";
-import MyPage2 from "components/mypage2/MyPage2";
-import MyReviewPage from "components/mypage2/MyReviewPage";
-import MyThemePage from "components/mypage2/MyThemePage";
-import MyCompanyPage from "components/mypage2/MyCompanyPage";
+import MyPage2 from "page/MyPage";
+import MyReviewPage from "components/mypage/MyReviewPage";
+import MyThemePage from "components/mypage/MyThemePage";
+import MyCompanyPage from "components/mypage/MyCompanyPage";
 
 const Router = () => {
   return (
@@ -23,7 +23,7 @@ const Router = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/mypage" element={<MyPage2 />} />
+          <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/reviews/:page" element={<MyReviewPage />} />
           <Route path="/mypage/themes" element={<MyThemePage />} />
           <Route path="/mypage/companies" element={<MyCompanyPage />} />
@@ -33,7 +33,6 @@ const Router = () => {
           <Route path="/company" element={<CompanyPage />} />
           <Route path="/company/:id" element={<DetailCompanyPage />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/myaccount" element={<MyPage />} />
           <Route path="/test" element={<BestTheme />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />

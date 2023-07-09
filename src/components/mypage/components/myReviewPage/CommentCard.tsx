@@ -8,13 +8,13 @@ import {
 } from "react-icons/ai";
 import SelectBoxBtn from "./SelectBoxBtn";
 
-import selectIndex from "components/mypage2/components/myReviewPage/selectIndex";
+import selectIndex from "components/mypage/components/myReviewPage/selectIndex";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { delComment, putComment } from "api/ThemeApi";
-import { getTodayDate } from "components/mypage2/utils/getTodayDate";
+import { getTodayDate } from "components/mypage/utils/getTodayDate";
 import Swal from "sweetalert2";
-import { getDifficultyName } from "components/mypage2/utils/getDifficultyName";
-import { showWarning } from "components/mypage2/utils/showWarning";
+import { getDifficultyName } from "components/mypage/utils/getDifficultyName";
+import { showWarning } from "components/mypage/utils/showWarning";
 import { messages } from "./warningMessages";
 import { devices } from "styles/devices";
 
