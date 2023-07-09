@@ -47,15 +47,20 @@ export default function WebUserInfo({
       <UserReport>
         <RowText>
           <ReportItem>ID : </ReportItem>
-          <ReportItem>qwer1234</ReportItem>
+          <ReportItem>
+            {" "}
+            {sessionStorage.getItem("userinfo") === null
+              ? ""
+              : JSON.parse(sessionStorage.getItem("userinfo")!).username}
+          </ReportItem>
         </RowText>
         <RowText>
           <ReportItem>대표뱃지 : </ReportItem>
-          <ReportItem>무릎을 꿇지 않는자</ReportItem>
+          <ReportItem>{mainBadgeName}</ReportItem>
         </RowText>
         <RowText>
           <ReportItem>획득한 뱃지 : </ReportItem>
-          <ReportItem>4개</ReportItem>
+          <ReportItem>{achieveBadgeCnt}개</ReportItem>
         </RowText>
         <RowText>
           <ReportItem>탈출성공률 : </ReportItem>
@@ -98,7 +103,7 @@ const TopSecretText = styled.div`
 const UserReport = styled.div``;
 
 const RowText = styled.p`
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
 `;
 
 const ReportItem = styled.span`
@@ -107,7 +112,8 @@ const ReportItem = styled.span`
 `;
 
 const WebNickNameWrap = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+
   display: flex;
 `;
 const SettingButton = styled.img`

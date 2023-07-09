@@ -13,6 +13,7 @@ import MyLikeThemeList from "./common/myLikeList/MyLikeItemList";
 import MyLikeItem from "./common/myLikeList/MyLikeItem";
 import { devices } from "styles/devices";
 import WebUserInfo from "./components/userinfo/WebUserInfo";
+import { SwiperSlide } from "swiper/react";
 
 export interface ILikeThemeData {
   companyName: string;
@@ -94,30 +95,33 @@ export default function MyPage2() {
         sectionTitle="내가 찜한 테마"
         url="/mypage/themes"
       >
-        {myLikeThemes.data.slice(0, 3).map((data: ILikeThemeData) => {
+        {myLikeThemes.data.map((data: ILikeThemeData) => {
           return (
-            <MyLikeItem
-              key={data.id}
-              img={data.themeImgUrl}
-              topText={data.themeName}
-              bottomText={data.companyName}
-            />
+            <SwiperSlide key={data.id}>
+              <MyLikeItem
+                img={data.themeImgUrl}
+                topText={data.themeName}
+                bottomText={data.companyName}
+              />
+            </SwiperSlide>
           );
         })}
       </MyLikeThemeList>
+
       <MyLikeThemeList
         length={myLikeCompanies.data.length}
         sectionTitle="내가 찜한 업체"
         url="/mypage/companies"
       >
-        {myLikeCompanies.data.slice(0, 3).map((data: ILikeCompanyData) => {
+        {myLikeCompanies.data.map((data: ILikeCompanyData) => {
           return (
-            <MyLikeItem
-              key={data.id}
-              img={data.companyImgUrl}
-              topText={data.companyName}
-              bottomText={data.location}
-            />
+            <SwiperSlide key={data.id}>
+              <MyLikeItem
+                img={data.companyImgUrl}
+                topText={data.companyName}
+                bottomText={data.location}
+              />
+            </SwiperSlide>
           );
         })}
       </MyLikeThemeList>

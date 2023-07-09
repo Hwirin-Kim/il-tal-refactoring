@@ -1,7 +1,9 @@
 import SectionTitle from "components/common/SectionTitle";
+import SwiperCarousel from "components/main/common/SwiperCarousel";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { SwiperSlide } from "swiper/react";
 
 interface MyLikeListProps {
   children: React.ReactNode;
@@ -30,11 +32,24 @@ export default function MyLikeList({
         <SectionTitle>{sectionTitle}</SectionTitle>
         <MorePages onClick={onClickToPage}>more {">"}</MorePages>
       </TopWrapper>
-      {length === 0 ? (
-        <NoDataText>{noData}</NoDataText>
-      ) : (
-        <ItemList>{children}</ItemList>
-      )}
+      <SliderSection>
+        {length === 0 ? (
+          <NoDataText>{noData}</NoDataText>
+        ) : (
+          <SwiperCarousel
+            slidePerView={3}
+            loop={false}
+            pagination={false}
+            slidesPerGroup={1}
+            spaceBetween={8}
+            breakpoints={{
+              650: { slidesPerView: 4 },
+            }}
+          >
+            {children}
+          </SwiperCarousel>
+        )}
+      </SliderSection>
     </Container>
   );
 }
@@ -60,4 +75,9 @@ const NoDataText = styled.div`
 
 const ItemList = styled.div`
   display: flex;
+`;
+
+const SliderSection = styled.div`
+  width: 100%;
+  overflow: hidden;
 `;

@@ -27,6 +27,9 @@ const Container = styled.div`
   width: 7rem;
   margin: 0 0.5rem;
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 `;
 
 const ThemeName = styled.p`

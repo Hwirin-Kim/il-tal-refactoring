@@ -116,10 +116,10 @@ const Button = styled.button`
   @media ${devices.md} {
     color: black;
     font-size: 1rem;
-    padding: 0.2rem 0.7rem;
+    padding: 0.2rem 0.5rem;
   }
   @media ${devices.lg} {
-    font-size: 1.1rem;
-    padding: 0.2rem 1.3rem;
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
   }
 `;
