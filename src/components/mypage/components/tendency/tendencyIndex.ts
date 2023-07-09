@@ -1,4 +1,4 @@
-const Tendency = {
+export const tendencyIndex = {
   GenreTend: [
     {
       name: "SF/판타지",
@@ -48,20 +48,19 @@ const Tendency = {
       value: "드라마,감성",
     },
   ],
-  questTend: [
-    {
-      name: "추리형",
-      value: "추리형",
-    },
-    {
-      name: "관찰형",
-      value: "관찰형",
-    },
-    {
-      name: "넌센스",
-      value: "넌센스",
-    },
-  ],
+  // 잠시 사용하지 않음
+  // questTend: [
+  //   {
+  //     name: "추리형",
+  //     value: "추리형",
+  //   },
+  //   {
+  //     name: "관찰형",
+  //     value: "관찰형",
+  //   },
+  //   {
+  //     name: "넌센스",
+  //     value: "넌센스",
+  //   },
+  // ],
 };
-
-export default Tendency;

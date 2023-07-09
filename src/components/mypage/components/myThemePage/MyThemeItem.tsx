@@ -6,6 +6,9 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 import { ThemeDataType } from "./MyThemeList";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
+import { devices } from "styles/devices";
+import lock from "../../../../asset/lock.png";
+import { useNavigate } from "react-router-dom";
 
 interface MyThemeItemProps {
   data: ThemeDataType;
@@ -14,6 +17,7 @@ interface MyThemeItemProps {
 export default function MyThemeItem({ data }: MyThemeItemProps) {
   const { isLogin } = useLoginCheck();
   const queryClient = useQueryClient();
+  const navigator = useNavigate();
   const themeLike = useMutation((themeId: number) => wishTheme({ themeId }), {
     onMutate: async (themeId) => {
       // Optimistic update: 로컬 데이터를 미리 업데이트
@@ -58,9 +62,14 @@ export default function MyThemeItem({ data }: MyThemeItemProps) {
       });
     }
   };
+
+  const onClickToPage = () => {
+    navigator(`/theme/${data.id}`);
+  };
+
   return (
     <Container>
-      <Poster src={data.themeImgUrl} />
+      <Poster src={data.themeImgUrl} onClick={onClickToPage} />
       <ThemeInfoTextWrapper>
         <CompanyLikeWrapper>
           <Company>{data.companyName}</Company>
@@ -68,15 +77,19 @@ export default function MyThemeItem({ data }: MyThemeItemProps) {
             {data.themeLikeCheck ? <BsSuitHeartFill /> : <BsSuitHeart />}
           </Like>
         </CompanyLikeWrapper>
-        <ThemeName>{data.themeName}</ThemeName>
-        <Price>₩ {data.price}</Price>
+        <BoldText onClick={onClickToPage}>{data.themeName}</BoldText>
+        <Genre>{data.genre}</Genre>
+        <BoldText onClick={onClickToPage}>₩ {data.price}</BoldText>
         <InfoWrapper>
-          <Difficulty>★★★{data.difficulty}</Difficulty> |{" "}
-          <RunningTime>{data.playTime}분</RunningTime> |{" "}
-          <Genre>{data.genre}</Genre> |{" "}
-          <Score>
+          <InfoItem>
+            {[...Array(Math.round(data.difficulty))].map((_, index) => {
+              return <LockImg src={lock} alt="difficulty" key={index} />;
+            })}
+          </InfoItem>{" "}
+          | <InfoItem>{data.playTime}분</InfoItem> |{" "}
+          <InfoItem>
             ★{data.themeScore} ({data.reviewCnt})
-          </Score>
+          </InfoItem>
         </InfoWrapper>
         <ReservationWrapper>
           {data.reservationDay1[0] === "" ? (
@@ -98,6 +111,13 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  @media ${devices.md} {
+    border: 1px solid var(--color-main);
+    font-size: 1.3rem;
+    box-sizing: border-box;
+    padding-right: 0.5rem;
+  }
 `;
 
 const Poster = styled.img`
@@ -106,6 +126,12 @@ const Poster = styled.img`
   background-color: grey;
   border-radius: 0.5rem;
   flex-shrink: 0;
+  cursor: pointer;
+
+  @media ${devices.md} {
+    width: 10rem;
+    height: 13rem;
+  }
 `;
 
 const ThemeInfoTextWrapper = styled.div`
@@ -118,10 +144,14 @@ const CompanyLikeWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  @media ${devices.md} {
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Company = styled.span`
-  font-size: 0.62rem;
+  font-size: 0.62em;
   font-weight: 300;
 `;
 const Like = styled.span`
@@ -129,38 +159,28 @@ const Like = styled.span`
   cursor: pointer;
 `;
 
-const ThemeName = styled.p`
-  font-size: 0.8rem;
+const BoldText = styled.p`
+  font-size: 0.8em;
   font-weight: bold;
+  cursor: pointer;
+
+  @media ${devices.md} {
+    margin-bottom: 0.5rem;
+  }
 `;
 
-const Price = styled.p`
-  font-size: 0.8rem;
-  font-weight: bold;
-`;
-
-const InfoWrapper = styled.div`
-  font-size: 0.62rem;
+const Genre = styled.p`
+  font-size: 0.62em;
   font-weight: 300;
+  @media ${devices.md} {
+    margin-bottom: 0.5rem;
+  }
 `;
 
-const Difficulty = styled.span`
-  font-size: 0.62rem;
-  font-weight: 300;
-`;
+const InfoWrapper = styled.div``;
 
-const RunningTime = styled.span`
-  font-size: 0.62rem;
-  font-weight: 300;
-`;
-
-const Genre = styled.span`
-  font-size: 0.62rem;
-  font-weight: 300;
-`;
-
-const Score = styled.span`
-  font-size: 0.62rem;
+const InfoItem = styled.span`
+  font-size: 0.62em;
   font-weight: 300;
 `;
 
@@ -168,17 +188,32 @@ const ReservationWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  @media ${devices.md} {
+    margin-top: 0.5rem;
+  }
 `;
 
 const ReservationTimeButton = styled.span`
   margin: 0.1rem 0.2rem;
   padding: 0.1rem;
-  font-size: 0.7rem;
+  font-size: 0.7em;
   border-radius: 0.4rem;
   border: 1px solid var(--color-grey-btn);
+  @media ${devices.md} {
+    padding: 0.1rem 0.2rem;
+  }
 `;
 
 const NoReservation = styled.p`
-  font-size: 0.8rem;
+  font-size: 0.8em;
   margin-top: 0.3rem;
+`;
+
+const LockImg = styled.img`
+  width: 0.6rem;
+  height: 0.6rem;
+  @media ${devices.md} {
+    width: 1rem;
+    height: 1rem;
+  }
 `;

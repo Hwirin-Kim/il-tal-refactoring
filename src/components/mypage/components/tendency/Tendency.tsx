@@ -1,5 +1,5 @@
 import SectionTitle from "components/common/SectionTitle";
-import { stringParsing } from "components/mypage2/utils/stringParsing";
+import { stringParsing } from "components/mypage/utils/stringParsing";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { devices } from "styles/devices";

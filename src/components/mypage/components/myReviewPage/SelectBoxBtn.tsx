@@ -1,4 +1,4 @@
-import selectIndex2 from "components/mypage2/components/myReviewPage/selectIndex";
+import selectIndex2 from "components/mypage/components/myReviewPage/selectIndex";
 import React from "react";
 import styled from "styled-components";
 

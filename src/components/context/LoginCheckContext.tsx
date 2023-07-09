@@ -25,6 +25,7 @@ export const LoginCheckProvider: React.FC<LoginCheckProviderProps> = ({
       setIsLogin(false);
     }
   }, [isLogin]);
+
   return (
     <LoginCheckContext.Provider value={{ isLogin, setIsLogin }}>
       {children}

@@ -2,6 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getMyEscapeCnt } from "api/myAccount";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import MyReviewPageList from "./components/myReviewPage/MyReviewPageList";
 
 export default function MyReviewPage() {
@@ -39,27 +40,40 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 0.8rem;
+  margin-bottom: 3rem;
 `;
 
 const PageTitle = styled.div`
   margin-top: 0.5rem;
   font-size: 1.3rem;
   font-weight: bold;
+  @media ${devices.md} {
+    font-size: 1.5rem;
+  }
 `;
 
 const InfoWrapper = styled.div`
   margin-top: 0.5rem;
   margin-bottom: 3rem;
+  @media ${devices.md} {
+    margin-top: 1rem;
+  }
 `;
 
 const TotalText = styled.span`
   font-size: 0.8rem;
   font-weight: bold;
   margin-right: 0.5rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
 `;
 
 const SuccessFailCnt = styled.span`
   font-size: 0.7rem;
   color: grey;
   margin-right: 0.5rem;
+  @media ${devices.md} {
+    font-size: 0.9rem;
+  }
 `;

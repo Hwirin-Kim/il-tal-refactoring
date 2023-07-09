@@ -1,13 +1,13 @@
 import ScrollToTop from "components/common/ScrollToTop";
 import React from "react";
 import styled from "styled-components";
-import MyCompanyList from "./components/myCompanyPage/MyCompanyList";
+import MyThemeList from "./components/myThemePage/MyThemeList";
 
-export default function MyCompanyPage() {
+export default function MyThemePage() {
   return (
     <Container>
-      <PageTitle>내가 찜한 업체</PageTitle>
-      <MyCompanyList />
+      <PageTitle>내가 찜한 테마</PageTitle>
+      <MyThemeList />
       <ScrollToTop />
     </Container>
   );
@@ -16,6 +16,7 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 0.8rem;
+  margin-bottom: 3rem;
 `;
 
 const PageTitle = styled.div`

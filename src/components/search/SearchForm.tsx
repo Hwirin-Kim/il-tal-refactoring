@@ -39,7 +39,9 @@ const SearchForm = () => {
         onKeyPress={onKeyPressHandler}
       />
 
-      <BsSearch size="15" onClick={onSubmitHandler} />
+      <SearchBtn>
+        <BsSearch onClick={onSubmitHandler} />
+      </SearchBtn>
     </Container>
   );
 };
@@ -77,4 +79,9 @@ const Input = styled.input`
   @media ${devices.lg} {
     font-size: 1.5rem;
   }
+`;
+
+const SearchBtn = styled.span`
+  font-size: 1.1rem;
+  margin-right: 0.4rem;
 `;

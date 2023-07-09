@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MenuButton from "../common/MenuButton";
 import logo from "../../../asset/HeaderLogo.png";
-import useRouteOnClick from "hooks/useRouteOnClick";
 import { useNavigate } from "react-router-dom";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import LoginRegisterForm from "../../modal/LoginRegisterForm";
@@ -20,9 +19,7 @@ export default function BottomMenuBar() {
       <MenuButton onClick={() => navigator("/company")}>업체별</MenuButton>
       <MenuButton onClick={() => navigator("/theme")}>테마별</MenuButton>
       {isLogin ? (
-        <MenuButton onClick={() => navigator("/myaccount")}>
-          마이페이지
-        </MenuButton>
+        <MenuButton onClick={() => navigator("/mypage")}>마이페이지</MenuButton>
       ) : (
         <MenuButton onClick={() => setLoginModal(true)}>로그인</MenuButton>
       )}
