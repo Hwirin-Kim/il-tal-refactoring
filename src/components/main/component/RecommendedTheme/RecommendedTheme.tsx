@@ -37,7 +37,14 @@ export default function RecommendedTheme() {
     <Container>
       <SectionTitle>이런 테마는 어떠세요?</SectionTitle>
       <RecommendedThemeCarouselSection>
-        <SwiperCarousel slidePerView={2}>
+        <SwiperCarousel
+          slidePerView={2}
+          loop={true}
+          pagination={true}
+          slidesPerGroup={2}
+          spaceBetween={10}
+          breakpoints={{ 650: { slidesPerView: 4 } }}
+        >
           {recommended.data.map((item: IRecommendedThemeData) => {
             return (
               <SwiperSlide key={item.id}>

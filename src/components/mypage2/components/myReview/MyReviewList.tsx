@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMyReview } from "api/myAccount";
 import SectionTitle from "components/common/SectionTitle";
+import SwiperCarousel from "components/main/common/SwiperCarousel";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Swiper from "swiper";
+import { SwiperSlide } from "swiper/react";
 import MyReview from "./MyReview";
 
 export interface IMyReviewData {
@@ -38,18 +41,30 @@ export default function MyReviewList() {
         <SectionTitle>내가 남긴 리뷰</SectionTitle>
         <MorePages onClick={onClickToReview}>more {">"}</MorePages>
       </TopWrapper>
-
-      {myReviews.data.length === 0 ? (
-        <NoReview>{noReview}</NoReview>
-      ) : (
-        <Reviews>
-          {myReviews.data
-            .slice(0, 3)
-            .map((data: IMyReviewData, index: number) => {
-              return <MyReview key={index} data={data} />;
+      <SliderSection>
+        {myReviews.data.length === 0 ? (
+          <NoReview>{noReview}</NoReview>
+        ) : (
+          <SwiperCarousel
+            slidePerView={3}
+            loop={false}
+            pagination={false}
+            slidesPerGroup={1}
+            spaceBetween={40}
+            breakpoints={{
+              650: { slidesPerView: 4 },
+            }}
+          >
+            {myReviews.data.map((data: IMyReviewData, index: number) => {
+              return (
+                <SwiperSlide key={index}>
+                  <MyReview data={data} />
+                </SwiperSlide>
+              );
             })}
-        </Reviews>
-      )}
+          </SwiperCarousel>
+        )}
+      </SliderSection>
     </Container>
   );
 }
@@ -76,8 +91,7 @@ const NoReview = styled.div`
   align-items: center;
 `;
 
-const Reviews = styled.div`
+const SliderSection = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  overflow: hidden;
 `;

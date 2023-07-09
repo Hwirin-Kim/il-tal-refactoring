@@ -148,9 +148,10 @@ export default function TendencySetting({
         />
       </BtnWrapper>
       <SetSliderWrapper>
-        {sliderIndex.map((data) => {
+        {sliderIndex.map((data, index) => {
           return (
             <SetSlider
+              key={index}
               data={data}
               onChange={(e) => handleSliderChange(data.state, e)}
               value={sliderValueChange(data.state)}

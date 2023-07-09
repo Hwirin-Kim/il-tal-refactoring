@@ -38,7 +38,14 @@ export default function BestTheme() {
     <Container>
       <SectionTitle>인기 테마</SectionTitle>
       <BestThemeCarouselSection>
-        <SwiperCarousel slidePerView={2}>
+        <SwiperCarousel
+          slidePerView={2}
+          loop={false}
+          pagination={true}
+          slidesPerGroup={2}
+          spaceBetween={10}
+          breakpoints={{ 650: { slidesPerView: 4 } }}
+        >
           {best.data.map((item: IBestThemeData, index: number) => {
             return (
               <SwiperSlide>
@@ -48,11 +55,6 @@ export default function BestTheme() {
           })}
         </SwiperCarousel>
       </BestThemeCarouselSection>
-      {/* <BestThemeListSection>
-        {best.data.map((item: IBestThemeData, index: number) => {
-          return <BestThemePoster key={item.id} data={item} rank={index + 1} />;
-        })}
-      </BestThemeListSection> */}
     </Container>
   );
 }
@@ -70,15 +72,4 @@ const BestThemeCarouselSection = styled.div`
   /* @media (min-width: 650px) {
     display: none;
   } */
-`;
-
-const BestThemeListSection = styled.div`
-  display: none;
-  @media (min-width: 650px) {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
 `;
