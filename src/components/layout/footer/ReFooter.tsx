@@ -24,7 +24,7 @@ const Container = styled.footer`
   z-index: 1;
   width: 100%;
   margin-top: 2rem;
-  height: 50px;
+  height: 55px;
   border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: center;
