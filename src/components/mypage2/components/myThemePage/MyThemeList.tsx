@@ -2,6 +2,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getMyThemes } from "api/myAccount";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
+import styled from "styled-components";
+import { devices } from "styles/devices";
 import MyThemeItem from "./MyThemeItem";
 
 export interface ThemeDataType {
@@ -36,19 +38,31 @@ export default function MyThemeList() {
       }
     );
 
-  console.log(data?.pages);
   if (isLoading === true || data === undefined || data.pages === undefined) {
     return null;
   }
   return (
-    <div>
+    <Container>
       <InfiniteScroll hasMore={hasNextPage} loadMore={() => fetchNextPage()}>
-        {data?.pages.map((page) => {
-          return page.content.map((theme: ThemeDataType) => {
-            return <MyThemeItem key={theme.id} data={theme} />;
-          });
-        })}
+        <ListWrapper>
+          {data?.pages.map((page) => {
+            return page.content.map((theme: ThemeDataType) => {
+              return <MyThemeItem key={theme.id} data={theme} />;
+            });
+          })}
+        </ListWrapper>
       </InfiniteScroll>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div``;
+
+const ListWrapper = styled.div`
+  @media ${devices.md} {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.5rem;
+  }
+`;

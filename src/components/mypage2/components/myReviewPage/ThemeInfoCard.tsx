@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 
 interface ThemeInfoCardProps {
   themeImgUrl: string;
@@ -45,13 +46,25 @@ export default function ThemeInfoCard({
 const ThemeInfoWrapper = styled.div`
   display: flex;
   margin-bottom: 1rem;
+  @media ${devices.md} {
+    display: flex;
+    width: 15rem;
+    margin-bottom: 0;
+    margin-right: 2rem;
+  }
 `;
 
 const ThemePoster = styled.img`
   width: 4.5rem;
   height: 6.5rem;
   border-radius: 0.5rem;
+  object-fit: cover;
+  margin: auto 0;
   cursor: pointer;
+  @media ${devices.md} {
+    width: 5.5rem;
+    height: 7rem;
+  }
 `;
 
 const ThemeInfo = styled.div`

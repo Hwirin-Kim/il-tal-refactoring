@@ -45,7 +45,7 @@ export default function MyPage2() {
 
   const navigator = useNavigate();
   const { isLogin } = useLoginCheck();
-  console.log(userData.data);
+
   useEffect(() => {
     if (!isLogin && !userData.isLoading) {
       navigator("/");
@@ -139,7 +139,7 @@ const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 0 0.8rem;
-  margin-bottom: 100px;
+  margin-bottom: 5rem;
 `;
 
 const UserInfoTendencyWrapper = styled.div`

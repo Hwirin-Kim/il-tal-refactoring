@@ -23,7 +23,7 @@ const Router = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/1" element={<MyPage2 />} />
+          <Route path="/mypage" element={<MyPage2 />} />
           <Route path="/mypage/reviews/:page" element={<MyReviewPage />} />
           <Route path="/mypage/themes" element={<MyThemePage />} />
           <Route path="/mypage/companies" element={<MyCompanyPage />} />

@@ -16,6 +16,7 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 0.8rem;
+  margin-bottom: 3rem;
 `;
 
 const PageTitle = styled.div`

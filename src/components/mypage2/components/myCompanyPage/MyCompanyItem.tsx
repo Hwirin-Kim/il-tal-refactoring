@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { CompanyDataType } from "./MyCompanyList";
-import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
+import { BsSuitHeartFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { companyWish } from "api";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import Swal from "sweetalert2";
+import { devices } from "styles/devices";
+import { useNavigate } from "react-router-dom";
 
 interface MyCompanyItemProps {
   data: CompanyDataType;
@@ -14,6 +16,7 @@ interface MyCompanyItemProps {
 export default function MyCompanyItem({ data }: MyCompanyItemProps) {
   const { isLogin } = useLoginCheck();
   const queryClient = useQueryClient();
+  const navigator = useNavigate();
   const companyLike = useMutation(
     (companyId: number) => companyWish(companyId),
     {
@@ -54,12 +57,16 @@ export default function MyCompanyItem({ data }: MyCompanyItemProps) {
     }
   };
 
+  const onClickToPage = () => {
+    navigator(`/company/${data.id}`);
+  };
+
   return (
     <Container>
-      <Poster src={data.companyImgUrl} />
+      <Poster src={data.companyImgUrl} onClick={onClickToPage} />
       <CompanyInfoTextWrapper>
         <CompanyLikeWrapper>
-          <CompanyName>{data.companyName}</CompanyName>
+          <CompanyName onClick={onClickToPage}>{data.companyName}</CompanyName>
           <Like onClick={companyLikeOnlyMember}>
             <BsSuitHeartFill />
           </Like>
@@ -77,7 +84,8 @@ export default function MyCompanyItem({ data }: MyCompanyItemProps) {
         </InfoWrapper>
 
         <Score>
-          ★{data.companyScore} ({data.totalReviewCnt})
+          <Star>★</Star>
+          {data.companyScore} ({data.totalReviewCnt})
         </Score>
       </CompanyInfoTextWrapper>
     </Container>
@@ -88,6 +96,13 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  @media ${devices.md} {
+    border: 1px solid var(--color-main);
+    font-size: 1.3rem;
+    box-sizing: border-box;
+    padding-right: 0.5rem;
+  }
 `;
 
 const Poster = styled.img`
@@ -96,6 +111,11 @@ const Poster = styled.img`
   background-color: grey;
   border-radius: 0.5rem;
   flex-shrink: 0;
+  cursor: pointer;
+  @media ${devices.md} {
+    width: 10rem;
+    height: 13rem;
+  }
 `;
 
 const CompanyInfoTextWrapper = styled.div`
@@ -108,11 +128,19 @@ const CompanyLikeWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  @media ${devices.md} {
+    margin-top: 0.5rem;
+  }
 `;
 
 const CompanyName = styled.span`
   font-size: 0.8rem;
   font-weight: bold;
+  cursor: pointer;
+  @media ${devices.md} {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Like = styled.span`
@@ -123,23 +151,38 @@ const Like = styled.span`
 const Address = styled.p`
   font-size: 0.7rem;
   font-weight: 300;
+  @media ${devices.md} {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const InfoWrapper = styled.div`
   width: 100%;
+  @media ${devices.md} {
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const ThemeName = styled.span`
   font-size: 0.8rem;
-`;
-
-const ThemeSeparator = styled.span`
-  ::before {
-    content: " | ";
+  @media ${devices.md} {
+    font-size: 0.9rem;
   }
 `;
 
 const Score = styled.span`
   font-size: 0.62rem;
   font-weight: 300;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
+`;
+
+const Star = styled.span`
+  font-size: 0.62rem;
+  color: var(--color-main);
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
 `;

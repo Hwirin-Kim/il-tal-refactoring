@@ -68,9 +68,9 @@ export default function NicknameForm({
     <Container onSubmit={onSubmit}>
       <InputForm placeholder="변경할 닉네임" onChange={onChangeNicknameInput} />
       <Button type="submit">완료</Button>
-      <Button type="button" onClick={() => setIsEditModeOn(false)}>
+      {/* <Button type="button" onClick={() => setIsEditModeOn(false)}>
         취소
-      </Button>
+      </Button> */}
     </Container>
   );
 }

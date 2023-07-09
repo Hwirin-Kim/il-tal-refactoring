@@ -1,7 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+
 import { getMyCompanies } from "api/myAccount";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
+import styled from "styled-components";
+import { devices } from "styles/devices";
 import MyCompanyItem from "./MyCompanyItem";
 
 export interface CompanyDataType {
@@ -37,11 +40,23 @@ export default function MyCompanyList() {
 
   return (
     <InfiniteScroll hasMore={hasNextPage} loadMore={() => fetchNextPage()}>
-      {data?.pages.map((page) => {
-        return page.content.map((company: CompanyDataType) => {
-          return <MyCompanyItem key={company.id} data={company} />;
-        });
-      })}
+      <ListWrapper>
+        {" "}
+        {data?.pages.map((page) => {
+          return page.content.map((company: CompanyDataType) => {
+            return <MyCompanyItem key={company.id} data={company} />;
+          });
+        })}
+      </ListWrapper>
     </InfiniteScroll>
   );
 }
+
+const ListWrapper = styled.div`
+  @media ${devices.md} {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.5rem;
+  }
+`;

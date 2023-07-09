@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import { getDifficultyName } from "components/mypage2/utils/getDifficultyName";
 import { showWarning } from "components/mypage2/utils/showWarning";
 import { messages } from "./warningMessages";
+import { devices } from "styles/devices";
 
 export interface CommentCardProps {
   success: string;
@@ -217,7 +218,11 @@ export default function CommentCard({
   );
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  @media ${devices.md} {
+    flex: 1;
+  }
+`;
 
 const TopWrapper = styled.div`
   display: flex;

@@ -139,14 +139,14 @@ export default function TendencySetting({
           setState={setGenre}
         />
       </BtnWrapper>
-      <BtnWrapper>
+      {/* <BtnWrapper>
         <CategoryBtn
           fontSize="0.8rem"
           categoryIndex={tendencyIndex.questTend}
           state={quest}
           setState={setQuest}
         />
-      </BtnWrapper>
+      </BtnWrapper> */}
       <SetSliderWrapper>
         {sliderIndex.map((data, index) => {
           return (

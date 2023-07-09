@@ -1,15 +1,12 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LoginRegisterForm from "../../modal/LoginRegisterForm";
 import Modal from "../../modal/Modal";
 import { useEffect, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
-import { useRecoilState } from "recoil";
-import { headerClicked } from "../../../api/store";
 import SearchForm from "../../search/SearchForm";
 import logo from "../../../asset/HeaderLogo.png";
 import logoWhite from "../../../asset/kakaoGrey2.png";
-
 import Swal from "sweetalert2";
 import { UserInfoInSessionStorage } from "components/types";
 import MenuButton from "../common/MenuButton";
@@ -93,7 +90,7 @@ const ReHeader = (props: { color?: string }) => {
         <RightButtonWrapper>
           {isLogin ? (
             <>
-              <MenuButton onClick={() => navigator("/myaccount")}>
+              <MenuButton onClick={() => navigator("/mypage")}>
                 마이페이지
               </MenuButton>
               <FiLogOut
