@@ -9,6 +9,7 @@ import nextgreen from "../../../../asset/next-green.png";
 import prevgreen from "../../../../asset/prev-green.png";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { devices } from "styles/devices";
 
 export interface ReviewData {
   comment: string;
@@ -97,12 +98,20 @@ const Container = styled.div`
     align-items: center;
 
     a {
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       text-decoration: none;
       cursor: pointer;
-      margin: 0 0.5rem;
+      margin: 0 0.8rem;
       color: black;
       &:visited {
+      }
+    }
+    img {
+      width: 1.1rem;
+      height: 1.1rem;
+      @media ${devices.md} {
+        width: 1.5rem;
+        height: 1.5rem;
       }
     }
     .active {

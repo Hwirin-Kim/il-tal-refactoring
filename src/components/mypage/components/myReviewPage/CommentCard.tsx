@@ -255,7 +255,7 @@ const MyComment = styled.div`
   /* font-weight: 300; */
   font-size: 0.9rem;
   margin-top: 0.5rem;
-  line-height: 1.1rem;
+  line-height: 1.25rem;
   word-wrap: break-word;
 `;
 

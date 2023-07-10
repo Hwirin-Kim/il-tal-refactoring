@@ -3,6 +3,7 @@ import { getMemberBadges } from "api/myAccount";
 import SectionTitle from "components/common/SectionTitle";
 import React from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import MyBadge from "./MyBadge";
 
 export interface IBadgeData {
@@ -11,6 +12,8 @@ export interface IBadgeData {
   badgeName: string;
   badgeExplain: string;
   badgeGoal: number;
+  badgeSuccessCnt: number;
+  badgeFailCnt: number;
 }
 
 export default function MyBadgeList() {
@@ -31,6 +34,9 @@ export default function MyBadgeList() {
 }
 const Container = styled.section`
   margin-top: 2rem;
+  @media ${devices.md} {
+    margin-top: 3.5rem;
+  }
 `;
 const Wrapper = styled.div`
   margin-left: 1rem;

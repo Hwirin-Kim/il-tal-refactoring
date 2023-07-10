@@ -1,4 +1,5 @@
 import ProgressBar from "components/common/ProgressBar";
+import SectionTitle from "components/common/SectionTitle";
 import BadgeIcon from "components/mypage/common/BadgeIcon";
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -24,6 +25,9 @@ export default function UserInfo({
   const totalBadgeCnt = 10;
   return (
     <Container>
+      <MobileTextWrapper>
+        <SectionTitle>나의 정보</SectionTitle>
+      </MobileTextWrapper>
       <MobileWrap>
         <BadgeIcon mainBadgeImg={mainBadgeImg} />
         <TextWrapper>
@@ -120,6 +124,8 @@ const Container = styled.section`
   width: 100%;
   margin-top: 45px;
   @media ${devices.md} {
+    display: block;
+    margin-top: 0;
     width: 100%;
   }
   @media ${devices.lg} {
@@ -156,6 +162,13 @@ const TextWrapper = styled.div`
     margin-left: 1rem;
     margin-top: auto;
     margin-bottom: 2rem;
+  }
+`;
+
+const MobileTextWrapper = styled.div`
+  display: none;
+  @media ${devices.md} {
+    display: block;
   }
 `;
 
@@ -215,13 +228,7 @@ const SettingButton = styled.img`
 const WebWrap = styled.div`
   display: none;
   @media ${devices.md} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-    padding: 2rem 1rem;
-    border-radius: 1rem;
+    display: block;
   }
 `;
 

@@ -4,6 +4,7 @@ import Modal from "components/modal/Modal";
 import { HiOutlineX } from "react-icons/hi";
 import styled from "styled-components";
 import Swal from "sweetalert2";
+import { badgeRequired } from "./badgeRequierd";
 
 interface ChangeBadgeModalProps {
   setOpenModal: (open: boolean) => void;
@@ -12,6 +13,8 @@ interface ChangeBadgeModalProps {
   id: number;
   badgeName: string;
   badgeExplain: string;
+  badgeFailCnt: number;
+  badgeSuccessCnt: number;
 }
 
 export default function ChangeBadgeModal({
@@ -21,6 +24,8 @@ export default function ChangeBadgeModal({
   badgeName,
   badgeExplain,
   id,
+  badgeFailCnt,
+  badgeSuccessCnt,
 }: ChangeBadgeModalProps) {
   const queryClient = useQueryClient();
 
@@ -43,6 +48,7 @@ export default function ChangeBadgeModal({
     changeBadgeMutation.mutate(id);
   };
 
+  const goalText = badgeRequired(badgeSuccessCnt, badgeFailCnt);
   return (
     <Modal closeModal={() => setOpenModal(false)}>
       <Container>
@@ -51,7 +57,7 @@ export default function ChangeBadgeModal({
         </Cancel>
         <Icon mainBadgeImg={badgeImgUrl} />
         <BadgeName>{badgeName}</BadgeName>
-        <BadgeGoal>달성조건 : 성공3회</BadgeGoal>
+        <BadgeGoal>달성조건 : {goalText}</BadgeGoal>
         <BadgeExplain>"{badgeExplain}"</BadgeExplain>
         <ChangeBtn onClick={onClickBadge}>대표 뱃지로 설정</ChangeBtn>
       </Container>
@@ -67,7 +73,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5rem 1.5rem;
   box-sizing: border-box;
 `;
 const Icon = styled.div<{ mainBadgeImg?: string }>`
@@ -129,6 +135,7 @@ const BadgeExplain = styled.p`
   font-size: 1.1rem;
   line-height: 1.5rem;
   color: #656464;
+  text-align: center;
 `;
 
 const ChangeBtn = styled.div`

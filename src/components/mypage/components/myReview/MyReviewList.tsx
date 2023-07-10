@@ -5,6 +5,7 @@ import SwiperCarousel from "components/main/common/SwiperCarousel";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import Swiper from "swiper";
 import { SwiperSlide } from "swiper/react";
 import MyReview from "./MyReview";
@@ -72,6 +73,9 @@ export default function MyReviewList() {
 const Container = styled.section`
   width: 100%;
   margin-top: 2rem;
+  @media ${devices.md} {
+    margin-top: 2.5rem;
+  }
 `;
 
 const TopWrapper = styled.div`

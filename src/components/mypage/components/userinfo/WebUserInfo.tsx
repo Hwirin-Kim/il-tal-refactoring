@@ -5,6 +5,7 @@ import { devices } from "styles/devices";
 import confidential from "../../../../asset/confidential.png";
 import NicknameForm from "./NicknameForm";
 import setting from "../../../../asset/img/settings.png";
+import SectionTitle from "components/common/SectionTitle";
 
 interface WebUserInfoProps {
   nickname: string;
@@ -82,6 +83,9 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 2rem;
+  @media ${devices.lg} {
+    margin-left: 1rem;
+  }
 `;
 
 const TopSecretWaterMark = styled.img`

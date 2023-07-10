@@ -27,6 +27,8 @@ export default function MyBadge({ data }: IMyBadgeProps) {
           badgeExplain={data.badgeExplain}
           badgeName={data.badgeName}
           badgeImgUrl={data.badgeImgUrl}
+          badgeSuccessCnt={data.badgeSuccessCnt}
+          badgeFailCnt={data.badgeFailCnt}
         />
       )}
     </>

@@ -126,8 +126,8 @@ const Container = styled.div`
 `;
 
 const Poster = styled.img`
-  width: 4.5rem;
-  height: 6.3rem;
+  width: 5rem;
+  height: 7rem;
   background-color: grey;
   border-radius: 0.5rem;
   flex-shrink: 0;
@@ -152,6 +152,7 @@ const CompanyLikeWrapper = styled.div`
   align-items: center;
   @media ${devices.md} {
     margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
   }
 `;
 
@@ -162,15 +163,22 @@ const Company = styled.span`
 const Like = styled.span`
   color: var(--color-main);
   cursor: pointer;
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
+  font-size: 0.8rem;
   margin-right: 0.5rem;
+  @media ${devices.md} {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
 `;
 
 const DivisionBar = styled.span`
   font-weight: 300;
   color: #c9c9c9;
   margin: 0 0.3rem;
+  font-size: 0.8rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
 `;
 
 const BoldText = styled.p`
@@ -186,6 +194,7 @@ const BoldText = styled.p`
 const Genre = styled.p`
   font-size: 0.62em;
   font-weight: 300;
+  margin: 0.3rem 0;
   @media ${devices.md} {
     margin-bottom: 0.5rem;
   }
@@ -194,6 +203,7 @@ const Genre = styled.p`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin: 0.3rem 0;
 `;
 
 const InfoItem = styled.span`
@@ -211,7 +221,7 @@ const ReservationWrapper = styled.div`
 `;
 
 const ReservationTimeButton = styled.span`
-  margin: 0.1rem 0.2rem;
+  margin: 0.1rem 0.2rem 0.1rem 0;
   padding: 0.1rem;
   font-size: 0.7em;
   border-radius: 0.4rem;

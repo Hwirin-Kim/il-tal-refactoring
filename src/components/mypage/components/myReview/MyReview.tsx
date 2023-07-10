@@ -25,12 +25,11 @@ export default function MyReview({ data }: IMyReviewProps) {
 }
 
 const Container = styled.div`
-  width: 7rem;
-  margin: 0 0.5rem;
-  margin-bottom: 1rem;
+  width: 90px;
   display: flex;
   flex-direction: column;
   text-align: left;
+  flex: 1;
   padding: 0.5rem;
   border-radius: 1rem;
   /* border: 1px solid transparent; */

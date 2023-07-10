@@ -16,6 +16,7 @@ export interface CompanyDataType {
   id: number;
   themeNames: string[];
   totalReviewCnt: number;
+  location: string;
 }
 
 export default function MyCompanyList() {
