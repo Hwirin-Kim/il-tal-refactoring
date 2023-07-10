@@ -63,7 +63,6 @@ export default function NicknameForm({
     }
   };
 
-  console.log(nameInput);
   return (
     <Container onSubmit={onSubmit}>
       <InputForm placeholder="변경할 닉네임" onChange={onChangeNicknameInput} />

@@ -22,10 +22,14 @@ export default function BestUserGridItem({
         <TitleBadgeName>{data.mainBadgeName}</TitleBadgeName>
       </TitleBadge>
       <Nickname>{data.nickname}</Nickname>
-      <ProgressBar num={data.successCnt} maxNum={data.totalPlayCnt}>
+      <ProgressBar
+        percent={true}
+        num={data.successCnt}
+        maxNum={data.totalPlayCnt}
+      >
         {data.successCnt} / {data.totalPlayCnt}
       </ProgressBar>
-      <AchievementCounter>{data.successCnt}</AchievementCounter>
+      <AchievementCounter>{data.successCnt}회</AchievementCounter>
     </MenuGrid>
   );
 }
@@ -62,6 +66,9 @@ const TitleBadgeName = styled.div`
   align-items: center;
   font-size: 0.8rem;
   @media ${devices.md} {
+    font-size: 0.9rem;
+  }
+  @media ${devices.lg} {
     font-size: 1rem;
   }
 `;
@@ -78,7 +85,11 @@ const Nickname = styled.div`
 `;
 
 const AchievementCounter = styled.div`
+  font-size: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
 `;

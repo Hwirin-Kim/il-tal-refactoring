@@ -68,7 +68,7 @@ const Container = styled.nav`
   height: 100%;
   display: flex;
   justify-content: space-between;
-
+  align-items: flex-start;
   position: relative;
   @media ${devices.md} {
     display: none;
@@ -76,6 +76,7 @@ const Container = styled.nav`
 `;
 
 const Btn = styled.div`
+  margin-top: 0.5rem;
   width: 100px;
   display: flex;
   flex-direction: column;

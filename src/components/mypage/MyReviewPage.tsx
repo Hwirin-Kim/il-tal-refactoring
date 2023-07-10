@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getMyEscapeCnt } from "api/myAccount";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -41,6 +41,12 @@ const Container = styled.div`
   box-sizing: border-box;
   padding: 0.8rem;
   margin-bottom: 3rem;
+  @media ${devices.md} {
+    width: 90%;
+  }
+  @media ${devices.lg} {
+    width: 80%;
+  }
 `;
 
 const PageTitle = styled.div`

@@ -57,4 +57,5 @@ const Container = styled.div`
 const Title = styled.div`
   margin-bottom: 1rem;
   margin-left: 1rem;
+  font-weight: bold;
 `;

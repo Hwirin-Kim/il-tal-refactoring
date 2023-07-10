@@ -86,6 +86,15 @@ const ReHeader = (props: { color?: string }) => {
         </LeftButtonWrapper>
 
         <SearchForm />
+        {isLogin && (
+          <MobileLogout
+            onClick={() => {
+              onLogout();
+            }}
+          >
+            <FiLogOut />
+          </MobileLogout>
+        )}
 
         <RightButtonWrapper>
           {isLogin ? (
@@ -172,6 +181,17 @@ const Logo = styled.img`
   filter: brightness(120%);
   width: 50px;
   cursor: pointer;
+  @media ${devices.md} {
+    display: none;
+  }
+`;
+
+const MobileLogout = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1.2rem;
+  font-size: 1.25rem;
   @media ${devices.md} {
     display: none;
   }

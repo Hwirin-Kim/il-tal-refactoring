@@ -7,7 +7,6 @@ const Notice = ({ id, setIsModal }) => {
   const { data, isLoading } = useQuery(["getDetailNotice"], () =>
     getDetailNotice(id)
   );
-  console.log(data);
 
   if (isLoading) {
     return <div>Loading...</div>;

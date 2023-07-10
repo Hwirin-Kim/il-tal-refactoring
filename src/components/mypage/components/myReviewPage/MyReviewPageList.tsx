@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMyReviews } from "api/myAccount";
-import { myReviewPages } from "api/store";
-import React, { useState } from "react";
 import Pagination from "react-js-pagination";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import MyReviewPageItem from "./MyReviewPageItem";
 import nextgray from "../../../../asset/next-gray.png";
@@ -12,6 +9,7 @@ import nextgreen from "../../../../asset/next-green.png";
 import prevgreen from "../../../../asset/prev-green.png";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { devices } from "styles/devices";
 
 export interface ReviewData {
   comment: string;
@@ -40,7 +38,6 @@ export default function MyReviewPageList() {
     () => getMyReviews(pageNumber - 1),
     {
       onSuccess: (res) => {
-        console.log(res.content.length);
         if (res.content.length === 0 && pageNumber > 1) {
           navigator("/mypage/reviews/1");
           Swal.fire({
@@ -101,12 +98,20 @@ const Container = styled.div`
     align-items: center;
 
     a {
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       text-decoration: none;
       cursor: pointer;
-      margin: 0 0.5rem;
+      margin: 0 0.8rem;
       color: black;
       &:visited {
+      }
+    }
+    img {
+      width: 1.1rem;
+      height: 1.1rem;
+      @media ${devices.md} {
+        width: 1.5rem;
+        height: 1.5rem;
       }
     }
     .active {

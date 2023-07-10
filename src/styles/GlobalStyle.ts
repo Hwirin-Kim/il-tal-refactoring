@@ -17,7 +17,11 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 700;
     font-style: normal;
   }
+ 
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+  
   body {
     font-family:  'Noto Sans KR', sans-serif;
     box-sizing: border-box;

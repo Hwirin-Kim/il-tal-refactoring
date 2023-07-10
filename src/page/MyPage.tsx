@@ -139,7 +139,7 @@ const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 0 0.8rem;
-  margin-bottom: 5rem;
+  margin-bottom: 6rem;
 `;
 
 const UserInfoTendencyWrapper = styled.div`

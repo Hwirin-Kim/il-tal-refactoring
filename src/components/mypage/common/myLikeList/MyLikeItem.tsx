@@ -30,12 +30,12 @@ export default function MyLikeItem({
 
 const Container = styled.div`
   box-sizing: border-box;
-  width: 115px;
+  width: 140px;
   height: 100px;
   position: relative;
   cursor: pointer;
   border-radius: 0.5rem;
-  margin: 0.5rem;
+
   &:hover {
     box-shadow: 0 0 5px 3px rgba(6, 195, 135, 0.505);
   }
@@ -45,7 +45,7 @@ const Container = styled.div`
     height: 130px;
   }
   @media ${devices.lg} {
-    width: 250px;
+    width: 300px;
     height: 180px;
   }
 `;
@@ -68,7 +68,7 @@ const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  top: 50%;
+  bottom: 0.5rem;
   left: 0.5rem;
 `;
 
@@ -79,6 +79,7 @@ const TopText = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: bold;
 
   color: rgba(255, 255, 255, 1);
   @media ${devices.md} {
@@ -87,7 +88,7 @@ const TopText = styled.p`
 `;
 
 const BottomText = styled.p`
-  font-size: 0.8rem;
+  font-size: 0.73rem;
 
   bottom: 0.1rem;
   color: rgba(255, 255, 255, 1);
@@ -95,7 +96,7 @@ const BottomText = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   @media ${devices.md} {
     font-size: 0.8rem;
   }

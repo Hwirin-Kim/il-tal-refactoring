@@ -170,7 +170,7 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   border: 1px solid var(--color-main);
-  padding: 1rem 0;
+  padding: 2rem 1.5rem;
   margin-bottom: 1rem;
   border-radius: 1rem;
   @media ${devices.md} {
@@ -199,9 +199,10 @@ const Btn = styled.button`
   font-size: 1rem;
   background-color: #fff;
   border: 1px solid #e5e5e5;
-  padding: 0.2rem 1rem;
+  padding: 0.5rem 1.3rem;
   border-radius: 0.5rem;
   margin: 3px;
+  cursor: pointer;
   &:hover {
     background-color: var(--color-main);
     color: white;

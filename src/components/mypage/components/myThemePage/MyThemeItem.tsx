@@ -85,8 +85,9 @@ export default function MyThemeItem({ data }: MyThemeItemProps) {
             {[...Array(Math.round(data.difficulty))].map((_, index) => {
               return <LockImg src={lock} alt="difficulty" key={index} />;
             })}
-          </InfoItem>{" "}
-          | <InfoItem>{data.playTime}분</InfoItem> |{" "}
+          </InfoItem>
+          <DivisionBar> | </DivisionBar>
+          <InfoItem>{data.playTime}분</InfoItem> <DivisionBar> | </DivisionBar>
           <InfoItem>
             ★{data.themeScore} ({data.reviewCnt})
           </InfoItem>
@@ -110,19 +111,23 @@ export default function MyThemeItem({ data }: MyThemeItemProps) {
 const Container = styled.div`
   width: 100%;
   display: flex;
+
   margin-bottom: 2rem;
   border-radius: 0.5rem;
   @media ${devices.md} {
-    border: 1px solid var(--color-main);
+    border: 1px solid rgb(224, 224, 224);
     font-size: 1.3rem;
     box-sizing: border-box;
     padding-right: 0.5rem;
+    &:hover {
+      border: 1px solid var(--color-main);
+    }
   }
 `;
 
 const Poster = styled.img`
-  width: 4.5rem;
-  height: 6.3rem;
+  width: 5rem;
+  height: 7rem;
   background-color: grey;
   border-radius: 0.5rem;
   flex-shrink: 0;
@@ -137,7 +142,7 @@ const Poster = styled.img`
 const ThemeInfoTextWrapper = styled.div`
   flex-grow: 1;
   padding: 0.2rem 0;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 `;
 
 const CompanyLikeWrapper = styled.div`
@@ -147,6 +152,7 @@ const CompanyLikeWrapper = styled.div`
   align-items: center;
   @media ${devices.md} {
     margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
   }
 `;
 
@@ -157,6 +163,22 @@ const Company = styled.span`
 const Like = styled.span`
   color: var(--color-main);
   cursor: pointer;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+  @media ${devices.md} {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
+`;
+
+const DivisionBar = styled.span`
+  font-weight: 300;
+  color: #c9c9c9;
+  margin: 0 0.3rem;
+  font-size: 0.8rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
 `;
 
 const BoldText = styled.p`
@@ -172,12 +194,17 @@ const BoldText = styled.p`
 const Genre = styled.p`
   font-size: 0.62em;
   font-weight: 300;
+  margin: 0.3rem 0;
   @media ${devices.md} {
     margin-bottom: 0.5rem;
   }
 `;
 
-const InfoWrapper = styled.div``;
+const InfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0.3rem 0;
+`;
 
 const InfoItem = styled.span`
   font-size: 0.62em;
@@ -194,7 +221,7 @@ const ReservationWrapper = styled.div`
 `;
 
 const ReservationTimeButton = styled.span`
-  margin: 0.1rem 0.2rem;
+  margin: 0.1rem 0.2rem 0.1rem 0;
   padding: 0.1rem;
   font-size: 0.7em;
   border-radius: 0.4rem;
@@ -205,7 +232,7 @@ const ReservationTimeButton = styled.span`
 `;
 
 const NoReservation = styled.p`
-  font-size: 0.8em;
+  font-size: 0.7em;
   margin-top: 0.3rem;
 `;
 
@@ -213,7 +240,7 @@ const LockImg = styled.img`
   width: 0.6rem;
   height: 0.6rem;
   @media ${devices.md} {
-    width: 1rem;
-    height: 1rem;
+    width: 0.8rem;
+    height: 0.8rem;
   }
 `;

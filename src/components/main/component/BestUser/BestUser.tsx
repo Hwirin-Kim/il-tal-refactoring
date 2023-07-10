@@ -3,7 +3,6 @@ import { getHOf } from "api/mainApi";
 import MenuGrid from "components/main/common/MenuGrid";
 import SectionTitle from "components/common/SectionTitle";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BestUserGridItem from "./BestUserGridItem";
 import crown from "../../../../asset/img/crown.png";
@@ -22,17 +21,14 @@ export interface IBestUserData {
 const menuData = {
   nickname: "닉네임",
   titleBadge: "칭호",
-  successRate: "달성률",
+  successRate: "탈출성공률",
   successCnt: "성공횟수",
 };
 
 export default function BestUser() {
-  const navigator = useNavigate();
   const bestUserData = useQuery(["bestUserData"], getHOf, {
     onSuccess: () => {},
-    onError: (err) => {
-      // navigator("/error");
-    },
+    onError: (err) => {},
   });
   if (bestUserData.isLoading || bestUserData.isError) {
     return null;

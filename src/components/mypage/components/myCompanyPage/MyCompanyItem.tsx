@@ -66,11 +66,14 @@ export default function MyCompanyItem({ data }: MyCompanyItemProps) {
       <Poster src={data.companyImgUrl} onClick={onClickToPage} />
       <CompanyInfoTextWrapper>
         <CompanyLikeWrapper>
-          <CompanyName onClick={onClickToPage}>{data.companyName}</CompanyName>
+          <Location>{data.location}</Location>
           <Like onClick={companyLikeOnlyMember}>
             <BsSuitHeartFill />
           </Like>
         </CompanyLikeWrapper>
+
+        <CompanyName onClick={onClickToPage}>{data.companyName}</CompanyName>
+
         <Address>{data.address}</Address>
         <InfoWrapper>
           {data.themeNames.map((name, index) => {
@@ -98,16 +101,19 @@ const Container = styled.div`
   margin-bottom: 2rem;
   border-radius: 0.5rem;
   @media ${devices.md} {
-    border: 1px solid var(--color-main);
+    border: 1px solid rgb(224, 224, 224);
     font-size: 1.3rem;
     box-sizing: border-box;
     padding-right: 0.5rem;
+    &:hover {
+      border: 1px solid var(--color-main);
+    }
   }
 `;
 
 const Poster = styled.img`
-  width: 4.5rem;
-  height: 6.3rem;
+  width: 5rem;
+  height: 7rem;
   background-color: grey;
   border-radius: 0.5rem;
   flex-shrink: 0;
@@ -121,7 +127,7 @@ const Poster = styled.img`
 const CompanyInfoTextWrapper = styled.div`
   flex-grow: 1;
   padding: 0.2rem 0;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 `;
 
 const CompanyLikeWrapper = styled.div`
@@ -133,9 +139,10 @@ const CompanyLikeWrapper = styled.div`
   }
 `;
 
-const CompanyName = styled.span`
+const CompanyName = styled.p`
   font-size: 0.8rem;
   font-weight: bold;
+
   cursor: pointer;
   @media ${devices.md} {
     font-size: 1.1rem;
@@ -146,11 +153,29 @@ const CompanyName = styled.span`
 const Like = styled.span`
   color: var(--color-main);
   cursor: pointer;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+  @media ${devices.md} {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
+`;
+
+const Location = styled.p`
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 300;
+  margin-bottom: 0.3rem;
+  @media ${devices.md} {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Address = styled.p`
   font-size: 0.7rem;
   font-weight: 300;
+  margin: 0.3rem 0;
   @media ${devices.md} {
     font-size: 0.9rem;
     margin-bottom: 0.5rem;

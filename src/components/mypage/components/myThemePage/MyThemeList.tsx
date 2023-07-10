@@ -23,20 +23,19 @@ export interface ThemeDataType {
 }
 
 export default function MyThemeList() {
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useInfiniteQuery(
-      ["myThemes"],
-      ({ pageParam = 0 }) => getMyThemes({ pageParam }),
-      {
-        getNextPageParam: (lastpage, allpages) => {
-          if (allpages.length < lastpage.totalPages) {
-            return allpages.length;
-          } else {
-            return undefined;
-          }
-        },
-      }
-    );
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
+    ["myThemes"],
+    ({ pageParam = 0 }) => getMyThemes({ pageParam }),
+    {
+      getNextPageParam: (lastpage, allpages) => {
+        if (allpages.length < lastpage.totalPages) {
+          return allpages.length;
+        } else {
+          return undefined;
+        }
+      },
+    }
+  );
 
   if (isLoading === true || data === undefined || data.pages === undefined) {
     return null;
@@ -63,6 +62,6 @@ const ListWrapper = styled.div`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 0.5rem;
+    column-gap: 2.5rem;
   }
 `;

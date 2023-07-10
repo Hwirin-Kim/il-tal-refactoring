@@ -25,15 +25,15 @@ export default function MyReview({ data }: IMyReviewProps) {
 }
 
 const Container = styled.div`
-  width: 7rem;
-  margin: 0 0.5rem;
-  margin-bottom: 1rem;
+  width: 90px;
   display: flex;
   flex-direction: column;
   text-align: left;
+  flex: 1;
   padding: 0.5rem;
   border-radius: 1rem;
-  border: 1px solid transparent;
+  /* border: 1px solid transparent; */
+  border: 1px solid var(--color-grey-btn);
   cursor: pointer;
   &:hover {
     border: 1px solid var(--color-main);
@@ -42,7 +42,8 @@ const Container = styled.div`
     width: 200px;
   }
   @media ${devices.lg} {
-    width: 250px;
+    width: 300px;
+    padding: 1rem;
   }
 `;
 

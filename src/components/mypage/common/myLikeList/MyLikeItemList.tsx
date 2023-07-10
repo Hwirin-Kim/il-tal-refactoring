@@ -3,6 +3,7 @@ import SwiperCarousel from "components/main/common/SwiperCarousel";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import { SwiperSlide } from "swiper/react";
 
 interface MyLikeListProps {
@@ -41,7 +42,7 @@ export default function MyLikeList({
             loop={false}
             pagination={false}
             slidesPerGroup={1}
-            spaceBetween={8}
+            spaceBetween={5}
             breakpoints={{
               650: { slidesPerView: 4 },
             }}
@@ -55,6 +56,9 @@ export default function MyLikeList({
 }
 const Container = styled.section`
   margin-top: 1rem;
+  @media ${devices.md} {
+    margin-top: 3rem;
+  }
 `;
 const TopWrapper = styled.div`
   display: flex;
