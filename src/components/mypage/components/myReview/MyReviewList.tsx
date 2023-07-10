@@ -50,7 +50,7 @@ export default function MyReviewList() {
             loop={false}
             pagination={false}
             slidesPerGroup={1}
-            spaceBetween={40}
+            spaceBetween={5}
             breakpoints={{
               650: { slidesPerView: 4 },
             }}

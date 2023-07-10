@@ -39,7 +39,10 @@ export default function MyReviewPageItem({
   );
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin: 0 auto;
+  /* width: 80%; */
+`;
 
 const Wrapper = styled.div`
   @media ${devices.md} {

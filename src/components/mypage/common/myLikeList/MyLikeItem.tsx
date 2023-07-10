@@ -45,7 +45,7 @@ const Container = styled.div`
     height: 130px;
   }
   @media ${devices.lg} {
-    width: 250px;
+    width: 300px;
     height: 180px;
   }
 `;
@@ -68,7 +68,7 @@ const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  top: 50%;
+  bottom: 0.5rem;
   left: 0.5rem;
 `;
 
@@ -95,7 +95,7 @@ const BottomText = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   @media ${devices.md} {
     font-size: 0.8rem;
   }

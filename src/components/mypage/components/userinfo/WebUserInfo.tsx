@@ -5,6 +5,7 @@ import { devices } from "styles/devices";
 import confidential from "../../../../asset/confidential.png";
 import NicknameForm from "./NicknameForm";
 import setting from "../../../../asset/img/settings.png";
+
 interface WebUserInfoProps {
   nickname: string;
   achieveBadgeCnt: number;
@@ -80,7 +81,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem;
+  padding: 2rem;
 `;
 
 const TopSecretWaterMark = styled.img`
@@ -95,9 +96,11 @@ const TopSecretWaterMark = styled.img`
 const TopSecretText = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 2.2rem;
+  /* font-weight: bold; */
   margin-bottom: 2rem;
+  /* font-family: "Noto Sans KR", sans-serif; */
+  font-family: "Anton", sans-serif;
 `;
 
 const UserReport = styled.div``;
@@ -143,5 +146,5 @@ const Nickname = styled.div`
 const UserInfoTextWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 `;

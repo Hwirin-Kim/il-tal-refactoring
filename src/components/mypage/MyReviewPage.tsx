@@ -41,6 +41,12 @@ const Container = styled.div`
   box-sizing: border-box;
   padding: 0.8rem;
   margin-bottom: 3rem;
+  @media ${devices.md} {
+    width: 90%;
+  }
+  @media ${devices.lg} {
+    width: 80%;
+  }
 `;
 
 const PageTitle = styled.div`

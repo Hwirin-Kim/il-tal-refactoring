@@ -21,12 +21,17 @@ export default function MyBadgeList() {
   return (
     <Container>
       <SectionTitle>내가 획득한 뱃지</SectionTitle>
-      {myBadges.data.map((data: IBadgeData) => {
-        return <MyBadge data={data} key={data.id} />;
-      })}
+      <Wrapper>
+        {myBadges.data.map((data: IBadgeData) => {
+          return <MyBadge data={data} key={data.id} />;
+        })}
+      </Wrapper>
     </Container>
   );
 }
 const Container = styled.section`
   margin-top: 2rem;
+`;
+const Wrapper = styled.div`
+  margin-left: 1rem;
 `;

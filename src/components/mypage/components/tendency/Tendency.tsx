@@ -142,7 +142,7 @@ const TendencySettingWrapper = styled.div<{ hide: boolean }>`
     max-height: auto;
     top: 3rem;
     right: 1rem;
-    z-index: 1;
+    z-index: 999;
     overflow: visible;
     display: ${({ hide }) => (hide ? "block" : "none")};
   }

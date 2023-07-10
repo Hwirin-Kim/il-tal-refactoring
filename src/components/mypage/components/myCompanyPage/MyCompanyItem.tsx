@@ -98,10 +98,13 @@ const Container = styled.div`
   margin-bottom: 2rem;
   border-radius: 0.5rem;
   @media ${devices.md} {
-    border: 1px solid var(--color-main);
+    border: 1px solid rgb(224, 224, 224);
     font-size: 1.3rem;
     box-sizing: border-box;
     padding-right: 0.5rem;
+    &:hover {
+      border: 1px solid var(--color-main);
+    }
   }
 `;
 
@@ -121,7 +124,7 @@ const Poster = styled.img`
 const CompanyInfoTextWrapper = styled.div`
   flex-grow: 1;
   padding: 0.2rem 0;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 `;
 
 const CompanyLikeWrapper = styled.div`
@@ -146,6 +149,9 @@ const CompanyName = styled.span`
 const Like = styled.span`
   color: var(--color-main);
   cursor: pointer;
+  font-size: 1.2rem;
+
+  margin-right: 0.5rem;
 `;
 
 const Address = styled.p`

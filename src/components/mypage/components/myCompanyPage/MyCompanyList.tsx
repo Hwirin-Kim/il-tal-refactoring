@@ -21,7 +21,7 @@ export interface CompanyDataType {
 export default function MyCompanyList() {
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
     ["myCompanies"],
-    ({ pageParam = 0 }) => getMyCompanies(pageParam),
+    ({ pageParam = 0 }) => getMyCompanies({ pageParam }),
     {
       getNextPageParam: (lastpage, allpages) => {
         if (allpages.length < lastpage.totalPages) {
@@ -56,6 +56,6 @@ const ListWrapper = styled.div`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 0.5rem;
+    column-gap: 2.5rem;
   }
 `;

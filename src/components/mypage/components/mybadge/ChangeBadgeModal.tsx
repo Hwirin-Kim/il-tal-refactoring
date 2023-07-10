@@ -76,8 +76,8 @@ const Icon = styled.div<{ mainBadgeImg?: string }>`
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   &::before {
     content: "";
@@ -118,14 +118,15 @@ const BadgeName = styled.p`
 `;
 const BadgeGoal = styled.p`
   margin-top: 1rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: grey;
 `;
 
 const BadgeExplain = styled.p`
   margin-top: 2rem;
   margin-bottom: 2rem;
-  font-size: 1.3rem;
+  font-weight: bold;
+  font-size: 1.1rem;
   line-height: 1.5rem;
   color: #656464;
 `;
@@ -135,6 +136,8 @@ const ChangeBtn = styled.div`
   height: 3rem;
   background-color: var(--color-main);
   border-radius: 0.5rem;
+  font-weight: bold;
+
   display: flex;
   justify-content: center;
   align-items: center;

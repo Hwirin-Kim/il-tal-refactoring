@@ -33,7 +33,8 @@ const Container = styled.div`
   text-align: left;
   padding: 0.5rem;
   border-radius: 1rem;
-  border: 1px solid transparent;
+  /* border: 1px solid transparent; */
+  border: 1px solid var(--color-grey-btn);
   cursor: pointer;
   &:hover {
     border: 1px solid var(--color-main);
@@ -42,7 +43,8 @@ const Container = styled.div`
     width: 200px;
   }
   @media ${devices.lg} {
-    width: 250px;
+    width: 300px;
+    padding: 1rem;
   }
 `;
 

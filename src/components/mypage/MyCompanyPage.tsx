@@ -1,6 +1,7 @@
 import ScrollToTop from "components/common/ScrollToTop";
 import React from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 import MyCompanyList from "./components/myCompanyPage/MyCompanyList";
 
 export default function MyCompanyPage() {
@@ -24,4 +25,8 @@ const PageTitle = styled.div`
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 2rem;
+
+  @media ${devices.md} {
+    font-size: 1.5rem;
+  }
 `;
