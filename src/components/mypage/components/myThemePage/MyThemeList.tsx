@@ -15,7 +15,7 @@ export interface ThemeDataType {
   themeName: string;
   themeScore: number;
   genre: string;
-  price: string;
+  price: number;
   difficulty: number;
   playTime: number;
   themeLikeCheck: boolean;

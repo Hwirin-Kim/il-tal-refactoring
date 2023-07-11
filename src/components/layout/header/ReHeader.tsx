@@ -12,6 +12,7 @@ import { UserInfoInSessionStorage } from "components/types";
 import MenuButton from "../common/MenuButton";
 import { devices } from "styles/devices";
 import { useLoginCheck } from "components/context/LoginCheckContext";
+import logoutImg from "../../../asset/mobile/logout.png";
 
 const ReHeader = (props: { color?: string }) => {
   //페이지 이동에 사용
@@ -92,7 +93,8 @@ const ReHeader = (props: { color?: string }) => {
               onLogout();
             }}
           >
-            <FiLogOut />
+            <LogoutBtn>로그아웃</LogoutBtn>
+            {/* <LogoutIcon src={logoutImg} /> */}
           </MobileLogout>
         )}
 
@@ -102,12 +104,13 @@ const ReHeader = (props: { color?: string }) => {
               <MenuButton onClick={() => navigator("/mypage")}>
                 마이페이지
               </MenuButton>
-              <FiLogOut
-                size="30"
+              {/* <LogoutIcon
+                src={logoutImg}
                 onClick={() => {
                   onLogout();
                 }}
-              />
+              /> */}
+              <LogoutBtn>로그아웃</LogoutBtn>
             </>
           ) : (
             <MenuButton onClick={() => setLoginModal(true)}>로그인</MenuButton>
@@ -194,5 +197,30 @@ const MobileLogout = styled.div`
   font-size: 1.25rem;
   @media ${devices.md} {
     display: none;
+  }
+`;
+
+const LogoutIcon = styled.img`
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+`;
+
+const LogoutBtn = styled.span`
+  width: 60px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  @media${devices.md} {
+    width: 100px;
+    font-size: 1rem;
+  }
+  @media ${devices.lg} {
+    font-size: 20px;
   }
 `;

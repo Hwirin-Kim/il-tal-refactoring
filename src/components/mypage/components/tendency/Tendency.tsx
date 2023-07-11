@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { getMyTendency } from "api/myAccount";
 import SectionTitle from "components/common/SectionTitle";
 import { stringParsing } from "components/mypage/utils/stringParsing";
 import React, { useState } from "react";
@@ -6,10 +8,6 @@ import { devices } from "styles/devices";
 import TendencyRadar from "utils/TendencyRadar";
 import setting from "../../../../asset/img/settings.png";
 import TendencySetting from "./TendencySetting";
-
-interface ITendencyProps {
-  tendencyData: ITendencyData;
-}
 
 export interface ITendencyData {
   lessScare: number;
@@ -22,32 +20,35 @@ export interface ITendencyData {
   stylePreference: string | null;
 }
 
-export default function Tendency({ tendencyData }: ITendencyProps) {
+export default function Tendency() {
   const [isSetting, setIsSetting] = useState(false);
-  // const [preferenceData, setPreferenceData] = useState<string[] | string>([]);
-  const tenData = [
-    { name: "겁", value: tendencyData?.lessScare },
-    { name: "방", value: tendencyData?.roomSize },
-    { name: "자물쇠", value: tendencyData?.lockStyle },
-    { name: "장치", value: tendencyData?.device },
-    { name: "인테리어", value: tendencyData?.interior },
-    { name: "활동성", value: tendencyData?.excitePreference },
-  ];
+  const [tendencyData, setTendencyData] = useState([
+    { name: "겁", value: 0 },
+    { name: "방", value: 0 },
+    { name: "자물쇠", value: 0 },
+    { name: "장치", value: 0 },
+    { name: "인테리어", value: 0 },
+    { name: "활동성", value: 0 },
+  ]);
+  const [preferenceData, setPreferenceData] = useState([""]);
 
-  const parsing = (
-    str1: string | null,
-    str2: string | null
-  ): string[] | never[] => {
-    let newArr: string[] = [];
-    let arr1 = stringParsing(str1);
-    let arr2 = stringParsing(str2);
-    return (newArr = [...newArr, ...arr1, ...arr2]);
-  };
+  const { data, isLoading } = useQuery(["getMyTendency"], getMyTendency, {
+    onSuccess: (data) => {
+      setTendencyData([
+        { name: "겁", value: data.lessScare },
+        { name: "방", value: data.roomSize },
+        { name: "자물쇠", value: data.lockStyle },
+        { name: "장치", value: data.device },
+        { name: "인테리어", value: data.interior },
+        { name: "활동성", value: data.excitePreference },
+      ]);
+      setPreferenceData(stringParsing(data.genrePreference));
+    },
+  });
 
-  const preferenceData = parsing(
-    tendencyData.genrePreference,
-    tendencyData.stylePreference
-  );
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <Container>
@@ -57,10 +58,7 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
       />
       <SectionTitle>나의 성향</SectionTitle>
       <TendencySettingWrapper hide={isSetting}>
-        <TendencySetting
-          data={tendencyData}
-          setIsSetting={() => setIsSetting(false)}
-        />
+        <TendencySetting data={data} setIsSetting={() => setIsSetting(false)} />
       </TendencySettingWrapper>
       <TendencyPreWrapper>
         <PreferenceDataWrapper>
@@ -72,7 +70,7 @@ export default function Tendency({ tendencyData }: ITendencyProps) {
         </PreferenceDataWrapper>
 
         <TendencyWrapper>
-          <TendencyRadar data={tenData} />
+          <TendencyRadar data={tendencyData} />
         </TendencyWrapper>
       </TendencyPreWrapper>
     </Container>

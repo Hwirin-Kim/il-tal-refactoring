@@ -12,6 +12,11 @@ export const editTendency = async (userTend) => {
   return data;
 };
 
+export const getMyTendency = async () => {
+  const { data } = await api.get("/tendency");
+  return data.data;
+};
+
 export const editNickName = async (userName) => {
   const data = await api.put("/nickname", userName);
   return data;

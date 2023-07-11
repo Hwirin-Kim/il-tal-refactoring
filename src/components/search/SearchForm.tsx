@@ -77,7 +77,7 @@ const Input = styled.input`
     border-bottom: 1px solid var(--color-border);
   }
   @media ${devices.lg} {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 `;
 

@@ -11,6 +11,7 @@ import companyImg from "../../../asset/mobile/mobile-menu-company.png";
 import themeImg from "../../../asset/mobile/mobile-menu-theme.png";
 import mapImg from "../../../asset/mobile/mobile-menu-map.png";
 import mypageImg from "../../../asset/mobile/mobile-menu-mypage.png";
+import loginImg from "../../../asset/mobile/login.png";
 import Swal from "sweetalert2";
 
 export default function BottomMenuBar() {
@@ -53,7 +54,10 @@ export default function BottomMenuBar() {
           마이페이지
         </Btn>
       ) : (
-        <Btn onClick={() => setLoginModal(true)}>로그인</Btn>
+        <Btn onClick={() => setLoginModal(true)}>
+          <Img size={27} src={loginImg} />
+          로그인
+        </Btn>
       )}
       {loginModal ? (
         <Modal closeModal={() => setLoginModal(false)}>
