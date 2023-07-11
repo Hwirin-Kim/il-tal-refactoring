@@ -79,7 +79,7 @@ export default function TendencySetting({
     (tendency: ITendencyData) => postTendency(tendency),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["getMyPage"]);
+        queryClient.invalidateQueries(["getMyTendency"]);
       },
     }
   );
@@ -88,7 +88,7 @@ export default function TendencySetting({
     (tendency: ITendencyData) => editTendency(tendency),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["getMyPage"]);
+        queryClient.invalidateQueries(["getMyTendency"]);
       },
     }
   );

@@ -25,7 +25,7 @@ export default function NicknameForm({
     {
       onSuccess: () => {
         setIsEditModeOn(false);
-        queryClient.invalidateQueries(["getMyPage"]);
+        queryClient.invalidateQueries(["myAchieve"]);
       },
       // onError: (error)=>{
       //     if (error.response.status === 409) {

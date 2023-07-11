@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { getAchieve } from "api/mainApi";
 import ProgressBar from "components/common/ProgressBar";
 import SectionTitle from "components/common/SectionTitle";
 import BadgeIcon from "components/mypage/common/BadgeIcon";
@@ -8,41 +10,36 @@ import setting from "../../../../asset/img/settings.png";
 import NicknameForm from "./NicknameForm";
 import WebUserInfo from "./WebUserInfo";
 
-interface IUserInfoProps {
-  nickname: string;
-  achieveBadgeCnt: number;
-  mainBadgeName: string;
-  mainBadgeImg: string;
-}
-
-export default function UserInfo({
-  nickname,
-  mainBadgeName,
-  mainBadgeImg,
-  achieveBadgeCnt,
-}: IUserInfoProps) {
+export default function UserInfo() {
   const [isEditModeOn, setIsEditModeOn] = useState(false);
   const totalBadgeCnt = 10;
+
+  const { data, isLoading } = useQuery(["myAchieve"], getAchieve);
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <Container>
       <MobileTextWrapper>
         <SectionTitle>나의 정보</SectionTitle>
       </MobileTextWrapper>
       <MobileWrap>
-        <BadgeIcon mainBadgeImg={mainBadgeImg} />
+        <BadgeIcon mainBadgeImg={data.mainBadgeImg} />
         <TextWrapper>
-          <BadgeTitle>{mainBadgeName}</BadgeTitle>
+          <BadgeTitle>{data.mainBadgeName}</BadgeTitle>
 
           {isEditModeOn ? (
             <UserInfoTextWrapper>
               <NicknameForm
-                nickname={nickname}
+                nickname={data.nickname}
                 setIsEditModeOn={setIsEditModeOn}
               />
             </UserInfoTextWrapper>
           ) : (
             <UserInfoTextWrapper>
-              <Nickname>{nickname}</Nickname>
+              <Nickname>{data.nickname}</Nickname>
               <UserId>
                 {" "}
                 {sessionStorage.getItem("userinfo") === null
@@ -52,8 +49,8 @@ export default function UserInfo({
             </UserInfoTextWrapper>
           )}
         </TextWrapper>
-        <ProgressBar num={achieveBadgeCnt} maxNum={totalBadgeCnt}>
-          {achieveBadgeCnt} / {totalBadgeCnt}
+        <ProgressBar num={data.achieveBadgeCnt} maxNum={totalBadgeCnt}>
+          {data.achieveBadgeCnt} / {totalBadgeCnt}
         </ProgressBar>
         <SettingButton
           src={setting}
@@ -64,10 +61,10 @@ export default function UserInfo({
       </MobileWrap>
       <WebWrap>
         <WebUserInfo
-          achieveBadgeCnt={achieveBadgeCnt}
-          nickname={nickname}
-          mainBadgeImg={mainBadgeImg}
-          mainBadgeName={mainBadgeName}
+          achieveBadgeCnt={data.achieveBadgeCnt}
+          nickname={data.nickname}
+          mainBadgeImg={data.mainBadgeImg}
+          mainBadgeName={data.mainBadgeName}
         />
       </WebWrap>
       {/* <WebWrap>

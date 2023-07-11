@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import * as api from "../api/myAccount";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import UserInfo from "../components/mypage/components/userinfo/UserInfo";
@@ -40,14 +40,24 @@ export interface ILikeCompanyData {
 
 export default function MyPage() {
   const userData = useQuery(["getMyPage"], api.getMyPage);
-  const myLikeThemes = useQuery(["myLikeThemes"], api.getMyTheme);
-  const myLikeCompanies = useQuery(["myLikeCompanies"], api.getMyCompany);
-
+  const myLikeThemes = useQuery(["myLikeThemes"], () =>
+    api.getMyThemes({ pageParam: 0 })
+  );
+  const myLikeCompanies = useQuery(["myLikeCompanies"], () =>
+    api.getMyCompanies({ pageParam: 0 })
+  );
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const navigator = useNavigate();
   const { isLogin } = useLoginCheck();
 
   useEffect(() => {
-    if (!isLogin && !userData.isLoading) {
+    if (isInitialLoading) {
+      // isInitialLoading이 true일 때 첫 번째 호출을 무시
+      setIsInitialLoading(false);
+      return;
+    }
+
+    if (!isLogin) {
       navigator("/");
       Swal.fire({
         icon: "error",
@@ -61,45 +71,25 @@ export default function MyPage() {
     navigator(`/${url}/${id}`);
   };
 
-  if (
-    userData.isLoading ||
-    myLikeThemes.isLoading ||
-    myLikeCompanies.isLoading
-  ) {
+  if (myLikeThemes.isLoading || myLikeCompanies.isLoading) {
     return null;
   }
 
   return (
     <Container>
       <UserInfoTendencyWrapper>
-        <UserInfo
-          achieveBadgeCnt={userData.data.achieveBadgeCnt}
-          nickname={userData.data.nickname}
-          mainBadgeImg={userData.data.mainBadgeImg}
-          mainBadgeName={userData.data.mainBadgeName}
-        />
-        <Tendency
-          tendencyData={{
-            lessScare: userData.data.lessScare,
-            roomSize: userData.data.roomSize,
-            lockStyle: userData.data.lockStyle,
-            device: userData.data.device,
-            interior: userData.data.interior,
-            excitePreference: userData.data.excitePreference,
-            stylePreference: userData.data.stylePreference,
-            genrePreference: userData.data.genrePreference,
-          }}
-        />
+        <UserInfo />
+        <Tendency />
       </UserInfoTendencyWrapper>
       <MyBadgeList />
       <MyReviewList />
 
       <MyLikeThemeList
-        length={myLikeThemes.data.length}
+        length={myLikeThemes.data.content.length}
         sectionTitle="내가 찜한 테마"
         url="/mypage/themes"
       >
-        {myLikeThemes.data.map((data: ILikeThemeData) => {
+        {myLikeThemes.data.content.map((data: ILikeThemeData) => {
           return (
             <SwiperSlide key={data.id}>
               <MyLikeItem
@@ -114,11 +104,11 @@ export default function MyPage() {
       </MyLikeThemeList>
 
       <MyLikeThemeList
-        length={myLikeCompanies.data.length}
+        length={myLikeCompanies.data.content.length}
         sectionTitle="내가 찜한 업체"
         url="/mypage/companies"
       >
-        {myLikeCompanies.data.map((data: ILikeCompanyData) => {
+        {myLikeCompanies.data.content.map((data: ILikeCompanyData) => {
           return (
             <SwiperSlide key={data.id}>
               <MyLikeItem
