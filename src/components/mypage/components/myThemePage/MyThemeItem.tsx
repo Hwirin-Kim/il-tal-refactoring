@@ -9,6 +9,7 @@ import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { devices } from "styles/devices";
 import lock from "../../../../asset/lock.png";
 import { useNavigate } from "react-router-dom";
+import { addComma } from "utils/addComma";
 
 interface MyThemeItemProps {
   data: ThemeDataType;
@@ -79,7 +80,7 @@ export default function MyThemeItem({ data }: MyThemeItemProps) {
         </CompanyLikeWrapper>
         <BoldText onClick={onClickToPage}>{data.themeName}</BoldText>
         <Genre>{data.genre}</Genre>
-        <BoldText onClick={onClickToPage}>₩ {data.price}</BoldText>
+        <BoldText onClick={onClickToPage}>₩ {addComma(data.price)}</BoldText>
         <InfoWrapper>
           <InfoItem>
             {[...Array(Math.round(data.difficulty))].map((_, index) => {

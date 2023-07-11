@@ -202,23 +202,24 @@ export default function CommentCard({
         ) : (
           <MyComment>{comment}</MyComment>
         )}
-        <BtnWrapper>
-          {isEdit ? (
-            <>
-              <AiOutlineSave onClick={() => onSubmitHandler()} />
-              <AiOutlineClose onClick={() => setIsEdit(false)} />
-            </>
-          ) : (
-            <AiOutlineEdit onClick={() => setIsEdit(true)} />
-          )}
-          <AiOutlineDelete onClick={() => deleteCommentMutation.mutate(id)} />
-        </BtnWrapper>
       </CommentWrapper>
+      <BtnWrapper>
+        {isEdit ? (
+          <>
+            <AiOutlineSave onClick={() => onSubmitHandler()} />
+            <AiOutlineClose onClick={() => setIsEdit(false)} />
+          </>
+        ) : (
+          <AiOutlineEdit onClick={() => setIsEdit(true)} />
+        )}
+        <AiOutlineDelete onClick={() => deleteCommentMutation.mutate(id)} />
+      </BtnWrapper>
     </Container>
   );
 }
 
 const Container = styled.div`
+  position: relative;
   @media ${devices.md} {
     flex: 1;
   }
@@ -247,7 +248,6 @@ const PlayTime = styled.span`
 
 const CommentWrapper = styled.div`
   margin-top: 1rem;
-  position: relative;
 `;
 
 const MyComment = styled.div`
