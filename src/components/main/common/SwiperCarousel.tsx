@@ -1,7 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { Swiper } from "swiper/react";
-import { Autoplay, Navigation, Pagination, SwiperOptions } from "swiper";
+import { Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { SwiperOptions } from "swiper/types";
 
 type BreakPointType = {
   [width: number]: SwiperOptions;
@@ -47,7 +52,7 @@ export default function SwiperCarousel({
       pagination={pagination}
       loop={loop}
       breakpoints={breakpoints}
-      modules={[Pagination]}
+      modules={[Pagination, Navigation]}
       // autoplay={{
       //   delay: 2500,
       //   disableOnInteraction: false,
@@ -67,6 +72,6 @@ const CustomSwiper = styled(Swiper)<{ width?: number }>`
   /* width: ${(props) => (props.width ? `${props.width}px` : "100%")}; */
   overflow: visible;
   .swiper-pagination {
-    bottom: -20px;
+    bottom: -25px;
   }
 `;

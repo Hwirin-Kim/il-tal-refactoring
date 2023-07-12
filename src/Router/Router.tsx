@@ -9,7 +9,6 @@ import CompanyPage from "../page/CompanyPage";
 import MainLayout from "page/MainLayout";
 import KakaoLogin from "../components/modal/KakaoLogin";
 import SearchPage from "../page/SearchPage";
-import ScrollOnTop from "../utils/ScrollOnTop";
 import BestTheme from "components/main/component/BestTheme/BestTheme";
 import MyReviewPage from "components/mypage/MyReviewPage";
 import MyThemePage from "components/mypage/MyThemePage";
@@ -18,7 +17,6 @@ import MyCompanyPage from "components/mypage/MyCompanyPage";
 const Router = () => {
   return (
     <BrowserRouter>
-      <ScrollOnTop />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />

@@ -44,7 +44,7 @@ export default function BestTheme() {
           pagination={true}
           slidesPerGroup={2}
           spaceBetween={10}
-          breakpoints={{ 650: { slidesPerView: 4 } }}
+          breakpoints={{ 650: { slidesPerView: 3 }, 768: { slidesPerView: 4 } }}
         >
           {best.data.map((item: IBestThemeData, index: number) => {
             return (
@@ -63,7 +63,7 @@ const Container = styled.section`
   width: 100%;
   margin-top: 100px;
   overflow: hidden;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
 `;
 
 const BestThemeCarouselSection = styled.div`
