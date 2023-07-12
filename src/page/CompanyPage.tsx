@@ -2,13 +2,7 @@ import styled from "styled-components";
 import CompanyList from "../components/company/CompanyList";
 
 const CompanyPage = () => {
-  return (
-    <Container>
-      <CompanyList />
-    </Container>
-  );
+  return <CompanyList />;
 };
 
 export default CompanyPage;
-
-const Container = styled.div``;

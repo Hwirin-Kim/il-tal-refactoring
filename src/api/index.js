@@ -32,8 +32,15 @@ export const loginForm = async (userData) => {
 };
 
 //업체페이지 GET 요청
-export const companyList = async ({ pageParam, comLocation }) => {
-  const { data } = await api.get(`/companies?${comLocation}&page=${pageParam}`);
+export const companyList = async ({ pageParam, location }) => {
+  let endpoint = "/companies?";
+  if (pageParam) {
+    endpoint += `&page=${pageParam}`;
+  }
+  if (location) {
+    endpoint += `&location=${location}`;
+  }
+  const { data } = await api.get(endpoint);
   return data;
 };
 

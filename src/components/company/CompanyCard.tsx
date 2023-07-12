@@ -14,7 +14,7 @@ import { devices } from "styles/devices";
 //ThemeWrap에서 ThemePoster는 페이징처리하여 3개씩 보여주기
 
 const CompanyCard = ({ company }: CompanyType) => {
-  const { isLogin, setIsLogin } = useLoginCheck();
+  const { isLogin } = useLoginCheck();
   const navigator = useNavigate();
   const queryClient = useQueryClient();
   const companyLike = useMutation(
