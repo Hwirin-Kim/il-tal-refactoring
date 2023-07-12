@@ -30,7 +30,7 @@ export default function MyLikeItem({
 
 const Container = styled.div`
   box-sizing: border-box;
-  width: 140px;
+  width: 100%;
   height: 100px;
   position: relative;
   cursor: pointer;
@@ -41,11 +41,9 @@ const Container = styled.div`
   }
 
   @media ${devices.md} {
-    width: 200px;
     height: 130px;
   }
   @media ${devices.lg} {
-    width: 300px;
     height: 180px;
   }
 `;

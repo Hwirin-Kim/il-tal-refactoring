@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import Company from "./Company";
 import { companyList } from "../../api";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Locations from "./Locations";
 import { useRecoilState } from "recoil";
 import { companyLocation, companyPages } from "../../api/store";
@@ -11,35 +10,50 @@ import nextgray from "../../asset/next-gray.png";
 import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
 import prevgreen from "../../asset/prev-green.png";
-import { ref } from "yup";
 import React from "react";
+import CompanyCard from "./CompanyCard";
+import { devices } from "styles/devices";
+import InfiniteScroll from "react-infinite-scroller";
+
+export interface CompanyType {
+  id: number;
+  companyName: string;
+  companyImgUrl: string;
+  location: string;
+  companyScore: number;
+  companyUrl: string;
+  companyLikeCnt: number;
+  address: string;
+  phoneNumber: string;
+  workHour: string;
+  companyLikeCheck: boolean;
+  totalReviewCnt: number;
+  themeList: [];
+}
 
 const CompanyList = () => {
   const [comLocation, setComLocation] = useRecoilState(companyLocation);
-  const [comPage, setCompanyPage] = useRecoilState(companyPages);
+  const [comPageIndex, setCompanyPageIndex] = useRecoilState(companyPages);
 
-  interface CompanyType {
-    id: number;
-    companyName: string;
-    companyImgUrl: string;
-    location: string;
-    companyScore: number;
-    companyUrl: string;
-    companyLikeCnt: number;
-    address: string;
-    phoneNumber: string;
-    workHour: string;
-    companyLikeCheck: boolean;
-    totalReviewCnt: number;
-    themeList: [];
-  }
-  const { data, isLoading, isError, error, refetch } = useQuery(
-    ["getCompanyList", comLocation, comPage],
-    () => companyList({ comPage, comLocation }),
+  // const { data, isLoading, isError, error, refetch } = useQuery(
+  //   ["getCompanyList", comLocation, comPageIndex],
+  //   () => companyList({ pageParam: comPageIndex, comLocation }),
+  //   {
+  //     onSuccess: () => {},
+  //   }
+  // );
+  const infiniteData = useInfiniteQuery(
+    ["companyListData", comPageIndex],
+    ({ pageParam = 0 }) => companyList({ pageParam, comLocation: "" }),
     {
-      onSuccess: () => {
-        window.scrollTo(0, 0);
+      getNextPageParam: (lastpage, allpages) => {
+        if (allpages.length < lastpage.data.totalPages) {
+          return allpages.length;
+        } else {
+          return undefined;
+        }
       },
+      onSuccess: (res) => console.log(res),
     }
   );
 
@@ -48,17 +62,20 @@ const CompanyList = () => {
   };
 
   const onPageHandler = (page: number) => {
-    setCompanyPage(page - 1);
+    const pageIndex = page - 1;
+    setCompanyPageIndex(pageIndex);
+
+    infiniteData.fetchNextPage({ pageParam: pageIndex });
   };
 
-  if (isLoading) {
+  if (infiniteData.isLoading) {
     return <div>Loading</div>;
   }
 
   return (
     <Container>
       <Category>
-        <SearchResult>검색결과 {data.data.totalElements}개</SearchResult>
+        {/* <SearchResult>검색결과 {data.data.totalElements}개</SearchResult> */}
         <div>
           <select
             className="filter"
@@ -75,110 +92,74 @@ const CompanyList = () => {
           </select>
         </div>
       </Category>
-      <CompanyWrap>
-        {data.data.content.map((company: CompanyType, index: number) => {
-          return (
-            <div key={`company${index}`}>
-              <Company company={company} />
-            </div>
-          );
-        })}
-      </CompanyWrap>
-      <div className="pagenation">
-        <Pagination
-          activePage={comPage + 1}
-          itemsCountPerPage={9}
-          totalItemsCount={data.data.totalElements}
-          pageRangeDisplayed={5}
-          hideFirstLastPages={true}
-          prevPageText={
-            comPage === 0 ? (
-              <img src={prevgray} alt="next" />
-            ) : (
-              <img src={prevgreen} alt="next" />
-            )
-          }
-          nextPageText={
-            comPage + 1 === data.data.totalPages ? (
-              <img src={nextgray} alt="next" />
-            ) : (
-              <img src={nextgreen} alt="next" />
-            )
-          }
-          onChange={onPageHandler}
-        />
-      </div>
+      <PaginationWrapper>
+        <CompanyWrap>
+          {infiniteData.data?.pages[comPageIndex]?.data.content.map(
+            (company: CompanyType, index: number) => {
+              return <CompanyCard key={company.id} company={company} />;
+            }
+          )}
+        </CompanyWrap>
+        <div className="pagenation">
+          <Pagination
+            activePage={comPageIndex + 1}
+            itemsCountPerPage={9}
+            totalItemsCount={200}
+            pageRangeDisplayed={5}
+            hideFirstLastPages={true}
+            // prevPageText={
+            //   comPageIndex === 0 ? (
+            //     <img src={prevgray} alt="next" />
+            //   ) : (
+            //     <img src={prevgreen} alt="next" />
+            //   )
+            // }
+            // nextPageText={
+            //   comPageIndex + 1 ===
+            //   infiniteData.data?.pages[comPageIndex].data.totalPages ? (
+            //     <img src={nextgray} alt="next" />
+            //   ) : (
+            //     <img src={nextgreen} alt="next" />
+            //   )
+            // }
+            onChange={onPageHandler}
+          />
+        </div>
+      </PaginationWrapper>
+      <InfiniteScrollWrapper>
+        <InfiniteScroll
+          hasMore={infiniteData.hasNextPage}
+          loadMore={() => infiniteData.fetchNextPage()}
+        >
+          {infiniteData.data?.pages.map((page) => {
+            return page.data.content.map((company: CompanyType) => {
+              return <CompanyCard key={company.id} company={company} />;
+            });
+          })}
+        </InfiniteScroll>
+      </InfiniteScrollWrapper>
     </Container>
   );
 };
 export default CompanyList;
 
 const Container = styled.div`
-  width: 1440px;
-  height: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  .pagenation {
-    .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 15px;
-    }
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 0.6rem;
+  @media ${devices.md} {
+  }
+`;
+const PaginationWrapper = styled.div`
+  display: none;
+  @media ${devices.md} {
+    display: block;
+  }
+`;
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    ul.pagination li {
-      display: inline-block;
-      width: 60px;
-      height: 60px;
-      /* border: 1px solid #e2e2e2; */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1rem;
-    }
-
-    ul.pagination li:first-child {
-      border-radius: 5px 0 0 5px;
-    }
-
-    ul.pagination li:last-child {
-      border-radius: 0 5px 5px 0;
-    }
-
-    ul.pagination li a {
-      text-decoration: none;
-      color: black;
-      font-size: 22px;
-    }
-
-    ul.pagination li.active a {
-      color: white;
-    }
-
-    ul.pagination li.active {
-      /* scale: 1.3; */
-      border-radius: 50% 50%;
-      background-color: var(--color-main);
-    }
-
-    ul.pagination li a:hover {
-      color: black;
-    }
-    ul.pagination li a.active {
-      color: blue;
-    }
-
-    .page-selection {
-      width: 48px;
-      height: 30px;
-      color: #337ab7;
-    }
+const InfiniteScrollWrapper = styled.div`
+  @media ${devices.md} {
+    display: none;
   }
 `;
 
@@ -225,11 +206,5 @@ const StarFilter = styled.button`
 
 const CompanyWrap = styled.div`
   width: 100%;
-  height: 100%;
-  display: flex;
-  /* justify-content: center; */
-  flex-wrap: wrap;
-  column-gap: 24px;
-  row-gap: 49px;
   margin-bottom: 70px;
 `;

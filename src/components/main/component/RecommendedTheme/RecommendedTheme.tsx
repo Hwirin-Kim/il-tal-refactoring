@@ -41,7 +41,7 @@ export default function RecommendedTheme() {
           pagination={true}
           slidesPerGroup={2}
           spaceBetween={10}
-          breakpoints={{ 650: { slidesPerView: 4 } }}
+          breakpoints={{ 650: { slidesPerView: 3 }, 768: { slidesPerView: 4 } }}
         >
           {recommended.data.map((item: IRecommendedThemeData) => {
             return (

@@ -110,7 +110,13 @@ const ReHeader = (props: { color?: string }) => {
                   onLogout();
                 }}
               /> */}
-              <LogoutBtn>로그아웃</LogoutBtn>
+              <LogoutBtn
+                onClick={() => {
+                  onLogout();
+                }}
+              >
+                로그아웃
+              </LogoutBtn>
             </>
           ) : (
             <MenuButton onClick={() => setLoginModal(true)}>로그인</MenuButton>
