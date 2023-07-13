@@ -202,6 +202,7 @@ const Address = styled.p`
   font-weight: 300;
   margin: 0.3rem 0;
   @media ${devices.md} {
+    display: none;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
   }
@@ -211,6 +212,11 @@ const InfoWrapper = styled.div`
   width: 100%;
   @media ${devices.md} {
     margin-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 `;
 
