@@ -1,11 +1,8 @@
 import styled from "styled-components";
 import { companyList } from "../../api";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Locations from "./Locations";
-import { useRecoilState } from "recoil";
-import { companyLocation, companyPages } from "../../api/store";
 import Pagination from "react-js-pagination";
-import Narrow from "../../asset/gray_narrow.png";
 import nextgray from "../../asset/next-gray.png";
 import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
@@ -13,7 +10,8 @@ import prevgreen from "../../asset/prev-green.png";
 import React from "react";
 import CompanyCard from "./CompanyCard";
 import { devices } from "styles/devices";
-import InfiniteScroll from "react-infinite-scroller";
+import SectionTitle from "components/common/SectionTitle";
+import { useSearchParams } from "react-router-dom";
 
 export interface CompanyType {
   id: number;
@@ -32,112 +30,84 @@ export interface CompanyType {
 }
 
 const CompanyList = () => {
-  const [comLocation, setComLocation] = useRecoilState(companyLocation);
-  const [comPageIndex, setCompanyPageIndex] = useRecoilState(companyPages);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // const { data, isLoading, isError, error, refetch } = useQuery(
-  //   ["getCompanyList", comLocation, comPageIndex],
-  //   () => companyList({ pageParam: comPageIndex, comLocation }),
-  //   {
-  //     onSuccess: () => {},
-  //   }
-  // );
-  const infiniteData = useInfiniteQuery(
-    ["companyListData", comPageIndex],
-    ({ pageParam = 0 }) => companyList({ pageParam, comLocation: "" }),
-    {
-      getNextPageParam: (lastpage, allpages) => {
-        if (allpages.length < lastpage.data.totalPages) {
-          return allpages.length;
-        } else {
-          return undefined;
-        }
-      },
-      onSuccess: (res) => console.log(res),
-    }
+  const location = searchParams.get("location");
+  const pageNumber = searchParams.get("page");
+
+  const { data, isLoading } = useQuery(
+    ["getCompanyList", location, pageNumber],
+    () => companyList({ pageParam: pageNumber, location })
   );
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setComLocation(e.target.value);
+    setSearchParams({ location: e.target.value, page: "0" });
   };
 
   const onPageHandler = (page: number) => {
     const pageIndex = page - 1;
-    setCompanyPageIndex(pageIndex);
+    setSearchParams({
+      page: String(pageIndex),
+      location: location ? location : "",
+    });
 
-    infiniteData.fetchNextPage({ pageParam: pageIndex });
+    window.scrollTo(0, 0);
   };
 
-  if (infiniteData.isLoading) {
+  if (isLoading) {
     return <div>Loading</div>;
   }
 
   return (
     <Container>
-      <Category>
-        {/* <SearchResult>검색결과 {data.data.totalElements}개</SearchResult> */}
-        <div>
-          <select
-            className="filter"
-            onChange={onChangeHandler}
-            value={comLocation}
-          >
-            {Locations.location.map((arg) => {
-              return (
-                <option key={arg.value} value={arg.value}>
-                  {arg.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-      </Category>
-      <PaginationWrapper>
-        <CompanyWrap>
-          {infiniteData.data?.pages[comPageIndex]?.data.content.map(
-            (company: CompanyType, index: number) => {
-              return <CompanyCard key={company.id} company={company} />;
-            }
-          )}
-        </CompanyWrap>
-        <div className="pagenation">
-          <Pagination
-            activePage={comPageIndex + 1}
-            itemsCountPerPage={9}
-            totalItemsCount={200}
-            pageRangeDisplayed={5}
-            hideFirstLastPages={true}
-            // prevPageText={
-            //   comPageIndex === 0 ? (
-            //     <img src={prevgray} alt="next" />
-            //   ) : (
-            //     <img src={prevgreen} alt="next" />
-            //   )
-            // }
-            // nextPageText={
-            //   comPageIndex + 1 ===
-            //   infiniteData.data?.pages[comPageIndex].data.totalPages ? (
-            //     <img src={nextgray} alt="next" />
-            //   ) : (
-            //     <img src={nextgreen} alt="next" />
-            //   )
-            // }
-            onChange={onPageHandler}
-          />
-        </div>
-      </PaginationWrapper>
-      <InfiniteScrollWrapper>
-        <InfiniteScroll
-          hasMore={infiniteData.hasNextPage}
-          loadMore={() => infiniteData.fetchNextPage()}
-        >
-          {infiniteData.data?.pages.map((page) => {
-            return page.data.content.map((company: CompanyType) => {
-              return <CompanyCard key={company.id} company={company} />;
-            });
+      <SelectSearchResultWrapper>
+        <SectionTitle>검색결과 {data.data.totalElements}개</SectionTitle>
+
+        <LocationSelect onChange={onChangeHandler} value={location!}>
+          {Locations.location.map((arg) => {
+            return (
+              <option key={arg.value} value={arg.value}>
+                {arg.name}
+              </option>
+            );
           })}
-        </InfiniteScroll>
-      </InfiniteScrollWrapper>
+        </LocationSelect>
+      </SelectSearchResultWrapper>
+      <ListWrapper>
+        {data.data.content.map((company: CompanyType, index: number) => {
+          return (
+            <CompanyCard
+              key={company.id}
+              company={company}
+              location={location}
+              pageNumber={pageNumber}
+            />
+          );
+        })}
+      </ListWrapper>
+
+      <Pagination
+        activePage={Number(pageNumber) + 1}
+        itemsCountPerPage={data.data.size}
+        totalItemsCount={data.data.totalElements}
+        pageRangeDisplayed={5}
+        hideFirstLastPages={true}
+        prevPageText={
+          Number(pageNumber) === 0 ? (
+            <img src={prevgray} alt="next" />
+          ) : (
+            <img src={prevgreen} alt="next" />
+          )
+        }
+        nextPageText={
+          Number(pageNumber) + 1 === data.data.totalPages ? (
+            <img src={nextgray} alt="next" />
+          ) : (
+            <img src={nextgreen} alt="next" />
+          )
+        }
+        onChange={onPageHandler}
+      />
     </Container>
   );
 };
@@ -147,64 +117,62 @@ const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 0 0.6rem;
-  @media ${devices.md} {
-  }
-`;
-const PaginationWrapper = styled.div`
-  display: none;
-  @media ${devices.md} {
-    display: block;
-  }
-`;
-
-const InfiniteScrollWrapper = styled.div`
-  @media ${devices.md} {
-    display: none;
-  }
-`;
-
-const Category = styled.div`
-  width: 100%;
-  height: 104px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .filter {
-    height: 48px;
-    width: 127px;
-    font-size: 18px;
+  margin-bottom: 8rem;
+  .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #8a8a8a;
-    border-radius: 8px;
-    text-align: left;
-    padding-left: 20px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: url(${Narrow}) no-repeat 95% 50%;
-    ::-ms-expand {
-      display: none;
+
+    a {
+      font-size: 1.1rem;
+      text-decoration: none;
+      cursor: pointer;
+      margin: 0 0.8rem;
+      color: black;
+      &:visited {
+      }
     }
-    cursor: pointer;
+    img {
+      width: 1.1rem;
+      height: 1.1rem;
+      @media ${devices.md} {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+    .active {
+      a {
+        color: var(--color-main);
+      }
+    }
   }
 `;
 
-const SearchResult = styled.div`
-  font-size: 21px;
-  font-weight: bold;
-`;
-
-const StarFilter = styled.button`
-  /* margin-right: 10px; */
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 17px;
-`;
-
-const CompanyWrap = styled.div`
+const ListWrapper = styled.div`
   width: 100%;
-  margin-bottom: 70px;
+  @media ${devices.md} {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1rem;
+  }
+  @media ${devices.lg} {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 1rem;
+  }
+`;
+
+const SelectSearchResultWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const LocationSelect = styled.select`
+  height: 1.4rem;
+  font-size: 0.8rem;
+  border: 1px solid #8a8a8a;
+  border-radius: 0.8rem;
+  text-align: center;
+
+  cursor: pointer;
 `;

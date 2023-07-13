@@ -33,7 +33,7 @@ export default function RecommendedTheme() {
 
   return (
     <Container>
-      <SectionTitle>이런 테마는 어떠세요?</SectionTitle>
+      <SectionTitle marginLeft={8}>이런 테마는 어떠세요?</SectionTitle>
       <RecommendedThemeCarouselSection>
         <SwiperCarousel
           slidePerView={2}

@@ -36,7 +36,7 @@ export default function BestUser() {
 
   return (
     <Container>
-      <SectionTitle>명예의 전당</SectionTitle>
+      <SectionTitle marginLeft={8}>명예의 전당</SectionTitle>
       <BestUserListSection>
         <MenuGrid>
           <MenuRankIcon src={crown} />

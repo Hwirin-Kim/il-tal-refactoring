@@ -36,7 +36,7 @@ export default function BestTheme() {
 
   return (
     <Container>
-      <SectionTitle>인기 테마</SectionTitle>
+      <SectionTitle marginLeft={8}>인기 테마</SectionTitle>
       <BestThemeCarouselSection>
         <SwiperCarousel
           slidePerView={2}
@@ -63,7 +63,8 @@ const Container = styled.section`
   width: 100%;
   margin-top: 100px;
   overflow: hidden;
-  padding-bottom: 25px;
+  box-sizing: border-box;
+  padding-bottom: 2rem;
 `;
 
 const BestThemeCarouselSection = styled.div`

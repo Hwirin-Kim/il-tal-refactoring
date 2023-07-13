@@ -25,11 +25,12 @@ export default function MyReview({ data }: IMyReviewProps) {
 }
 
 const Container = styled.div`
-  width: 90px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   text-align: left;
   flex: 1;
+  box-sizing: border-box;
   padding: 0.5rem;
   border-radius: 1rem;
   /* border: 1px solid transparent; */
@@ -39,10 +40,8 @@ const Container = styled.div`
     border: 1px solid var(--color-main);
   }
   @media ${devices.md} {
-    width: 200px;
   }
   @media ${devices.lg} {
-    width: 300px;
     padding: 1rem;
   }
 `;

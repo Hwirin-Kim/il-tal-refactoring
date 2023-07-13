@@ -1,5 +1,7 @@
 export interface CompanyType {
   company: Company;
+  location: string | null;
+  pageNumber: string | null;
 }
 export interface Company {
   id: number;
