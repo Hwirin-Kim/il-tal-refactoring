@@ -2,10 +2,7 @@ import styled from "styled-components";
 import { companyList } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import Locations from "./Locations";
-import { useRecoilState } from "recoil";
-import { companyLocation, companyPages } from "../../api/store";
 import Pagination from "react-js-pagination";
-import Narrow from "../../asset/gray_narrow.png";
 import nextgray from "../../asset/next-gray.png";
 import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
@@ -14,7 +11,7 @@ import React from "react";
 import CompanyCard from "./CompanyCard";
 import { devices } from "styles/devices";
 import SectionTitle from "components/common/SectionTitle";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export interface CompanyType {
   id: number;
@@ -39,7 +36,7 @@ const CompanyList = () => {
   const pageNumber = searchParams.get("page");
 
   const { data, isLoading } = useQuery(
-    ["getCompanyList", , location, pageNumber],
+    ["getCompanyList", location, pageNumber],
     () => companyList({ pageParam: pageNumber, location })
   );
 
@@ -49,7 +46,11 @@ const CompanyList = () => {
 
   const onPageHandler = (page: number) => {
     const pageIndex = page - 1;
-    setSearchParams({ page: String(pageIndex), location: location! });
+    setSearchParams({
+      page: String(pageIndex),
+      location: location ? location : "",
+    });
+
     window.scrollTo(0, 0);
   };
 
@@ -72,10 +73,18 @@ const CompanyList = () => {
           })}
         </LocationSelect>
       </SelectSearchResultWrapper>
-
-      {data.data.content.map((company: CompanyType, index: number) => {
-        return <CompanyCard key={company.id} company={company} />;
-      })}
+      <ListWrapper>
+        {data.data.content.map((company: CompanyType, index: number) => {
+          return (
+            <CompanyCard
+              key={company.id}
+              company={company}
+              location={location}
+              pageNumber={pageNumber}
+            />
+          );
+        })}
+      </ListWrapper>
 
       <Pagination
         activePage={Number(pageNumber) + 1}
@@ -139,6 +148,19 @@ const Container = styled.div`
   }
 `;
 
+const ListWrapper = styled.div`
+  width: 100%;
+  @media ${devices.md} {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1rem;
+  }
+  @media ${devices.lg} {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 1rem;
+  }
+`;
+
 const SelectSearchResultWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -151,12 +173,6 @@ const LocationSelect = styled.select`
   border: 1px solid #8a8a8a;
   border-radius: 0.8rem;
   text-align: center;
-  /* -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none; */
-  /* background: url(${Narrow}) no-repeat 95% 50%; */
-  /* ::-ms-expand {
-    display: none;
-  } */
+
   cursor: pointer;
 `;
