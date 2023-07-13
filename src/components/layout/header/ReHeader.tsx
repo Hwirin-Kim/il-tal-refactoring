@@ -155,9 +155,9 @@ const Container = styled.header`
   }
 `;
 const Layout = styled.div`
-  height: 92%;
-  width: 90%;
-
+  height: 100%;
+  width: 100%;
+  padding: 0 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
