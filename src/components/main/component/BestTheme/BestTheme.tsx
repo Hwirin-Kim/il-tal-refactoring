@@ -48,8 +48,8 @@ export default function BestTheme() {
         >
           {best.data.map((item: IBestThemeData, index: number) => {
             return (
-              <SwiperSlide>
-                <BestThemePoster key={item.id} data={item} rank={index + 1} />
+              <SwiperSlide key={item.id}>
+                <BestThemePoster data={item} rank={index + 1} />
               </SwiperSlide>
             );
           })}

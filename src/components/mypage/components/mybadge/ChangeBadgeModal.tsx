@@ -40,7 +40,7 @@ export default function ChangeBadgeModal({
           showConfirmButton: true,
           timer: 800,
         });
-        queryClient.invalidateQueries(["getMyPage"]);
+        queryClient.invalidateQueries(["myAchieve"]);
       },
     }
   );

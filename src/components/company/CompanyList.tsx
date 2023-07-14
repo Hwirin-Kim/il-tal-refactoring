@@ -63,7 +63,10 @@ const CompanyList = () => {
       <SelectSearchResultWrapper>
         <SectionTitle>검색결과 {data.data.totalElements}개</SectionTitle>
 
-        <LocationSelect onChange={onChangeHandler} value={location!}>
+        <LocationSelect
+          onChange={onChangeHandler}
+          value={location ? location : undefined}
+        >
           {Locations.location.map((arg) => {
             return (
               <option key={arg.value} value={arg.value}>
@@ -115,6 +118,7 @@ export default CompanyList;
 
 const Container = styled.div`
   box-sizing: border-box;
+
   width: 100%;
   padding: 0 0.6rem;
   margin-bottom: 8rem;
@@ -149,15 +153,16 @@ const Container = styled.div`
 `;
 
 const ListWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
-  @media ${devices.md} {
-    display: grid;
+  grid-column-gap: 0.5rem;
+  @media ${devices.sm} {
     grid-template-columns: 1fr 1fr 1fr;
     grid-column-gap: 1rem;
   }
   @media ${devices.lg} {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 1rem;
   }
 `;
 
