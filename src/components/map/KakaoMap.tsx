@@ -2,13 +2,15 @@ import { useEffect } from "react";
 import styled from "styled-components";
 interface KakaoMapProps {
   address: string;
+
+  company: string;
 }
 declare global {
   interface Window {
     kakao: any;
   }
 }
-const KakaoMap = ({ address }: KakaoMapProps) => {
+const KakaoMap = ({ address, company }: KakaoMapProps) => {
   const { kakao } = window;
 
   useEffect(() => {
@@ -22,10 +24,10 @@ const KakaoMap = ({ address }: KakaoMapProps) => {
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
     // 지도에 확대 축소 컨트롤을 생성한다
-    var zoomControl = new kakao.maps.ZoomControl();
+    // var zoomControl = new kakao.maps.ZoomControl();
 
     // 지도의 우측에 확대 축소 컨트롤을 추가한다
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+    // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
@@ -36,34 +38,28 @@ const KakaoMap = ({ address }: KakaoMapProps) => {
       if (status === kakao.maps.services.Status.OK) {
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-        // 결과값으로 받은 위치를 마커로 표시합니다
         var marker = new kakao.maps.Marker({
           map: map,
           position: coords,
         });
+
         map.setCenter(coords);
       }
     });
-  }, [address]);
+  }, [address, company]);
 
   return (
-    <>
-      <MapWrap>
-        <div
-          className="map"
-          id="map"
-          style={{ width: "580px", height: "520px" }}
-        ></div>
-      </MapWrap>
-    </>
+    <div
+      className="map"
+      id="map"
+      style={{
+        width: "100%",
+        height: "100%",
+        borderRadius: "8px",
+        margin: "0 auto",
+      }}
+    ></div>
   );
 };
 
 export default KakaoMap;
-
-const MapWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-  position: relative;
-`;

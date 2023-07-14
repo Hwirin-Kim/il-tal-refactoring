@@ -4,7 +4,7 @@ import { companyWish, getDetailCompany } from "../../api";
 import CompanyTheme from "./CompanyTheme";
 import KakaoMap from "../map/KakaoMap";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiMapPin, FiPhone } from "react-icons/fi";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai";
@@ -15,7 +15,11 @@ import Modal from "../modal/Modal";
 import ThemePicComponent from "../detailTheme/ThemePicComponent";
 import { ThemeListType } from "components/types";
 import { useLoginCheck } from "components/context/LoginCheckContext";
+import { devices } from "styles/devices";
+import useFirstScrollTop from "hooks/useFirstScrollTop";
 const DetailCompany = () => {
+  useFirstScrollTop();
+
   //업체 아이디 받기
   const { id } = useParams();
   let companyId: number;
@@ -32,7 +36,7 @@ const DetailCompany = () => {
   );
 
   //로그인 유무 판별
-  const { isLogin, setIsLogin } = useLoginCheck();
+  const { isLogin } = useLoginCheck();
 
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMemeber = () => {
@@ -52,6 +56,16 @@ const DetailCompany = () => {
     window.open(`https://map.kakao.com/link/search/${data.data.address}`);
   };
 
+  const phoneNumberParsing = (number: string): string => {
+    const parsedNumber = number.replace(/-/g, " ");
+    return parsedNumber;
+  };
+
+  const phoneCall = (): void => {
+    // eslint-disable-next-line no-restricted-globals
+    location.href = "tel:" + phoneNumberParsing(data.data.phoneNumber);
+  };
+
   //데이터 refetch 클라이언트
   const queryClient = useQueryClient();
 
@@ -68,87 +82,90 @@ const DetailCompany = () => {
   if (isLoading) return <div>loading...</div>;
   return (
     <Container>
-      <CompanyWrap>
-        <div className="pic-map-wrap">
-          <CompanyPic onClick={() => setIsPic(false)}>
-            <img src={data.data.companyImgUrl} alt="postpic" />
-          </CompanyPic>
-          <CompanyMap>
-            <KakaoMap
-              address={data.data.address}
-              // company={data.data.companyName}
-            />
-          </CompanyMap>
-        </div>
-        <div className="text-info-wrap">
-          <CompanyText>
-            <div className="company">{data.data.companyName}</div>
-            <div className="review">
-              <span>★</span> {data.data.companyScore} (
-              {data.data.totalReviewCnt})
-            </div>
-            <div className="button-wrap">
-              <button
-                className="homepage"
-                onClick={() => window.open(data.data.companyUrl)}
-              >
-                홈페이지
-              </button>
-              <button onClick={() => likeOnlyMemeber()} className="like">
-                {data.data.companyLikeCheck ? (
-                  <div className="like-wrap">
-                    {<BsSuitHeartFill color={"#06c387"} size="20" />} 찜하기{" "}
-                    {data.data.totalLikeCnt}
-                  </div>
-                ) : (
-                  <div className="like-wrap">
-                    {<BsSuitHeart size="20" />} 찜하기
-                    {data.data.totalLikeCnt}
-                  </div>
-                )}
-              </button>
-            </div>
-          </CompanyText>
+      <CompanyInfoSection>
+        <CompanyPic
+          src={data.data.companyImgUrl}
+          alt="postpic"
+          onClick={() => setIsPic(false)}
+        />
+        <PosterTitleWrapper>
+          <Title>{data.data.companyName}</Title>
+
           <CompanyInfo>
-            <div className="icon-wrap">
-              <FiMapPin size="25px" />
-              <span className="hyperlink" onClick={loadKakaoMap}>
+            <CompanyInfoTextWrapper>
+              <FiMapPin />
+              <CompanyInfoText onClick={loadKakaoMap}>
                 {data.data.address}
-              </span>
-            </div>
-            <div className="icon-wrap">
-              <FiPhone size="25px" />
-              <span>{data.data.phoneNumber}</span>
-            </div>
-            <div className="icon-wrap">
-              <AiOutlineClockCircle size="25px" />
+              </CompanyInfoText>
+            </CompanyInfoTextWrapper>
+            <CompanyInfoTextWrapper>
+              <FiPhone />
+              <CompanyInfoText onClick={phoneCall}>
+                {data.data.phoneNumber}
+              </CompanyInfoText>
+            </CompanyInfoTextWrapper>
+            <CompanyInfoTextWrapper>
+              <AiOutlineClockCircle />
               {data.data.workHour
                 .split("\\n")
                 .map((data: string, index: number) => {
-                  return (
-                    <span key={`date${index}`}>
-                      {data}
-                      <br />
-                    </span>
-                  );
+                  return <CompanyInfoText key={data}>{data}</CompanyInfoText>;
                 })}
-              {/* <span>{data.data.workHour}</span> */}
-            </div>
+            </CompanyInfoTextWrapper>
+            <Wrapper>
+              <SpanTag mgRight={0.5} colorIsMain={true}>
+                ★
+              </SpanTag>{" "}
+              {data.data.companyScore} ({data.data.totalReviewCnt})
+            </Wrapper>
           </CompanyInfo>
-        </div>
-      </CompanyWrap>
+
+          <BtnWrapper>
+            <Btn
+              bgColor={true}
+              mgRight={0.8}
+              onClick={() => window.open(data.data.companyUrl)}
+            >
+              홈페이지
+            </Btn>
+
+            {data.data.companyLikeCheck ? (
+              <Btn onClick={() => likeOnlyMemeber()}>
+                <BsSuitHeartFill
+                  color={"#06c387"}
+                  style={{ marginRight: "0.5rem" }}
+                />{" "}
+                찜하기
+              </Btn>
+            ) : (
+              <Btn onClick={() => likeOnlyMemeber()}>
+                <BsSuitHeart style={{ marginRight: "0.5rem" }} /> 찜하기
+              </Btn>
+            )}
+          </BtnWrapper>
+        </PosterTitleWrapper>
+      </CompanyInfoSection>
+      <DividerLine />
+
+      <Title>테마</Title>
+
       <ThemeWrap>
         {data.data.themeList.map((theme: ThemeListType, index: number) => {
-          return (
-            <div className="test" key={`themes${index}`}>
-              <CompanyTheme theme={theme} key={theme.id} />
-            </div>
-          );
+          return <CompanyTheme theme={theme} key={theme.id} />;
         })}
       </ThemeWrap>
+      <DividerLine />
+
+      <MapBox>
+        <KakaoMap address={data.data.address} company={data.data.companyName} />
+      </MapBox>
+
       {isPic ? null : (
         <Modal closeModal={() => setIsPic(true)}>
-          <ThemePicComponent pic={data.data.companyImgUrl} />
+          <ThemePicComponent
+            onClick={() => setIsPic(true)}
+            pic={data.data.companyImgUrl}
+          />
         </Modal>
       )}
     </Container>
@@ -157,130 +174,144 @@ const DetailCompany = () => {
 export default DetailCompany;
 
 const Container = styled.div`
-  height: 100%;
   width: 100%;
-  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+
+  margin-bottom: 8rem;
 `;
-const CompanyWrap = styled.div`
-  height: 840px;
-  width: 1440px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  .pic-map-wrap {
-    width: 1440px;
+
+const PosterTitleWrapper = styled.div`
+  @media ${devices.md} {
+    height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
   }
-  .text-info-wrap {
-    display: flex;
-    justify-content: space-between;
-    margin: 40px 0;
+`;
+
+const CompanyInfoSection = styled.section`
+  margin-top: 1rem;
+  @media ${devices.md} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  @media ${devices.md} {
+    grid-template-columns: 1fr 2fr;
+  }
+  @media ${devices.xlg} {
+    grid-column-gap: 2rem;
   }
 `;
-const CompanyPic = styled.div`
-  height: 520px;
-  width: 830px;
+
+const CompanyPic = styled.img`
+  height: 23rem;
+  object-fit: cover;
+  width: 100%;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   cursor: pointer;
-  img {
-    display: flex;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+`;
+
+const DividerLine = styled.div`
+  width: 100%;
+  border-top: 1px solid var(--color-divider);
+  margin: 1rem 0;
+`;
+
+const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
+`;
+
+const SpanTag = styled.span<{ colorIsMain?: boolean; mgRight?: number }>`
+  ${(props) => props.colorIsMain && `color: var(--color-main)`};
+  margin-right: ${(props) => (props.mgRight ? `${props.mgRight}rem` : 0)};
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  font-size: 1rem;
+  @media ${devices.md} {
+    font-size: 1.2rem;
   }
 `;
 
-const CompanyText = styled.div`
-  height: 150px;
-  width: 840px;
+const BtnWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  .company {
-    font-size: 40px;
-    font-weight: bold;
-  }
-  .review {
-    margin-top: 20px;
-    font-size: 24px;
-    span {
-      font-size: 23px;
-      color: var(--color-main);
-    }
-  }
-  .button-wrap {
-    margin-top: 30px;
-    width: 500px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .homepage {
-    width: 220px;
-    height: 48px;
-    border-radius: 8px;
-    background-color: var(--color-main);
-    color: white;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .like {
-    width: 220px;
-    height: 48px;
-    border-radius: 8px;
-    border: 1px solid gray;
-    font-size: 16px;
-    background-color: white;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .like-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 72px;
-  }
+`;
+
+const Btn = styled.button<{ bgColor?: boolean; mgRight?: number }>`
+  width: 10rem;
+  height: 2.4rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 0.5rem;
+  ${(props) => props.bgColor && `background-color:var(--color-main)`};
+  ${(props) => props.bgColor && `color:white`};
+  ${(props) => props.mgRight && `margin-right:${props.mgRight}rem`};
+  ${(props) => props.mgRight && `border:none`};
 `;
 
 const CompanyInfo = styled.div`
-  width: 580px;
-  height: 150px;
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  span {
-    font-size: 16px;
-    margin-left: 10px;
-  }
-  .icon-wrap {
-    display: flex;
-    align-items: center;
-  }
-  .hyperlink {
-    cursor: pointer;
+  margin: 2rem 0;
+  @media ${devices.md} {
   }
 `;
 
-const CompanyMap = styled.div`
-  height: 520px;
-  width: 580px;
+const CompanyInfoTextWrapper = styled.div`
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+`;
+const CompanyInfoText = styled.div`
+  margin-left: 0.5rem;
+  cursor: pointer;
+  @media ${devices.md} {
+    margin-bottom: 1.5rem;
+
+    font-size: 1.2rem;
+  }
+`;
+
+const MapBox = styled.div`
+  height: 23rem;
+  width: 100%;
   border-radius: 8px;
   overflow: hidden;
+  margin-top: 1rem;
+  @media ${devices.md} {
+    margin: 2rem auto 0 auto;
+    width: 40rem;
+    height: 25rem;
+  }
 `;
 
 const ThemeWrap = styled.div`
-  height: 100%;
   width: 100%;
+  @media ${devices.md} {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 0.5rem;
+    grid-row-gap: 1rem;
+  }
+  @media ${devices.lg} {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 `;

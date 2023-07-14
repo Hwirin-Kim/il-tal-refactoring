@@ -38,6 +38,7 @@ const GlobalStyle = createGlobalStyle`
     --color-main:  #06c387; //main point color
     --color-border: #d1cccc; //border color
     --color-grey-btn: #f3f3f3;
+    --color-divider: #d1d1d1;
   }
 `;
 

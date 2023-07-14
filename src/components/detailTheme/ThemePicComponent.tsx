@@ -1,10 +1,16 @@
 import { userInfo } from "os";
 import styled from "styled-components";
 
-const ThemePicComponent = ({ pic }: { pic: string }) => {
+const ThemePicComponent = ({
+  pic,
+  onClick,
+}: {
+  pic: string;
+  onClick: () => void;
+}) => {
   return (
     <Container>
-      <img src={pic} alt="themepic" />
+      <img onClick={onClick} src={pic} alt="themepic" />
     </Container>
   );
 };

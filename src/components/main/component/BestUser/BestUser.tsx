@@ -46,7 +46,9 @@ export default function BestUser() {
           <MenuTitle>{menuData.successCnt}</MenuTitle>
         </MenuGrid>
         {bestUserData.data.map((item: IBestUserData, index: number) => {
-          return <BestUserGridItem data={item} rank={index + 1} />;
+          return (
+            <BestUserGridItem key={item.id} data={item} rank={index + 1} />
+          );
         })}
       </BestUserListSection>
     </Container>

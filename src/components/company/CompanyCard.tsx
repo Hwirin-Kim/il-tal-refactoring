@@ -95,7 +95,6 @@ const CompanyCard = ({ company, location, pageNumber }: CompanyType) => {
           {company.companyName}
         </CompanyName>
 
-        <Address>{company.address}</Address>
         <InfoWrapper>
           {company.themeList.map((theme, index) => {
             return (
@@ -123,10 +122,12 @@ const Container = styled.div`
   display: flex;
   margin-bottom: 2rem;
   border-radius: 0.5rem;
+  flex-direction: column;
+  border: 1px solid rgb(224, 224, 224);
   @media ${devices.md} {
     border: 1px solid rgb(224, 224, 224);
     font-size: 1.3rem;
-    flex-direction: column;
+
     box-sizing: border-box;
 
     &:hover {
@@ -136,8 +137,8 @@ const Container = styled.div`
 `;
 
 const Poster = styled.img`
-  width: 5rem;
-  height: 7rem;
+  width: 100%;
+  height: 12rem;
   background-color: grey;
   border-radius: 0.5rem;
   flex-shrink: 0;
@@ -179,7 +180,6 @@ const Like = styled.span`
   color: var(--color-main);
   cursor: pointer;
   font-size: 0.8rem;
-  margin-right: 0.5rem;
   @media ${devices.md} {
     font-size: 1.2rem;
     margin-right: 0.5rem;
@@ -210,13 +210,14 @@ const Address = styled.p`
 
 const InfoWrapper = styled.div`
   width: 100%;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   @media ${devices.md} {
     margin-bottom: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
 `;
 
@@ -230,6 +231,8 @@ const ThemeName = styled.span`
 const Score = styled.span`
   font-size: 0.62rem;
   font-weight: 300;
+  margin: 0.5rem 0;
+
   @media ${devices.md} {
     font-size: 1rem;
   }

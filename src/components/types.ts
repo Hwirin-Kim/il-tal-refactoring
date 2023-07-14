@@ -37,6 +37,7 @@ export interface ThemeListType {
   totalLikeCnt: number;
   reviewCnt: number;
   companyName: string;
+  reservationDay1: string[];
 }
 
 export interface CompanyThemeProps {
