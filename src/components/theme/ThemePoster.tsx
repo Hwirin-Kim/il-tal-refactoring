@@ -8,28 +8,57 @@ import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import { useInView } from "react-intersection-observer";
 import { useLoginCheck } from "components/context/LoginCheckContext";
+import Score from "components/common/Score";
 
-const ThemePoster = ({ theme }) => {
+interface ThemePosterProps {
+  theme: Theme;
+}
+
+export interface Theme {
+  companyName: string;
+  difficulty: number;
+  genre: string;
+  id: number;
+  playTime: number;
+  price: number;
+  reservationDay1: string[];
+  reservationDay2: string[];
+  reservationDay3: string[];
+  reservationDay4: string[];
+  reservationDay5: string[];
+  reservationDay6: string[];
+  reservationDay7: string[];
+  reviewCnt: number;
+  themeImgUrl: string;
+  themeLikeCheck: boolean;
+  themeName: string;
+  themeScore: number;
+}
+
+const ThemePoster = ({ theme }: ThemePosterProps) => {
   //페이지 이동에 사용
+
   const navigate = useNavigate();
 
   //쿼리 클라이언트 선언
   const queryClient = useQueryClient();
 
   //좋아요 기능 mutation
-  const themeLike = useMutation((themeId) => wishTheme(themeId), {
+  const themeLike = useMutation(() => wishTheme({ themeId: theme.id }), {
     onSuccess: (res) => {
       queryClient.invalidateQueries(["getThemeList"]);
-      setLikeState(res.data.themeLikeCheck);
+    },
+    onMutate: async (themeId) => {
+      await queryClient.cancelQueries(["getThemes"]);
     },
   });
 
   //로그인 유무 판별
-  const { isLogin, setIsLogin } = useLoginCheck();
+  const { isLogin } = useLoginCheck();
   //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMemeber = () => {
     if (isLogin) {
-      themeLike.mutate({ themeId: theme.id });
+      themeLike.mutate();
     } else {
       Swal.fire({
         title: "로그인 후 이용하세요!",
@@ -38,16 +67,6 @@ const ThemePoster = ({ theme }) => {
       });
     }
   };
-
-  //좋아요 스테이트 (theme에서 체크여부를 바로 받으면 너무 느리게 바뀌므로 wishTheme요청값을 이용하기위해 사용)
-  const [likeState, setLikeState] = useState(theme.themeLikeCheck);
-  useEffect(() => {
-    if (likeState) {
-      return setLikeState(theme.themeLikeCheck);
-    } else {
-      return setLikeState(theme.themeLikeCheck);
-    }
-  }, [theme]);
 
   //화면에 보일때 보여줄 토글state
   const [showList, setShowList] = useState(false);
@@ -67,22 +86,23 @@ const ThemePoster = ({ theme }) => {
 
   return (
     <Container>
-      <ThemePic ref={ref} onClick={() => navigate(`/theme/${theme.id}`)}>
-        {showList ? <img src={theme.themeImgUrl} alt="themePoster" /> : null}
-      </ThemePic>
+      <ThemePic
+        src={theme.themeImgUrl}
+        alt="themePoster"
+        ref={ref}
+        onClick={() => navigate(`/theme/${theme.id}`)}
+      />
+
       <ThemeTextWrap>
-        <ThemeTextHeader>{theme.companyName}</ThemeTextHeader>
-        <ThemeTextTitle onClick={() => navigate(`/theme/${theme.id}`)}>
+        <CompanyName>{theme.companyName}</CompanyName>
+        <ThemeName onClick={() => navigate(`/theme/${theme.id}`)}>
           {theme.themeName}
-        </ThemeTextTitle>
-        <ThemeTextGenre>{theme.genre}</ThemeTextGenre>
+        </ThemeName>
+        <Genre>{theme.genre}</Genre>
         <ThemeTextBottom>
-          <div>
-            <span className="star">★</span> {theme.themeScore}{" "}
-            <span>({theme.reviewCnt})</span>
-          </div>
-          <div className="like" onClick={() => likeOnlyMemeber()}>
-            {likeState ? (
+          <Score score={theme.themeScore} reviewCnt={theme.reviewCnt} />
+          <div className="like">
+            {theme.themeLikeCheck ? (
               <BsSuitHeartFill color={"var(--color-main)"} />
             ) : (
               <BsSuitHeart />
@@ -97,93 +117,54 @@ const ThemePoster = ({ theme }) => {
 export default ThemePoster;
 
 const Container = styled.div`
-  height: 440px;
-  width: 340px;
+  width: 100%;
   border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   overflow: hidden;
-  margin: 0 18px 27px 0;
   box-sizing: border-box;
-  scale: 1;
-
   &:hover {
-    box-shadow: 0 4px 15px 1px rgba(6, 195, 135, 0.25);
     border: 1px solid var(--color-main);
   }
 `;
 
-const ThemePic = styled.div`
-  height: 216px;
+const ThemePic = styled.img`
+  height: 15rem;
   width: 100%;
   border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  object-fit: cover;
   cursor: pointer;
-  img {
-    display: flex;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 const ThemeTextWrap = styled.div`
-  width: 340px;
-  height: 224px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 5px;
+  padding: 0.5rem;
 `;
-const ThemeTextHeader = styled.div`
-  width: 310px;
-  height: 35px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5px;
+const CompanyName = styled.span`
   color: grey;
-  font-size: 20px;
+  font-size: 0.8rem;
 `;
-const ThemeTextTitle = styled.div`
-  width: 310px;
-  height: 80px;
-  font-size: 23px;
+const ThemeName = styled.span`
+  margin-top: 0.5rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin: 5px 0;
-  display: flex;
   cursor: pointer;
 `;
-const ThemeTextGenre = styled.div`
-  width: 310px;
-  height: 35px;
-  font-size: 16px;
+const Genre = styled.div`
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
   color: grey;
 `;
 const ThemeTextBottom = styled.div`
-  width: 310px;
-  height: 35px;
+  width: 100%;
   font-size: 20px;
 
   display: flex;
   justify-content: space-between;
-  .like {
-    cursor: pointer;
-    font-size: 25px;
-  }
-  span {
-    color: gray;
-  }
-  .star {
-    color: var(--color-main);
-    font-size: 25px;
-    font-weight: bold;
-  }
 `;

@@ -120,7 +120,7 @@ const Container = styled.div`
   box-sizing: border-box;
 
   width: 100%;
-  padding: 0 0.6rem;
+  padding: 0 0.5rem;
   margin-bottom: 8rem;
   .pagination {
     display: flex;
