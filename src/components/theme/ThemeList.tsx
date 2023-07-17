@@ -25,34 +25,58 @@ import { Company, ThemeListType } from "components/types";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import { categoryIndex } from "./categoryIndex";
 import { devices } from "styles/devices";
+import { useSearchParams } from "react-router-dom";
+import ThemeFilterBox from "./filter/ThemeFilterBox";
 
 const ThemeList = () => {
-  //페이지 전역상태
-  const [themePagenation, setThemePage] = useRecoilState(themePages);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  //전역변수로 선언된 각 필터 스테이트를 값만 불러서 사용 (useRecoilValue사용)
-  const genre = useRecoilValue(genreState);
-  const location = useRecoilValue(locationState);
-  const people = useRecoilValue(peopleState);
-  const score = useRecoilValue(scoreState);
-  const difficulty = useRecoilValue(difficultyState);
+  const location = searchParams.get("location") ?? "";
+  const genreFilter = searchParams.get("genreFilter") ?? "";
+  const people = searchParams.get("people") ?? "";
+  const themeScore = searchParams.get("themeScore") ?? "0,5";
+  const difficulty = searchParams.get("difficulty") ?? "1,5";
+  const sort = searchParams.get("sort") ?? "reviewCnt";
 
   //로그인 유무 판별
   const { isLogin } = useLoginCheck();
-  //정렬 전역 스테이트
-  const [sort, setSort] = useRecoilState(sortState);
 
-  //페이징처리된 데이터 받아오기
+  const page = searchParams.get("page");
+
+  const onPageHandler = (page: number) => {
+    const pageIndex = page - 1;
+    setSearchParams({
+      page: String(pageIndex),
+      location,
+      genreFilter,
+      people,
+      themeScore,
+      difficulty,
+      sort,
+    });
+    window.scrollTo(0, 0);
+  };
+
   const { data, isError, error, isLoading, refetch } = useQuery(
-    ["getThemes", themePagenation, isLogin],
+    [
+      "getThemes",
+      page,
+      isLogin,
+      location,
+      genreFilter,
+      people,
+      themeScore,
+      difficulty,
+      sort,
+    ],
     () =>
       getFilterTheme({
-        genre,
+        genreFilter,
         location,
-        score,
+        themeScore,
         people,
         difficulty,
-        themePagenation,
+        page,
         sort,
       }),
     {
@@ -63,7 +87,14 @@ const ThemeList = () => {
   );
 
   const onChangeCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSort(e.target.value);
+    setSearchParams({
+      sort: e.target.value,
+      location,
+      themeScore,
+      genreFilter,
+      difficulty,
+      people,
+    });
   };
 
   //정렬 트리거 함수 (onChangeSort가 실행되어 sort가 변할때 마다 refetch시킴)
@@ -72,15 +103,9 @@ const ThemeList = () => {
   }, [refetch, sort]);
 
   //페이지네이션이 눌릴때마다 themePage를 페이지에 맞게 설정
-  const onPageHandler = (page: number) => {
-    setThemePage(page - 1);
-  };
-
-  //필터링된 테마 개수 미리보기 API GET요청
-  const { data: filterData, isLoading: filterIsLoading } = useQuery(
-    ["getFilterCnt", genre, location, score, people, difficulty],
-    () => getFilterCnt({ genre, location, score, people, difficulty })
-  );
+  // const onPageHandler = (page: number) => {
+  //   setThemePage(page - 1);
+  // };
 
   // 로딩 및 에러 처리
   if (isLoading) return <div>Loading...</div>;
@@ -88,11 +113,7 @@ const ThemeList = () => {
 
   return (
     <Container>
-      {/* <ThemeFilter
-        refetch={refetch}
-        filterData={filterData}
-        filterIsLoading={filterIsLoading}
-      /> */}
+      <ThemeFilterBox />
       <TopInfoWrapper>
         <SearchResult>검색결과 {data.data.totalElements}개</SearchResult>
 
@@ -122,7 +143,20 @@ const ThemeList = () => {
           {data.data.content.map((theme: Theme) => {
             return (
               <div className="theme-wrap" key={`poster${theme.id}`}>
-                <ThemePoster theme={theme} />
+                <ThemePoster
+                  queryKey={[
+                    "getThemes",
+                    page,
+                    isLogin,
+                    location,
+                    genreFilter,
+                    people,
+                    themeScore,
+                    difficulty,
+                    sort,
+                  ]}
+                  theme={theme}
+                />
               </div>
             );
           })}
@@ -131,20 +165,20 @@ const ThemeList = () => {
         <div className="pagenation">
           {data.data.totalPages > 1 ? (
             <Pagination
-              activePage={themePagenation + 1}
+              activePage={Number(page) + 1}
               itemsCountPerPage={9}
               totalItemsCount={data.data.totalElements}
               pageRangeDisplayed={5}
               hideFirstLastPages={true}
               prevPageText={
-                themePagenation === 0 ? (
+                Number(page) === 0 ? (
                   <img src={prevgray} alt="next" />
                 ) : (
                   <img src={prevgreen} alt="next" />
                 )
               }
               nextPageText={
-                themePagenation + 1 === data.data.totalPages ? (
+                Number(page) + 1 === data.data.totalPages ? (
                   <img src={nextgray} alt="next" />
                 ) : (
                   <img src={nextgreen} alt="next" />

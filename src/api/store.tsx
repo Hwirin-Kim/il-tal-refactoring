@@ -5,20 +5,20 @@ import { atom } from "recoil";
 //장르필터 전역 스테이트
 export const genreState = atom<string[]>({
   key: "genreState",
-  default: [],
+  default: ["전체"],
 });
 
 //지역필터 전역 스테이트
 
 export const locationState = atom<string[]>({
   key: "locationState",
-  default: [],
+  default: ["전체"],
 });
 
 //인원필터 전역 스테이트
 export const peopleState = atom<string[]>({
   key: "peopleState",
-  default: [],
+  default: ["전체"],
 });
 
 //별점필터 전역 스테이트

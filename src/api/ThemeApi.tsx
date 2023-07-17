@@ -7,16 +7,27 @@ export const getThemes = async () => {
 
 //테마 페이지 테마리스트 GET요청 (무한스크롤)
 export const getFilterTheme = async ({
-  genre,
+  genreFilter,
   location,
-  score,
+  themeScore,
   people,
   difficulty,
-  themePagenation,
+  page,
   sort,
 }) => {
+  const fixParams = (parameter: string) => {
+    if (parameter === "전체") {
+      return "";
+    }
+    return parameter;
+  };
+
   const { data } = await api.get(
-    `/themes?location=${location}&genreFilter=${genre}&people=${people}&themeScore=${score}&difficulty=${difficulty}&sort=${sort}&page=${themePagenation}`
+    `/themes?location=${fixParams(location)}&genreFilter=${fixParams(
+      genreFilter
+    )}&people=${fixParams(
+      people
+    )}&themeScore=${themeScore}&difficulty=${difficulty}&sort=${sort}&page=${page}`
   );
   return data;
 };
@@ -53,7 +64,7 @@ export const delComment = async (id) => {
 
 //테마&디테일테마 페이지 찜하기 POST요청
 export const wishTheme = async (payload) => {
-  const { data } = await api.post("/theme/wish", payload);
+  const { data } = await api.post("/theme/wish", { themeId: payload });
   return data;
 };
 
@@ -61,7 +72,7 @@ export const wishTheme = async (payload) => {
 interface FilterCntParameterType {
   genre: string[];
   location: string[];
-  score: number[];
+  themeScore: number[];
   people: string[];
   difficulty: number[];
   themePagenation?: number;
@@ -70,14 +81,24 @@ interface FilterCntParameterType {
 export const getFilterCnt = async ({
   genre,
   location,
-  score,
+  themeScore,
   people,
   difficulty,
   themePagenation,
   sort,
 }: FilterCntParameterType) => {
+  const fixParameter = (param: string[]) => {
+    if (param.includes("전체")) {
+      return "";
+    }
+    return param;
+  };
   const { data } = await api.get(
-    `/themes/filterCnt?location=${location}&genreFilter=${genre}&people=${people}&themeScore=${score}&difficulty=${difficulty}`
+    `/themes/filterCnt?location=${fixParameter(
+      location
+    )}&genreFilter=${fixParameter(genre)}&people=${fixParameter(
+      people
+    )}&themeScore=${themeScore}&difficulty=${difficulty}`
   );
   return data;
 };

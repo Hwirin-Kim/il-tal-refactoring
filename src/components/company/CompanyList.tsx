@@ -12,6 +12,7 @@ import CompanyCard from "./CompanyCard";
 import { devices } from "styles/devices";
 import SectionTitle from "components/common/SectionTitle";
 import { useSearchParams } from "react-router-dom";
+import ThemeFilterBox from "components/theme/filter/ThemeFilterBox";
 
 export interface CompanyType {
   id: number;

@@ -9,9 +9,11 @@ import Swal from "sweetalert2";
 import { useInView } from "react-intersection-observer";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import Score from "components/common/Score";
+import { ThemeDataType } from "components/mypage/components/myThemePage/MyThemeList";
 
 interface ThemePosterProps {
   theme: Theme;
+  queryKey: any;
 }
 
 export interface Theme {
@@ -35,30 +37,46 @@ export interface Theme {
   themeScore: number;
 }
 
-const ThemePoster = ({ theme }: ThemePosterProps) => {
-  //페이지 이동에 사용
-
+const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
   const navigate = useNavigate();
-
-  //쿼리 클라이언트 선언
   const queryClient = useQueryClient();
 
   //좋아요 기능 mutation
-  const themeLike = useMutation(() => wishTheme({ themeId: theme.id }), {
+  const themeLike = useMutation((themeId: number) => wishTheme(themeId), {
     onSuccess: (res) => {
-      queryClient.invalidateQueries(["getThemeList"]);
+      queryClient.invalidateQueries(queryKey);
     },
     onMutate: async (themeId) => {
-      await queryClient.cancelQueries(["getThemes"]);
+      await queryClient.cancelQueries(queryKey);
+      const previousData = queryClient.getQueryData(queryKey);
+
+      queryClient.setQueryData(queryKey, (oldData: any) => {
+        return {
+          ...oldData,
+          data: {
+            ...oldData.data,
+            content: oldData.data.content.map((theme: ThemeDataType) => {
+              if (theme.id === themeId) {
+                return {
+                  ...theme,
+                  themeLikeCheck: !theme.themeLikeCheck,
+                };
+              }
+              return theme;
+            }),
+          },
+        };
+      });
+      return previousData;
     },
   });
 
   //로그인 유무 판별
   const { isLogin } = useLoginCheck();
   //좋아요 회원만 가능하도록 알람띄우기
-  const likeOnlyMemeber = () => {
+  const likeOnlyMember = (id: number) => {
     if (isLogin) {
-      themeLike.mutate();
+      themeLike.mutate(id);
     } else {
       Swal.fire({
         title: "로그인 후 이용하세요!",
@@ -101,7 +119,7 @@ const ThemePoster = ({ theme }: ThemePosterProps) => {
         <Genre>{theme.genre}</Genre>
         <ThemeTextBottom>
           <Score score={theme.themeScore} reviewCnt={theme.reviewCnt} />
-          <div className="like">
+          <div className="like" onClick={() => likeOnlyMember(theme.id)}>
             {theme.themeLikeCheck ? (
               <BsSuitHeartFill color={"var(--color-main)"} />
             ) : (
