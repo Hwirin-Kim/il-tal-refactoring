@@ -2,7 +2,7 @@ import Slider from "rc-slider";
 import "../../styles/index.css";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Category from "./Category";
+import Category from "./filter/category";
 import CategoryBtn from "./CategoryBtn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -14,22 +14,25 @@ import {
   themePages,
 } from "../../api/store";
 import lock from "../../asset/lock.png";
+import { useQuery } from "@tanstack/react-query";
+import { getFilterCnt } from "api/ThemeApi";
 interface ThemeFilterProps {
   refetch: Function;
-  filterData: any;
-  filterIsLoading: boolean;
 }
-const ThemeFilter = ({
-  refetch,
-  filterData,
-  filterIsLoading,
-}: ThemeFilterProps) => {
+const ThemeFilter = ({ refetch }: ThemeFilterProps) => {
   //전역변수로 선언된 각 필터별 스테이트 (Recoil)
-  const [genre, setGenre] = useRecoilState(genreState);
+  const [genreFilter, setGenre] = useRecoilState(genreState);
   const [location, setLocation] = useRecoilState(locationState);
   const [people, setPeople] = useRecoilState(peopleState);
-  const [score, setScore] = useRecoilState(scoreState);
+  const [themeScore, setScore] = useRecoilState(scoreState);
   const [difficulty, setDifficulty] = useRecoilState(difficultyState);
+
+  //필터링된 테마 개수 미리보기 API GET요청
+  const { data: filterData, isLoading: filterIsLoading } = useQuery(
+    ["getFilterCnt", genreFilter, location, themeScore, people, difficulty],
+    () =>
+      getFilterCnt({ genreFilter, location, themeScore, people, difficulty })
+  );
 
   //전체지역 선택 스테이트
   const [isLocationAll, setIsLocationAll] = useState(true);
@@ -51,12 +54,12 @@ const ThemeFilter = ({
 
   //장르 전체 선택시 스테이트값 초기화
   useEffect(() => {
-    if (genre.length > 0) {
+    if (genreFilter.length > 0) {
       return setIsGenreAll(false);
-    } else if (genre.length === 0) {
+    } else if (genreFilter.length === 0) {
       return setIsGenreAll(true);
     }
-  }, [genre]);
+  }, [genreFilter]);
 
   //인원 전체 선택시 스테이트값 초기화
   useEffect(() => {
@@ -118,7 +121,7 @@ const ThemeFilter = ({
           <CategoryBtn
             fontSize="1rem"
             categoryIndex={Category.GenreCategory}
-            state={genre}
+            state={genreFilter}
             setState={setGenre}
           />
         </div>
@@ -140,8 +143,8 @@ const ThemeFilter = ({
         <div className="category">
           <p>평점</p>
           <div className="state-text">
-            {score[0] === 0 ? "평가 없음" : "★".repeat(score[0])} -
-            {"★".repeat(score[1])}
+            {themeScore[0] === 0 ? "평가 없음" : "★".repeat(themeScore[0])} -
+            {"★".repeat(themeScore[1])}
           </div>
 
           <SliderWrap>
@@ -155,7 +158,7 @@ const ThemeFilter = ({
               allowCross={false}
               pushable
               draggableTrack
-              value={score}
+              value={themeScore}
               onChange={(e) => onChangeFilter(e, setScore)}
             />
           </SliderWrap>

@@ -1,4 +1,5 @@
 import Slider from "rc-slider";
+import "../../../../styles/index.css";
 import React from "react";
 import styled from "styled-components";
 import { ISliderData } from "./sliderIndex";

@@ -8,6 +8,8 @@ import { useLoginCheck } from "components/context/LoginCheckContext";
 import { devices } from "styles/devices";
 import { Company } from "components/types";
 import { useNavigate } from "react-router-dom";
+import Score from "components/common/Score";
+import { themePages } from "api/store";
 
 const CompanyCard = ({ company, location, pageNumber }: CompanyType) => {
   const { isLogin } = useLoginCheck();
@@ -106,10 +108,10 @@ const CompanyCard = ({ company, location, pageNumber }: CompanyType) => {
           })}
         </InfoWrapper>
 
-        <Score>
-          <Star>★</Star>
-          {company.companyScore} ({company.totalReviewCnt})
-        </Score>
+        <Score
+          score={company.companyScore}
+          reviewCnt={company.totalReviewCnt}
+        />
       </CompanyInfoTextWrapper>
     </Container>
   );
@@ -228,20 +230,20 @@ const ThemeName = styled.span`
   }
 `;
 
-const Score = styled.span`
-  font-size: 0.62rem;
-  font-weight: 300;
-  margin: 0.5rem 0;
+// const Score = styled.span`
+//   font-size: 0.62rem;
+//   font-weight: 300;
+//   margin: 0.5rem 0;
 
-  @media ${devices.md} {
-    font-size: 1rem;
-  }
-`;
+//   @media ${devices.md} {
+//     font-size: 1rem;
+//   }
+// `;
 
-const Star = styled.span`
-  font-size: 0.62rem;
-  color: var(--color-main);
-  @media ${devices.md} {
-    font-size: 1rem;
-  }
-`;
+// const Star = styled.span`
+//   font-size: 0.62rem;
+//   color: var(--color-main);
+//   @media ${devices.md} {
+//     font-size: 1rem;
+//   }
+// `;

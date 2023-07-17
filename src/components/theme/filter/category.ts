@@ -1,5 +1,6 @@
-const Category = {
+const category = {
   GenreCategory: [
+    { name: "전체", value: "전체" },
     {
       name: "미션",
       value: "미션",
@@ -50,6 +51,7 @@ const Category = {
   ],
 
   LocationCategory: [
+    { name: "전체", value: "전체" },
     {
       name: "강남",
       value: "강남",
@@ -84,78 +86,79 @@ const Category = {
     },
   ],
 
-  ScoreCategory: [
-    {
-      name: "⭐️",
-      value: 1,
-    },
-    {
-      name: "⭐️⭐️",
-      value: 2,
-    },
-    {
-      name: "⭐️⭐️⭐️",
-      value: 3,
-    },
-    {
-      name: "⭐️⭐️⭐️⭐️",
-      value: 4,
-    },
-    {
-      name: "⭐️⭐️⭐️⭐️⭐️",
-      value: 5,
-    },
-  ],
-
-  DifficultyCategory: [
-    {
-      name: "전체",
-      value: "전체",
-    },
-    {
-      name: "🔒",
-      value: 1,
-    },
-    {
-      name: "🔒🔒",
-      value: 2,
-    },
-    {
-      name: "🔒🔒🔒",
-      value: 3,
-    },
-    {
-      name: "🔒🔒🔒🔒",
-      value: 4,
-    },
-    {
-      name: "🔒🔒🔒🔒🔒",
-      value: 5,
-    },
-  ],
-
   PeopleCategory: [
+    { name: "전체", value: "전체" },
     {
       name: "1인",
-      value: 1,
+      value: "1",
     },
     {
       name: "2인",
-      value: 2,
+      value: "2",
     },
     {
       name: "3인",
-      value: 3,
+      value: "3",
     },
     {
       name: "4인",
-      value: 4,
+      value: "4",
     },
     {
       name: "5인이상",
-      value: [5, 6],
+      value: "5",
     },
   ],
 };
 
-export default Category;
+export default category;
+
+//   ScoreCategory: [
+//     {
+//       name: "⭐️",
+//       value: 1,
+//     },
+//     {
+//       name: "⭐️⭐️",
+//       value: 2,
+//     },
+//     {
+//       name: "⭐️⭐️⭐️",
+//       value: 3,
+//     },
+//     {
+//       name: "⭐️⭐️⭐️⭐️",
+//       value: 4,
+//     },
+//     {
+//       name: "⭐️⭐️⭐️⭐️⭐️",
+//       value: 5,
+//     },
+//   ],
+
+//   DifficultyCategory: [
+//     {
+//       name: "전체",
+//       value: "전체",
+//     },
+//     {
+//       name: "🔒",
+//       value: 1,
+//     },
+//     {
+//       name: "🔒🔒",
+//       value: 2,
+//     },
+//     {
+//       name: "🔒🔒🔒",
+//       value: 3,
+//     },
+//     {
+//       name: "🔒🔒🔒🔒",
+//       value: 4,
+//     },
+//     {
+//       name: "🔒🔒🔒🔒🔒",
+//       value: 5,
+//     },
+//   ],

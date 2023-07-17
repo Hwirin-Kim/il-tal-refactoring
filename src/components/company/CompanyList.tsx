@@ -12,6 +12,7 @@ import CompanyCard from "./CompanyCard";
 import { devices } from "styles/devices";
 import SectionTitle from "components/common/SectionTitle";
 import { useSearchParams } from "react-router-dom";
+import ThemeFilterBox from "components/theme/filter/ThemeFilterBox";
 
 export interface CompanyType {
   id: number;
@@ -120,7 +121,7 @@ const Container = styled.div`
   box-sizing: border-box;
 
   width: 100%;
-  padding: 0 0.6rem;
+  padding: 0 0.5rem;
   margin-bottom: 8rem;
   .pagination {
     display: flex;
