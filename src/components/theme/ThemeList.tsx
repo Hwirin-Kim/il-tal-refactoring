@@ -1,18 +1,8 @@
 import styled from "styled-components";
 import ThemePoster, { Theme } from "./ThemePoster";
-import ThemeFilter from "./ThemeFilter";
+
 import { useQuery } from "@tanstack/react-query";
-import { getFilterCnt, getFilterTheme } from "../../api/ThemeApi";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  difficultyState,
-  genreState,
-  locationState,
-  peopleState,
-  scoreState,
-  sortState,
-  themePages,
-} from "../../api/store";
+import { getFilterTheme } from "../../api/ThemeApi";
 
 import Pagination from "react-js-pagination";
 import React, { useEffect } from "react";
@@ -21,14 +11,16 @@ import nextgray from "../../asset/next-gray.png";
 import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
 import prevgreen from "../../asset/prev-green.png";
-import { Company, ThemeListType } from "components/types";
+
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import { categoryIndex } from "./categoryIndex";
 import { devices } from "styles/devices";
 import { useSearchParams } from "react-router-dom";
 import ThemeFilterBox from "./filter/ThemeFilterBox";
+import useFirstScrollTop from "hooks/useFirstScrollTop";
 
 const ThemeList = () => {
+  useFirstScrollTop();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const location = searchParams.get("location") ?? "";
@@ -57,7 +49,7 @@ const ThemeList = () => {
     window.scrollTo(0, 0);
   };
 
-  const { data, isError, error, isLoading, refetch } = useQuery(
+  const { data, isError, isLoading, refetch } = useQuery(
     [
       "getThemes",
       page,
@@ -78,12 +70,7 @@ const ThemeList = () => {
         difficulty,
         page,
         sort,
-      }),
-    {
-      onSuccess: () => {
-        window.scrollTo(0, 0);
-      },
-    }
+      })
   );
 
   const onChangeCategory = (e: React.ChangeEvent<HTMLInputElement>) => {

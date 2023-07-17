@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getFilterCnt } from "api/ThemeApi";
 import { useSearchParams } from "react-router-dom";
 import lock from "../../../asset/lock.png";
+import DateInput from "./DateInput";
 
 export default function ThemeFilterBox() {
   const [genre, setGenre] = useRecoilState(genreState);
@@ -78,22 +79,27 @@ export default function ThemeFilterBox() {
 
   return (
     <Container>
+      <DateInput />
+      <CategoryName>장르</CategoryName>
       <CategoryFilter
         category={category.GenreCategory}
         state={genre}
         setState={setGenre}
       />
+      <CategoryName>지역</CategoryName>
       <CategoryFilter
         category={category.LocationCategory}
         state={location}
         setState={setLocation}
       />
+      <CategoryName>인원</CategoryName>
       <CategoryFilter
         category={category.PeopleCategory}
         state={people}
         setState={setPeople}
       />
       <SliderWrapper>
+        <CategoryName>별점</CategoryName>
         <SliderText>
           {themeScore[0] === 0 ? "평가 없음" : "★".repeat(themeScore[0])} -
           {"★".repeat(themeScore[1])}
@@ -113,6 +119,7 @@ export default function ThemeFilterBox() {
         />
       </SliderWrapper>
       <SliderWrapper>
+        <CategoryName>난이도</CategoryName>
         <SliderText>
           {[...Array(difficulty[0])].map((arg, index) => {
             return <img src={lock} alt="lock" key={`key${index}`} />;
@@ -143,12 +150,17 @@ export default function ThemeFilterBox() {
     </Container>
   );
 }
-const Container = styled.div``;
+const Container = styled.div`
+  width: 100%;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border: 1px solid #e6e6e6;
+`;
 
 const SliderWrapper = styled.div`
-  height: 50px;
   width: 100%;
-  margin-bottom: 3rem;
+  height: 4rem;
 `;
 
 const SearchBtn = styled.button<{ mainColor?: boolean }>`
@@ -163,5 +175,9 @@ const SearchBtn = styled.button<{ mainColor?: boolean }>`
   border: 1px solid var(--color-border);
   outline: none;
 `;
+
+const InputDate = styled.input``;
+
+const CategoryName = styled.span``;
 
 const SliderText = styled.div``;
