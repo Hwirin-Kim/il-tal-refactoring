@@ -1,15 +1,17 @@
 import styled from "styled-components";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { wishTheme } from "../../api/ThemeApi";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import { useInView } from "react-intersection-observer";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import Score from "components/common/Score";
 import { ThemeDataType } from "components/mypage/components/myThemePage/MyThemeList";
+import { devices } from "styles/devices";
+import { dayState } from "api/store";
 
 interface ThemePosterProps {
   theme: Theme;
@@ -40,6 +42,8 @@ export interface Theme {
 const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const day = useRecoilValue(dayState);
 
   //좋아요 기능 mutation
   const themeLike = useMutation((themeId: number) => wishTheme(themeId), {
@@ -102,6 +106,13 @@ const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
     }
   }, [inView, showList]);
 
+  const reservationIndex = () => {
+    if (day === "") {
+      return "reservationDay1";
+    }
+    return `reservationDay${day}`;
+  };
+
   return (
     <Container>
       <ThemePic
@@ -127,6 +138,17 @@ const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
             )}
           </div>
         </ThemeTextBottom>
+        <ReservationWrapper>
+          {theme[reservationIndex()][0] === "" ? (
+            <NoReservation>예약 정보가 없습니다!</NoReservation>
+          ) : (
+            theme[reservationIndex()].map((time) => {
+              return (
+                <ReservationTimeButton key={time}>{time}</ReservationTimeButton>
+              );
+            })
+          )}
+        </ReservationWrapper>
       </ThemeTextWrap>
     </Container>
   );
@@ -185,4 +207,29 @@ const ThemeTextBottom = styled.div`
 
   display: flex;
   justify-content: space-between;
+`;
+
+const ReservationWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  @media ${devices.md} {
+    margin-top: 0.5rem;
+  }
+`;
+
+const ReservationTimeButton = styled.span`
+  margin: 0.1rem 0.2rem 0.1rem 0;
+  padding: 0.1rem;
+  font-size: 0.7em;
+  border-radius: 0.4rem;
+  border: 1px solid var(--color-grey-btn);
+  @media ${devices.md} {
+    padding: 0.1rem 0.2rem;
+  }
+`;
+
+const NoReservation = styled.p`
+  font-size: 0.7em;
+  margin-top: 0.3rem;
 `;

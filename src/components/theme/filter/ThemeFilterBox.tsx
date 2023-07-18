@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import CategoryFilter from "./CategoryFilter";
 import category from "./category";
 import {
+  dayState,
   difficultyState,
   genreState,
   locationState,
   peopleState,
   scoreState,
+  timeState,
 } from "../../../api/store";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -17,6 +19,8 @@ import { getFilterCnt } from "api/ThemeApi";
 import { useSearchParams } from "react-router-dom";
 import lock from "../../../asset/lock.png";
 import DateInput from "./DateInput";
+import TimeInput from "./TimeInput";
+import CategoryTitle from "./common/CategoryTitle";
 
 export default function ThemeFilterBox() {
   const [genre, setGenre] = useRecoilState(genreState);
@@ -24,6 +28,8 @@ export default function ThemeFilterBox() {
   const [people, setPeople] = useRecoilState(peopleState);
   const [themeScore, setScore] = useRecoilState(scoreState);
   const [difficulty, setDifficulty] = useRecoilState(difficultyState);
+  const [time, setTime] = useRecoilState(timeState);
+  const [day, setDay] = useRecoilState(dayState);
 
   const onSliderChange = (e: number | number[], setState: Function): void => {
     setState(e);
@@ -34,7 +40,8 @@ export default function ThemeFilterBox() {
   const peopleParam = searchParams.get("people") ?? "전체";
   const themeScoreParam = searchParams.get("themeScore") ?? "0,5";
   const difficultyParam = searchParams.get("difficulty") ?? "1,5";
-
+  const timeParam = searchParams.get("time") ?? "8,24";
+  const dayParam = searchParams.get("day") ?? "";
   /**
    * @param str 숫자 배열로 변환 할 문자
    * @returns 숫자 배열
@@ -43,7 +50,7 @@ export default function ThemeFilterBox() {
     const numbers = str.split(",").map(Number);
     return numbers;
   };
-
+  console.log(time);
   //queryString 값으로 전역변수 초기화
   useEffect(() => {
     setGenre(genreFilterParam.split(","));
@@ -51,12 +58,32 @@ export default function ThemeFilterBox() {
     setPeople(peopleParam.split(","));
     setScore(convertToNumberArray(themeScoreParam));
     setDifficulty(convertToNumberArray(difficultyParam));
+    setTime(convertToNumberArray(timeParam));
+    setDay(dayParam);
   }, []);
 
   //필터링된 테마 개수 미리보기 API GET요청
   const { data: filterData, isLoading: filterIsLoading } = useQuery(
-    ["getFilterCnt", genre, location, themeScore, people, difficulty],
-    () => getFilterCnt({ genre, location, themeScore, people, difficulty })
+    [
+      "getFilterCnt",
+      genre,
+      location,
+      themeScore,
+      people,
+      difficulty,
+      day,
+      time,
+    ],
+    () =>
+      getFilterCnt({
+        genre,
+        location,
+        themeScore,
+        people,
+        difficulty,
+        day,
+        time,
+      })
   );
 
   const onClickSearchTheme = () => {
@@ -66,40 +93,47 @@ export default function ThemeFilterBox() {
       genreFilter: genre.join(","),
       difficulty: difficulty.join(","),
       people: people.join(","),
+      time: time.join(","),
+      day: day,
     });
   };
 
+  //초기화 버튼 onClick
   const categoryReset = () => {
     setGenre(["전체"]);
     setLocation(["전체"]);
     setPeople(["전체"]);
     setScore([0, 5]);
     setDifficulty([1, 5]);
+    setTime([0, 24]);
+    setDay("");
   };
 
   return (
     <Container>
       <DateInput />
-      <CategoryName>장르</CategoryName>
+      <TimeInput />
+
+      <CategoryTitle>장르</CategoryTitle>
       <CategoryFilter
         category={category.GenreCategory}
         state={genre}
         setState={setGenre}
       />
-      <CategoryName>지역</CategoryName>
+      <CategoryTitle>지역</CategoryTitle>
       <CategoryFilter
         category={category.LocationCategory}
         state={location}
         setState={setLocation}
       />
-      <CategoryName>인원</CategoryName>
+      <CategoryTitle>인원</CategoryTitle>
       <CategoryFilter
         category={category.PeopleCategory}
         state={people}
         setState={setPeople}
       />
       <SliderWrapper>
-        <CategoryName>별점</CategoryName>
+        <CategoryTitle>별점</CategoryTitle>
         <SliderText>
           {themeScore[0] === 0 ? "평가 없음" : "★".repeat(themeScore[0])} -
           {"★".repeat(themeScore[1])}
@@ -119,13 +153,13 @@ export default function ThemeFilterBox() {
         />
       </SliderWrapper>
       <SliderWrapper>
-        <CategoryName>난이도</CategoryName>
+        <CategoryTitle>난이도</CategoryTitle>
         <SliderText>
-          {[...Array(difficulty[0])].map((arg, index) => {
+          {[...Array(difficulty[0])].map((_, index) => {
             return <img src={lock} alt="lock" key={`key${index}`} />;
           })}
           -
-          {[...Array(difficulty[1])].map((arg, index) => {
+          {[...Array(difficulty[1])].map((_, index) => {
             return <img src={lock} alt="lock" key={`key${index}`} />;
           })}
         </SliderText>
@@ -175,9 +209,5 @@ const SearchBtn = styled.button<{ mainColor?: boolean }>`
   border: 1px solid var(--color-border);
   outline: none;
 `;
-
-const InputDate = styled.input``;
-
-const CategoryName = styled.span``;
 
 const SliderText = styled.div``;

@@ -29,11 +29,12 @@ const ThemeList = () => {
   const themeScore = searchParams.get("themeScore") ?? "0,5";
   const difficulty = searchParams.get("difficulty") ?? "1,5";
   const sort = searchParams.get("sort") ?? "reviewCnt";
+  const day = searchParams.get("day") ?? "";
+  const time = searchParams.get("time") ?? "";
+  const page = searchParams.get("page");
 
   //로그인 유무 판별
   const { isLogin } = useLoginCheck();
-
-  const page = searchParams.get("page");
 
   const onPageHandler = (page: number) => {
     const pageIndex = page - 1;
@@ -45,6 +46,8 @@ const ThemeList = () => {
       themeScore,
       difficulty,
       sort,
+      day,
+      time,
     });
     window.scrollTo(0, 0);
   };
@@ -60,6 +63,8 @@ const ThemeList = () => {
       themeScore,
       difficulty,
       sort,
+      day,
+      time,
     ],
     () =>
       getFilterTheme({
@@ -70,6 +75,8 @@ const ThemeList = () => {
         difficulty,
         page,
         sort,
+        day,
+        time,
       })
   );
 
@@ -81,6 +88,8 @@ const ThemeList = () => {
       genreFilter,
       difficulty,
       people,
+      day,
+      time,
     });
   };
 
@@ -88,11 +97,6 @@ const ThemeList = () => {
   useEffect(() => {
     refetch();
   }, [refetch, sort]);
-
-  //페이지네이션이 눌릴때마다 themePage를 페이지에 맞게 설정
-  // const onPageHandler = (page: number) => {
-  //   setThemePage(page - 1);
-  // };
 
   // 로딩 및 에러 처리
   if (isLoading) return <div>Loading...</div>;

@@ -67,11 +67,17 @@ export const themePages = atom({
   default: 0,
 });
 
-// //로그인 유무 판별 스테이트
-// export const loginCheck = atom({
-//   key: "loginCheck",
-//   default: false,
-// });
+//테마페이지 예약 시간 전역 스테이트
+export const timeState = atom({
+  key: "timeState",
+  default: [8, 24],
+});
+
+//테마페이지 예약 날짜 전역 스테이트
+export const dayState = atom({
+  key: "dayState",
+  default: "1",
+});
 
 //테마페이지 정렬 스테이트
 export const sortState = atom({
