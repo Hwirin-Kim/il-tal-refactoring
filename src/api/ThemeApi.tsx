@@ -14,6 +14,8 @@ export const getFilterTheme = async ({
   difficulty,
   page,
   sort,
+  day,
+  time,
 }) => {
   const fixParams = (parameter: string) => {
     if (parameter === "전체") {
@@ -27,7 +29,7 @@ export const getFilterTheme = async ({
       genreFilter
     )}&people=${fixParams(
       people
-    )}&themeScore=${themeScore}&difficulty=${difficulty}&sort=${sort}&page=${page}`
+    )}&themeScore=${themeScore}&difficulty=${difficulty}&sort=${sort}&page=${page}&day=${day}&time=${time}`
   );
   return data;
 };
@@ -75,6 +77,8 @@ interface FilterCntParameterType {
   themeScore: number[];
   people: string[];
   difficulty: number[];
+  day: string;
+  time: string[];
   themePagenation?: number;
   sort?: string;
 }
@@ -84,8 +88,8 @@ export const getFilterCnt = async ({
   themeScore,
   people,
   difficulty,
-  themePagenation,
-  sort,
+  day,
+  time,
 }: FilterCntParameterType) => {
   const fixParameter = (param: string[]) => {
     if (param.includes("전체")) {
@@ -98,7 +102,7 @@ export const getFilterCnt = async ({
       location
     )}&genreFilter=${fixParameter(genre)}&people=${fixParameter(
       people
-    )}&themeScore=${themeScore}&difficulty=${difficulty}`
+    )}&themeScore=${themeScore}&difficulty=${difficulty}&day=${day}&time=${time}`
   );
   return data;
 };

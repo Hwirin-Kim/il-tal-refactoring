@@ -1,20 +1,27 @@
 import styled from "styled-components";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { wishTheme } from "../../api/ThemeApi";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import { useInView } from "react-intersection-observer";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import Score from "components/common/Score";
 import { ThemeDataType } from "components/mypage/components/myThemePage/MyThemeList";
+import { devices } from "styles/devices";
+import { dayState } from "api/store";
+import lock from "../../asset/lock.png";
 
 interface ThemePosterProps {
   theme: Theme;
   queryKey: any;
 }
+
+type ThemeIndex = {
+  [key: string]: string[];
+};
 
 export interface Theme {
   companyName: string;
@@ -23,6 +30,7 @@ export interface Theme {
   id: number;
   playTime: number;
   price: number;
+
   reservationDay1: string[];
   reservationDay2: string[];
   reservationDay3: string[];
@@ -40,6 +48,8 @@ export interface Theme {
 const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const day = useRecoilValue(dayState);
 
   //좋아요 기능 mutation
   const themeLike = useMutation((themeId: number) => wishTheme(themeId), {
@@ -102,6 +112,20 @@ const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
     }
   }, [inView, showList]);
 
+  type ReservationDay =
+    | "reservationDay1"
+    | "reservationDay2"
+    | "reservationDay3"
+    | "reservationDay4"
+    | "reservationDay5"
+    | "reservationDay6"
+    | "reservationDay7";
+  const reservationIndex = (): ReservationDay => {
+    if (day === "") {
+      return "reservationDay1";
+    }
+    return `reservationDay${day}` as ReservationDay;
+  };
   return (
     <Container>
       <ThemePic
@@ -118,16 +142,32 @@ const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
         </ThemeName>
         <Genre>{theme.genre}</Genre>
         <ThemeTextBottom>
+          <InfoItem>
+            {[...Array(Math.round(theme.difficulty))].map((_, index) => {
+              return <LockImg src={lock} alt="difficulty" key={index} />;
+            })}
+          </InfoItem>
+          <DivisionBar>|</DivisionBar>
+          <InfoItem>{theme.playTime}분</InfoItem>
+          <DivisionBar>|</DivisionBar>
           <Score score={theme.themeScore} reviewCnt={theme.reviewCnt} />
-          <div className="like" onClick={() => likeOnlyMember(theme.id)}>
-            {theme.themeLikeCheck ? (
-              <BsSuitHeartFill color={"var(--color-main)"} />
-            ) : (
-              <BsSuitHeart />
-            )}
-          </div>
         </ThemeTextBottom>
+        <ReservationWrapper>
+          {theme[reservationIndex()][0] === "" ? (
+            <NoReservation>예약 정보가 없습니다!</NoReservation>
+          ) : (
+            theme[reservationIndex()].map((time) => {
+              return (
+                <ReservationTimeButton key={time}>{time}</ReservationTimeButton>
+              );
+            })
+          )}
+        </ReservationWrapper>
       </ThemeTextWrap>
+      <BtnWrapper>
+        <Btn>{theme.themeLikeCheck ? "찜취소" : "찜하기"}</Btn>
+        <Btn bgColor={true}>예약</Btn>
+      </BtnWrapper>
     </Container>
   );
 };
@@ -136,6 +176,7 @@ export default ThemePoster;
 
 const Container = styled.div`
   width: 100%;
+  height: 100%;
   border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
@@ -149,7 +190,7 @@ const Container = styled.div`
 `;
 
 const ThemePic = styled.img`
-  height: 15rem;
+  height: 13rem;
   width: 100%;
   border: none;
   object-fit: cover;
@@ -175,14 +216,78 @@ const ThemeName = styled.span`
   cursor: pointer;
 `;
 const Genre = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 0.1rem;
   font-size: 0.8rem;
   color: grey;
 `;
 const ThemeTextBottom = styled.div`
   width: 100%;
-  font-size: 20px;
-
   display: flex;
-  justify-content: space-between;
+  margin: 0.3rem 0;
+`;
+
+const ReservationWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  @media ${devices.md} {
+    margin-top: 0.5rem;
+  }
+`;
+
+const ReservationTimeButton = styled.span`
+  margin: 0.1rem 0.2rem 0.1rem 0;
+  padding: 0.1rem;
+  font-size: 0.7em;
+  border-radius: 0.4rem;
+  border: 1px solid var(--color-grey-btn);
+  @media ${devices.md} {
+    padding: 0.1rem 0.2rem;
+  }
+`;
+
+const NoReservation = styled.p`
+  font-size: 0.7em;
+  margin-top: 0.3rem;
+`;
+
+const InfoItem = styled.span`
+  font-size: 0.62em;
+  font-weight: 300;
+`;
+
+const LockImg = styled.img`
+  width: 0.6rem;
+  height: 0.6rem;
+  @media ${devices.md} {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+`;
+
+const DivisionBar = styled.span`
+  font-weight: 300;
+  color: #c9c9c9;
+  margin: 0 0.3rem;
+  font-size: 0.8rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
+  margin-top: auto;
+  margin-bottom: 0.3rem;
+`;
+
+const Btn = styled.button<{ bgColor?: boolean }>`
+  background-color: ${(props) =>
+    props.bgColor ? "var(--color-main)" : "white"};
+  border: 1px solid var(--color-border);
+  ${(props) => props.bgColor && "color:white"};
+  width: 4rem;
+  height: 1.5rem;
+  border-radius: 0.3rem;
+  margin: 0 0.5rem;
 `;
