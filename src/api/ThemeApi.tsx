@@ -78,7 +78,7 @@ interface FilterCntParameterType {
   people: string[];
   difficulty: number[];
   day: string;
-  time: number[];
+  time: string[];
   themePagenation?: number;
   sort?: string;
 }

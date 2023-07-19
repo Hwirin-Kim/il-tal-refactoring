@@ -12,11 +12,11 @@ export default function DateInput() {
   const offset = new Date().getTimezoneOffset() * 60000;
   const today = new Date(Date.now() - offset);
   const todayString = today.toISOString().split("T")[0];
-  console.log(todayString);
+
   // 일주일 후 날짜 구하기
   const oneWeekLater = new Date();
   const nowDay = new Date(Date.now());
-  console.log(nowDay);
+
   oneWeekLater.setDate(nowDay.getDate() + 6);
   const oneWeekLaterString = oneWeekLater.toISOString().split("T")[0];
 
@@ -39,11 +39,9 @@ export default function DateInput() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const today = new Date();
     const selectDate = new Date(e.target.value);
-    console.log(today, selectDate);
+
     const diffTime = Math.abs(selectDate.getDate() - today.getDate()) + 1;
 
-    // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    // console.log(diffDays);
     setDay(diffTime.toString());
   };
 

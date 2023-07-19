@@ -68,9 +68,9 @@ export const themePages = atom({
 });
 
 //테마페이지 예약 시간 전역 스테이트
-export const timeState = atom({
+export const timeState = atom<string[]>({
   key: "timeState",
-  default: [8, 24],
+  default: ["", ""],
 });
 
 //테마페이지 예약 날짜 전역 스테이트

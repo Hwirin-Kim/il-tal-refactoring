@@ -5,12 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getFilterTheme } from "../../api/ThemeApi";
 
 import Pagination from "react-js-pagination";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import nextgray from "../../asset/next-gray.png";
 import prevgray from "../../asset/prev-gray.png";
 import nextgreen from "../../asset/next-green.png";
 import prevgreen from "../../asset/prev-green.png";
+import { GiSettingsKnobs } from "react-icons/gi";
 
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import { categoryIndex } from "./categoryIndex";
@@ -32,6 +33,7 @@ const ThemeList = () => {
   const day = searchParams.get("day") ?? "";
   const time = searchParams.get("time") ?? "";
   const page = searchParams.get("page");
+  const [onFilter, setOnFilter] = useState(false);
 
   //로그인 유무 판별
   const { isLogin } = useLoginCheck();
@@ -104,8 +106,13 @@ const ThemeList = () => {
 
   return (
     <Container>
-      <ThemeFilterBox />
       <TopInfoWrapper>
+        <FilterOnBtn
+          onClick={() => setOnFilter((prev) => !prev)}
+          bgColor={onFilter}
+        >
+          <GiSettingsKnobs />
+        </FilterOnBtn>
         <SearchResult>검색결과 {data.data.totalElements}개</SearchResult>
 
         <CategoriesWrapper>
@@ -129,7 +136,12 @@ const ThemeList = () => {
           })}
         </CategoriesWrapper>
       </TopInfoWrapper>
+
       <BodyWrap>
+        <FilterWrapper hide={onFilter}>
+          <ThemeFilterBox />
+        </FilterWrapper>
+
         <ListWrapper>
           {data.data.content.map((theme: Theme) => {
             return (
@@ -221,18 +233,21 @@ const Container = styled.div`
 `;
 
 const TopInfoWrapper = styled.div`
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
 `;
 
 const SearchResult = styled.span`
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
 `;
 
 const CategoriesWrapper = styled.div`
+  margin-left: auto;
   display: flex;
 `;
 
@@ -248,7 +263,7 @@ const CategoryInput = styled.input`
 
 const CategoryLabel = styled.label`
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: grey;
   cursor: pointer;
 `;
@@ -263,7 +278,26 @@ const ListWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 0.5rem;
   grid-row-gap: 0.5rem;
+  margin-top: 1rem;
   @media ${devices.sm} {
     grid-template-columns: 1fr 1fr 1fr;
   }
+`;
+const FilterOnBtn = styled.div<{ bgColor: boolean }>`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  border: 1px solid var(--color-grey-btn);
+  ${(props) => props.bgColor && "background-color:var(--color-main);"}
+`;
+
+const FilterWrapper = styled.div<{ hide: boolean }>`
+  width: 100%;
+  max-height: ${({ hide }) => (hide ? "660px" : "0")};
+  overflow: hidden;
+  transition: max-height 0.8s ease-in-out;
 `;

@@ -21,6 +21,7 @@ import lock from "../../../asset/lock.png";
 import DateInput from "./DateInput";
 import TimeInput from "./TimeInput";
 import CategoryTitle from "./common/CategoryTitle";
+import Swal from "sweetalert2";
 
 export default function ThemeFilterBox() {
   const [genre, setGenre] = useRecoilState(genreState);
@@ -40,8 +41,9 @@ export default function ThemeFilterBox() {
   const peopleParam = searchParams.get("people") ?? "전체";
   const themeScoreParam = searchParams.get("themeScore") ?? "0,5";
   const difficultyParam = searchParams.get("difficulty") ?? "1,5";
-  const timeParam = searchParams.get("time") ?? "8,24";
+  const timeParam = searchParams.get("time") ?? ",";
   const dayParam = searchParams.get("day") ?? "";
+
   /**
    * @param str 숫자 배열로 변환 할 문자
    * @returns 숫자 배열
@@ -50,7 +52,7 @@ export default function ThemeFilterBox() {
     const numbers = str.split(",").map(Number);
     return numbers;
   };
-  console.log(time);
+
   //queryString 값으로 전역변수 초기화
   useEffect(() => {
     setGenre(genreFilterParam.split(","));
@@ -58,7 +60,7 @@ export default function ThemeFilterBox() {
     setPeople(peopleParam.split(","));
     setScore(convertToNumberArray(themeScoreParam));
     setDifficulty(convertToNumberArray(difficultyParam));
-    setTime(convertToNumberArray(timeParam));
+    setTime(timeParam.split(","));
     setDay(dayParam);
   }, []);
 
@@ -87,6 +89,31 @@ export default function ThemeFilterBox() {
   );
 
   const onClickSearchTheme = () => {
+    if (day === "" && time[0] !== "") {
+      Swal.fire({
+        icon: "warning",
+        title: "날짜 미입력!",
+        text: "시간을 선택하면 날짜도 필수로 선택해야합니다!",
+      });
+      return null;
+    }
+    if (day !== "" && (time[0] === "" || time[1] === "")) {
+      Swal.fire({
+        icon: "warning",
+        title: "시간 미입력!",
+        text: "시간을 모두 선택해주세요!",
+      });
+      return null;
+    }
+    if (time[1] !== "" && time[0] === "") {
+      Swal.fire({
+        icon: "warning",
+        title: "시간 미입력!",
+        text: "시간을 모두 입력해주시고 날짜도 선택해주세요",
+      });
+      return null;
+    }
+
     setSearchParams({
       location: location.join(","),
       themeScore: themeScore.join(","),
@@ -105,7 +132,7 @@ export default function ThemeFilterBox() {
     setPeople(["전체"]);
     setScore([0, 5]);
     setDifficulty([1, 5]);
-    setTime([0, 24]);
+    setTime(["", ""]);
     setDay("");
   };
 
@@ -177,10 +204,12 @@ export default function ThemeFilterBox() {
           onChange={(e) => onSliderChange(e, setDifficulty)}
         />
       </SliderWrapper>
-      <SearchBtn onClick={categoryReset}>초기화</SearchBtn>
-      <SearchBtn mainColor={true} onClick={onClickSearchTheme}>
-        {filterIsLoading ? "Loading.." : `총 ${filterData.data}개 결과`}
-      </SearchBtn>
+      <BtnWrapper>
+        <SearchBtn onClick={categoryReset}>초기화</SearchBtn>
+        <SearchBtn mainColor={true} onClick={onClickSearchTheme}>
+          {filterIsLoading ? "Loading.." : `총 ${filterData.data}개 결과`}
+        </SearchBtn>
+      </BtnWrapper>
     </Container>
   );
 }
@@ -194,10 +223,22 @@ const Container = styled.div`
 
 const SliderWrapper = styled.div`
   width: 100%;
-  height: 4rem;
+  margin-bottom: 1.5rem;
+  .rc-slider {
+    margin: 0.5rem auto;
+    width: 90%;
+  }
+`;
+
+const BtnWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SearchBtn = styled.button<{ mainColor?: boolean }>`
+  margin: 0 0.5rem;
   height: 3rem;
   width: 8rem;
   background-color: ${(props) =>
@@ -210,4 +251,7 @@ const SearchBtn = styled.button<{ mainColor?: boolean }>`
   outline: none;
 `;
 
-const SliderText = styled.div``;
+const SliderText = styled.div`
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+`;

@@ -19,7 +19,6 @@ export default function Score({ score, reviewCnt }: ScoreProps) {
 const Contaienr = styled.span`
   font-size: 0.62rem;
   font-weight: 300;
-  margin: 0.5rem 0;
 
   @media ${devices.md} {
     font-size: 1rem;

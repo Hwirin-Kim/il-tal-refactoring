@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { SetterOrUpdater } from "recoil";
-import { useQuery } from "@tanstack/react-query";
-import { getFilterCnt } from "api/ThemeApi";
 
 interface CategoryType {
   name: string;
