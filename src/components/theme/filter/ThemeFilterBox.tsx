@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import CategoryFilter from "./CategoryFilter";
 import category from "./category";
 import {
@@ -22,8 +22,13 @@ import DateInput from "./DateInput";
 import TimeInput from "./TimeInput";
 import CategoryTitle from "./common/CategoryTitle";
 import Swal from "sweetalert2";
+import { convertToNumberArray } from "./utils/convertToNumberArray";
 
-export default function ThemeFilterBox() {
+interface ThemeFilterBoxProps {
+  setOnfilter: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function ThemeFilterBox({ setOnfilter }: ThemeFilterBoxProps) {
   const [genre, setGenre] = useRecoilState(genreState);
   const [location, setLocation] = useRecoilState(locationState);
   const [people, setPeople] = useRecoilState(peopleState);
@@ -32,9 +37,6 @@ export default function ThemeFilterBox() {
   const [time, setTime] = useRecoilState(timeState);
   const [day, setDay] = useRecoilState(dayState);
 
-  const onSliderChange = (e: number | number[], setState: Function): void => {
-    setState(e);
-  };
   const [searchParams, setSearchParams] = useSearchParams();
   const locationParam = searchParams.get("location") ?? "전체";
   const genreFilterParam = searchParams.get("genreFilter") ?? "전체";
@@ -44,15 +46,6 @@ export default function ThemeFilterBox() {
   const timeParam = searchParams.get("time") ?? ",";
   const dayParam = searchParams.get("day") ?? "";
 
-  /**
-   * @param str 숫자 배열로 변환 할 문자
-   * @returns 숫자 배열
-   */
-  const convertToNumberArray = (str: string) => {
-    const numbers = str.split(",").map(Number);
-    return numbers;
-  };
-
   //queryString 값으로 전역변수 초기화
   useEffect(() => {
     setGenre(genreFilterParam.split(","));
@@ -60,7 +53,7 @@ export default function ThemeFilterBox() {
     setPeople(peopleParam.split(","));
     setScore(convertToNumberArray(themeScoreParam));
     setDifficulty(convertToNumberArray(difficultyParam));
-    setTime(timeParam.split(","));
+
     setDay(dayParam);
   }, []);
 
@@ -88,6 +81,10 @@ export default function ThemeFilterBox() {
       })
   );
 
+  const onSliderChange = (e: number | number[], setState: Function): void => {
+    setState(e);
+  };
+
   const onClickSearchTheme = () => {
     if (day === "" && time[0] !== "") {
       Swal.fire({
@@ -113,7 +110,6 @@ export default function ThemeFilterBox() {
       });
       return null;
     }
-
     setSearchParams({
       location: location.join(","),
       themeScore: themeScore.join(","),
@@ -123,6 +119,7 @@ export default function ThemeFilterBox() {
       time: time.join(","),
       day: day,
     });
+    setOnfilter(false);
   };
 
   //초기화 버튼 onClick
@@ -245,7 +242,7 @@ const SearchBtn = styled.button<{ mainColor?: boolean }>`
     props.mainColor ? "var(--color-main)" : "white"};
   color: ${(props) => (props.mainColor ? "white" : "black")};
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-radius: 0.5rem;
   border: 1px solid var(--color-border);
   outline: none;
@@ -254,4 +251,8 @@ const SearchBtn = styled.button<{ mainColor?: boolean }>`
 const SliderText = styled.div`
   margin-left: 1rem;
   margin-top: 0.5rem;
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
 `;

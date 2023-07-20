@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from "../page/MainPage";
-import ThemePage from "../page/ThemePage";
 import DetailTheme from "../page/DetailThemePage";
 import DetailCompanyPage from "../page/DetailCompanyPage";
 import MyPage from "../page/MyPage";
@@ -13,6 +12,7 @@ import BestTheme from "components/main/component/BestTheme/BestTheme";
 import MyReviewPage from "components/mypage/MyReviewPage";
 import MyThemePage from "components/mypage/MyThemePage";
 import MyCompanyPage from "components/mypage/MyCompanyPage";
+import ThemePage from "components/theme/ThemePage";
 
 const Router = () => {
   return (

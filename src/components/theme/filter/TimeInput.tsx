@@ -4,63 +4,42 @@ import { useSearchParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import CategoryTitle from "./common/CategoryTitle";
+import { firstTimeOptionGenerator } from "./utils/firstTimeOptionGenerator";
+import { secondTimeOptionGenerator } from "./utils/secondTimeOptionGenerator";
 
 const TimeInput = () => {
   const [searchParams, _] = useSearchParams();
-
   const timeParam = searchParams.get("time")?.split(",") ?? ["", ""];
 
   const [time, setTime] = useRecoilState(timeState);
+
   const [firstTime, setFirstTime] = useState<string>(timeParam[0]);
   const [secondTime, setSecondTime] = useState<string>(timeParam[1]);
-  const [timeOptions, setTimeOptions] = useState<ArrType[]>([]);
+  const [secondTimeOptions, setSecondTimeOptions] = useState<ArrType[]>([]);
+
+  const START_TIME = 8;
+  const END_TIME = 23;
 
   interface ArrType {
     value: string;
     name: string;
   }
 
-  const newArr = () => {
-    let arr: ArrType[] = [{ value: "", name: "선택" }];
-    for (let i = 8; i <= 23; i++) {
-      arr.push({ value: `${i}`, name: `${i}시` });
-    }
-    return arr;
-  };
-
-  // 초기 설정
   useEffect(() => {
-    setTimeOptions(generateOptions(firstTime));
+    setSecondTimeOptions(
+      secondTimeOptionGenerator(firstTime, START_TIME, END_TIME)
+    );
   }, [firstTime]);
 
   useEffect(() => {
     setTime([firstTime, secondTime]);
   }, [firstTime, secondTime]);
 
-  const generateOptions = (start: number | string) => {
-    const options: ArrType[] = [];
-
-    if (start === "") {
-      options.push({ value: "", name: "선택" });
-      for (let i = 8; i <= 24; i++) {
-        options.push({ value: `${i}`, name: `${i}시` });
-      }
-      return options;
-    }
-    const numStart = Number(start);
-    for (let i = numStart + 1; i <= 24; i++) {
-      options.push({ value: `${i}`, name: `${i}시` });
-    }
-    setSecondTime(options[0].value);
-    return options;
-  };
-
   return (
     <Container>
       <CategoryTitle>시간</CategoryTitle>
-
       <Select value={time[0]} onChange={(e) => setFirstTime(e.target.value)}>
-        {newArr().map((time) => {
+        {firstTimeOptionGenerator(START_TIME, END_TIME).map((time) => {
           return (
             <Option key={time.value} value={time.value}>
               {time.name}
@@ -69,8 +48,11 @@ const TimeInput = () => {
         })}
       </Select>
       <Dash>-</Dash>
-      <Select value={time[1]} onChange={(e) => setSecondTime(e.target.value)}>
-        {timeOptions.map((time) => {
+      <Select
+        value={secondTime}
+        onChange={(e) => setSecondTime(e.target.value)}
+      >
+        {secondTimeOptions.map((time) => {
           return (
             <Option key={time.value} value={time.value}>
               {time.name}
