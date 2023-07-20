@@ -47,7 +47,7 @@ export default function ThemeList({ setSearchResult }: ThemeListProps) {
     window.scrollTo(0, 0);
   };
 
-  const { data, isError, isLoading, refetch } = useQuery(
+  const { data, isError, isLoading } = useQuery(
     [
       "getThemes",
       page,
@@ -80,23 +80,10 @@ export default function ThemeList({ setSearchResult }: ThemeListProps) {
     }
   );
 
-  const onChangeCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchParams({
-      sort: e.target.value,
-      location,
-      themeScore,
-      genreFilter,
-      difficulty,
-      people,
-      day,
-      time,
-    });
-  };
-
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error!</div>;
   return (
-    <div>
+    <Container>
       <ListWrapper>
         {data.data.content.map((theme: Theme) => {
           return (
@@ -112,6 +99,8 @@ export default function ThemeList({ setSearchResult }: ThemeListProps) {
                   themeScore,
                   difficulty,
                   sort,
+                  day,
+                  time,
                 ]}
                 theme={theme}
               />
@@ -146,9 +135,41 @@ export default function ThemeList({ setSearchResult }: ThemeListProps) {
           />
         ) : null}
       </div>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  .pagination {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      font-size: 1.1rem;
+      text-decoration: none;
+      cursor: pointer;
+      margin: 0 0.8rem;
+      color: black;
+      &:visited {
+      }
+    }
+    img {
+      width: 1.1rem;
+      height: 1.1rem;
+      @media ${devices.md} {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+    .active {
+      a {
+        color: var(--color-main);
+      }
+    }
+  }
+`;
 
 const ListWrapper = styled.div`
   width: 100%;
@@ -159,5 +180,8 @@ const ListWrapper = styled.div`
   margin-top: 1rem;
   @media ${devices.sm} {
     grid-template-columns: 1fr 1fr 1fr;
+  }
+  @media ${devices.xlg} {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 `;

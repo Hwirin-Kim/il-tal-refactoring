@@ -14,7 +14,8 @@ export default MenuButton;
 
 const Container = styled.button`
   height: 100%;
-  width: 100px;
+  min-width: 100px;
+  color: black;
   font-size: 1rem;
   font-weight: bold;
   display: flex;
@@ -23,7 +24,7 @@ const Container = styled.button`
   cursor: pointer;
   background-color: transparent;
   border: none;
-  @media ${devices.lg} {
-    font-size: 20px;
+  @media ${devices.xlg} {
+    font-size: 1.15rem;
   }
 `;

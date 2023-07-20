@@ -19,10 +19,6 @@ interface ThemePosterProps {
   queryKey: any;
 }
 
-type ThemeIndex = {
-  [key: string]: string[];
-};
-
 export interface Theme {
   companyName: string;
   difficulty: number;
@@ -165,8 +161,20 @@ const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
         </ReservationWrapper>
       </ThemeTextWrap>
       <BtnWrapper>
-        <Btn>{theme.themeLikeCheck ? "찜취소" : "찜하기"}</Btn>
-        <Btn bgColor={true}>예약</Btn>
+        <Btn onClick={() => likeOnlyMember(theme.id)}>
+          {theme.themeLikeCheck ? (
+            <HeartIcon textColor={theme.themeLikeCheck}>
+              <BsSuitHeartFill />
+            </HeartIcon>
+          ) : (
+            <HeartIcon textColor={theme.themeLikeCheck}>
+              <BsSuitHeart />
+            </HeartIcon>
+          )}
+        </Btn>
+        <Btn bgColor={true} onClick={() => window.open()}>
+          예약
+        </Btn>
       </BtnWrapper>
     </Container>
   );
@@ -219,10 +227,15 @@ const Genre = styled.div`
   margin-top: 0.1rem;
   font-size: 0.8rem;
   color: grey;
+  @media ${devices.md} {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
 `;
 const ThemeTextBottom = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
   margin: 0.3rem 0;
 `;
 
@@ -254,6 +267,9 @@ const NoReservation = styled.p`
 const InfoItem = styled.span`
   font-size: 0.62em;
   font-weight: 300;
+  @media ${devices.md} {
+    font-size: 0.8em;
+  }
 `;
 
 const LockImg = styled.img`
@@ -282,12 +298,23 @@ const BtnWrapper = styled.div`
 `;
 
 const Btn = styled.button<{ bgColor?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${(props) =>
     props.bgColor ? "var(--color-main)" : "white"};
-  border: 1px solid var(--color-border);
-  ${(props) => props.bgColor && "color:white"};
-  width: 4rem;
+  border: ${(props) =>
+      props.bgColor
+        ? "1px solid var(--color-main);"
+        : "1px solid var(--color-border);"}
+    ${(props) => props.bgColor && "color:white"};
+  width: 4.3rem;
   height: 1.5rem;
   border-radius: 0.3rem;
   margin: 0 0.5rem;
+`;
+
+const HeartIcon = styled.span<{ textColor: boolean }>`
+  color: ${(props) => (props.textColor ? "var(--color-main)" : "black")};
+  margin-right: 0.15rem;
 `;

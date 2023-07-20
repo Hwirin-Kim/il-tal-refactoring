@@ -10,6 +10,6 @@ export default function CategoryTitle({ children }: CategoryTitleProps) {
 }
 
 const Text = styled.p`
-  margin-top: 0.3rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.3rem;
 `;

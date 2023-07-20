@@ -9,19 +9,19 @@ interface ScoreProps {
 
 export default function Score({ score, reviewCnt }: ScoreProps) {
   return (
-    <Contaienr>
+    <Container>
       <Star>★</Star>
       {score} ({reviewCnt})
-    </Contaienr>
+    </Container>
   );
 }
 
-const Contaienr = styled.span`
+const Container = styled.span`
   font-size: 0.62rem;
   font-weight: 300;
 
   @media ${devices.md} {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -29,6 +29,6 @@ const Star = styled.span`
   font-size: 0.62rem;
   color: var(--color-main);
   @media ${devices.md} {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `;

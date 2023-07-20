@@ -242,7 +242,7 @@ const SearchBtn = styled.button<{ mainColor?: boolean }>`
     props.mainColor ? "var(--color-main)" : "white"};
   color: ${(props) => (props.mainColor ? "white" : "black")};
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-radius: 0.5rem;
   border: 1px solid var(--color-border);
   outline: none;
@@ -251,4 +251,8 @@ const SearchBtn = styled.button<{ mainColor?: boolean }>`
 const SliderText = styled.div`
   margin-left: 1rem;
   margin-top: 0.5rem;
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
 `;
