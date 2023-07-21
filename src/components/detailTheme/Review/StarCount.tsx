@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import TitleText from "./TitleText";
 
-export default function StarCount() {
+interface StarCountProps {
+  title: string;
+}
+
+export default function StarCount({ title }: StarCountProps) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const ScoreList = [1, 2, 3, 4, 5];
@@ -18,7 +23,8 @@ export default function StarCount() {
   };
 
   return (
-    <div>
+    <Container>
+      <TitleText>{title}</TitleText>
       {ScoreList.map((index) => {
         const filled = (hoverRating || rating) >= index;
 
@@ -34,9 +40,13 @@ export default function StarCount() {
           </Star>
         );
       })}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const Star = styled.div<{ filled: boolean }>`
   cursor: pointer;

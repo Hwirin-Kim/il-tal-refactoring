@@ -3,12 +3,13 @@ import styled from "styled-components";
 import StarCount from "./StarCount";
 import { difficultyIndex, hintIndex, successIndex } from "./optionindex";
 import CategoryComponent from "./CategoryComponent";
+import DayInput from "./DayInput";
+import CommentInput from "./CommentInput";
 
 export default function NewCommentForm() {
   return (
     <Container>
-      <TitleText>별점</TitleText>
-      <StarCount />
+      <StarCount title="별점" />
       <CategoryComponent title="성공여부" name="success" index={successIndex} />
 
       <CategoryComponent
@@ -18,28 +19,12 @@ export default function NewCommentForm() {
       />
 
       <CategoryComponent title="힌트 사용 횟수" name="hint" index={hintIndex} />
+      <DayInput title="플레이 날짜" />
+      <CommentInput />
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-`;
-
-const TitleText = styled.p`
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-`;
-
-const CategoryWrapper = styled.div``;
-
-const CategoryInput = styled.input`
-  display: none;
-  &:checked + label {
-    color: black;
-  }
-`;
-
-const CategoryLabel = styled.label`
-  color: grey;
 `;

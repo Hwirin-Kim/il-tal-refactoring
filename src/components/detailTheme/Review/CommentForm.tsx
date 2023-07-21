@@ -130,7 +130,6 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
   return (
     <Container>
       <FormHeaderWrap>
-        <StarCount />
         <SelectBox
           name="score"
           props={SelectIndex.optionStar}

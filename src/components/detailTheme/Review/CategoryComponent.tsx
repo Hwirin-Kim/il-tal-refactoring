@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import TitleText from "./TitleText";
 
 interface CategoryComponentProps {
   name: string;
@@ -43,10 +44,7 @@ export default function CategoryComponent({
 const Container = styled.div`
   margin-bottom: 1.5rem;
 `;
-const TitleText = styled.p`
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-`;
+
 const CategoryInput = styled.input`
   display: none;
   &:checked + label {
