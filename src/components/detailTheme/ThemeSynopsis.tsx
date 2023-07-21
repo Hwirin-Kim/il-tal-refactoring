@@ -1,28 +1,20 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { devices } from "styles/devices";
 
-const ThemeSynopsis = ({ synopsis }) => {
-  //더보기 토글
-  const [ellipsis, setEllipsis] = useState(true);
+interface ThemeSynopsisProps {
+  synopsis: string;
+}
 
+const ThemeSynopsis = ({ synopsis }: ThemeSynopsisProps) => {
   return (
     <Container>
-      <SynopText>
-        <p>시놉시스</p>
-        <div className={ellipsis ? "small" : "big"}>
-          {synopsis.split("\\n").map((data, index) => {
-            return (
-              <div key={`sysnop${index}`}>
-                {data}
-                <br />
-              </div>
-            );
-          })}
-        </div>
-        <span onClick={() => setEllipsis(!ellipsis)}>
-          {ellipsis ? ">더보기" : "접기"}
-        </span>
-      </SynopText>
+      <Title>시놉시스</Title>
+      <SynopTextWrapper>
+        {synopsis.split("\\n").map((data, index) => {
+          return <SynopText key={`sysnop${index}`}>{data}</SynopText>;
+        })}
+      </SynopTextWrapper>
     </Container>
   );
 };
@@ -31,57 +23,42 @@ export default ThemeSynopsis;
 
 const Container = styled.div`
   width: 100%;
-  border-top: 1px solid gray;
-  border-bottom: 1px solid gray;
-  margin: 20px 0;
+  padding: 1rem 0;
+  margin: 0.5rem 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
+  @media ${devices.lg} {
+    margin-top: 2rem;
+  }
+`;
+const Title = styled.p`
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  @media ${devices.md} {
+    font-size: 1.1rem;
+  }
+  @media ${devices.lg} {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+  }
 `;
 
-const SynopText = styled.div`
+const SynopText = styled.p`
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.1rem;
+  }
+`;
+
+const SynopTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
-  .small {
-    display: flex;
-    height: 100%;
-    max-height: 18px;
-    width: 100%;
-    font-size: 20px;
-    margin: 15px 0;
-    line-height: 19px;
-    overflow: hidden;
-    transition: max-height 500ms ease-in-out;
-    flex-direction: column;
-    div {
-      margin-bottom: 4px;
-    }
-  }
-  .big {
-    display: flex;
-    height: 100%;
-    max-height: 250px;
-    width: 100%;
-    font-size: 20px;
-    margin: 15px 0;
-    line-height: 19px;
-    overflow: hidden;
-    transition: max-height 500ms ease-in-out;
-    flex-direction: column;
-    div {
-      margin-bottom: 5px;
-    }
-  }
-  span {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 4px;
-    line-height: 21px;
-    cursor: pointer;
-  }
-  p {
-    font-size: 25px;
-    font-weight: bold;
-    margin: 10px 0;
-  }
 `;

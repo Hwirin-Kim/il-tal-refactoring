@@ -6,10 +6,10 @@ import {
   AiOutlineClose,
 } from "react-icons/ai";
 import React, { useState } from "react";
-import SelectBox from "./SelectBox";
-import SelectIndex from "./SelectIndex";
+import SelectBox from "../SelectBox";
+import SelectIndex from "../SelectIndex";
 import { useMutation } from "@tanstack/react-query";
-import { delComment, putComment } from "../../api/ThemeApi";
+import { delComment, putComment } from "../../../api/ThemeApi";
 import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import {
