@@ -1,11 +1,14 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import TitleText from "./TitleText";
+import { CommentType, onChangeHandler } from "./NewCommentForm";
 
 interface CategoryComponentProps {
   name: string;
   title: string;
+  cmt: CommentType;
   index: { value: string; label: string }[];
+  onChangeHandler: onChangeHandler;
 }
 /**
  *
@@ -18,7 +21,11 @@ export default function CategoryComponent({
   title,
   name,
   index,
-}: CategoryComponentProps) {
+  cmt,
+  onChangeHandler,
+}: // cmt,
+// setCmt,
+CategoryComponentProps) {
   return (
     <Container>
       <TitleText>{title}</TitleText>
@@ -30,6 +37,8 @@ export default function CategoryComponent({
               id={name + category.value}
               type="radio"
               value={category.value}
+              checked={cmt[name] === category.value}
+              onChange={onChangeHandler}
             />
             <CategoryLabel htmlFor={name + category.value}>
               {category.label}

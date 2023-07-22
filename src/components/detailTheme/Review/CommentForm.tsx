@@ -27,7 +27,7 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
     playDate: "",
     comment: "",
   };
-  //useQuery refetch해주는거
+
   const queryClient = useQueryClient();
 
   //댓글 작성시 테마 id값을 보내기 위해 사용
