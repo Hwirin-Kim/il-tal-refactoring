@@ -29,14 +29,12 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
   };
 
   const queryClient = useQueryClient();
-
-  //댓글 작성시 테마 id값을 보내기 위해 사용
-
   const { id } = useParams();
   let themeId: number;
   if (id) {
     themeId = parseInt(id, 10);
   }
+
   //댓글 작성시 사용할 데이터 스테이트
   const [cmt, setCmt] = useState(initial);
 
@@ -50,7 +48,6 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
     setCmt({ ...cmt, [name]: value });
   };
 
-  //작성완료 버튼 누를 시 서버에 POST요청 보내기 및 데이터 유무 확인처리
   const onSubmitHandler = () => {
     if (cmt.score === "") {
       Swal.fire({

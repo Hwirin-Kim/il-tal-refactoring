@@ -7,7 +7,7 @@ import DayInput from "./DayInput";
 import CommentInput from "./CommentInput";
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postBadgeCheck, postComment } from "api/ThemeApi";
+import { postBadgeCheck, postComment, putComment } from "api/ThemeApi";
 import { useParams } from "react-router-dom";
 
 export interface CommentType {
@@ -28,9 +28,17 @@ export type onChangeHandler = (
 
 interface CommentFormProps {
   setOpenComment: Dispatch<SetStateAction<boolean>>;
+  isEdit?: boolean;
+  editInitial?: CommentType;
+  commentId?: number;
 }
 
-export default function NewCommentForm({ setOpenComment }: CommentFormProps) {
+export default function NewCommentForm({
+  setOpenComment,
+  isEdit,
+  editInitial,
+  commentId,
+}: CommentFormProps) {
   const initial = {
     score: "",
     success: "",
@@ -42,7 +50,7 @@ export default function NewCommentForm({ setOpenComment }: CommentFormProps) {
 
   const { id } = useParams();
 
-  const [cmt, setCmt] = useState<CommentType>(initial);
+  const [cmt, setCmt] = useState<CommentType>(isEdit ? editInitial! : initial);
   const queryClient = useQueryClient();
 
   const getBadgeMutation = useMutation(postBadgeCheck);
@@ -61,6 +69,7 @@ export default function NewCommentForm({ setOpenComment }: CommentFormProps) {
         });
 
         setCmt(initial);
+        setOpenComment(false);
         getBadgeMutation.mutate();
       },
       onError: () => {
@@ -70,6 +79,23 @@ export default function NewCommentForm({ setOpenComment }: CommentFormProps) {
           text: "댓글 작성 실패!",
         });
         setCmt(initial);
+      },
+    }
+  );
+
+  const editCommentMutation = useMutation(
+    (payload: { id: string | number; data: CommentType }) =>
+      putComment(payload),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getComments"]);
+        queryClient.invalidateQueries(["getDetail"]);
+        Swal.fire({
+          icon: "success",
+          title: "댓글이 수정되었습니다",
+          text: "다른 유저분들이 더욱 자세한 사항을 알게되었네요!👍",
+        });
+        setOpenComment(false);
       },
     }
   );
@@ -128,7 +154,9 @@ export default function NewCommentForm({ setOpenComment }: CommentFormProps) {
       }
     }
     if (id !== undefined) {
-      writheCommentMutation.mutate({ id, data: cmt });
+      isEdit
+        ? editCommentMutation.mutate({ id: commentId!, data: cmt })
+        : writheCommentMutation.mutate({ id, data: cmt });
     }
   };
 

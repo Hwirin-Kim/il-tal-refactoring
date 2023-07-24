@@ -16,37 +16,40 @@ import { useLoginCheck } from "components/context/LoginCheckContext";
 import { Theme } from "components/theme/ThemePoster";
 import NewCommentForm from "./NewCommentForm";
 import Modal from "components/modal/Modal";
+import { devices } from "styles/devices";
 
 interface ThemeReviewProps {
   props: Theme;
 }
 
+interface CommentFromServerData {
+  id: number;
+  nickname: string;
+  playDate: string;
+  score: number;
+  success: boolean;
+  difficulty: number;
+  hint: number;
+  comment: string;
+}
+
 const ThemeReview = ({ props }: ThemeReviewProps) => {
-  //코멘트 조회용 테마 id
   const { id } = useParams();
 
-  console.log(props);
-  //로그인 유무 판별
   const { isLogin } = useLoginCheck();
 
-  //리뷰 작성하기 토글
-  const [isEdit, setIsEdit] = useState(true);
   const [openComment, setOpenComment] = useState(false);
 
-  //댓글 페이지 전역 스테이트
   const [commentPage, setCommentPage] = useRecoilState(commnetPages);
 
-  //코멘트 조회 useQuery
   const { data, isLoading } = useQuery(["getComments", commentPage], () =>
     getComment({ id, commentPage })
   );
 
-  //코멘트 페이지네이션 온체인지
-  const onCommentPage = (page) => {
+  const onCommentPage = (page: number) => {
     setCommentPage(page - 1);
   };
 
-  //코멘트 로딩 처리
   if (isLoading) {
     return <div>댓글을 불러오는 중입니다...!</div>;
   }
@@ -63,18 +66,14 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
         </ReviewHeaderLeftWrapper>
         {isLogin ? (
           <WriteReviewBtn onClick={() => setOpenComment(!openComment)}>
-            {isEdit ? "리뷰작성" : "취소"}
+            리뷰작성
           </WriteReviewBtn>
         ) : null}
       </ReviewHeader>
-      <WriteReviewForm isEdit={isEdit}>
-        <CommentForm setIsEdit={setIsEdit} />
-      </WriteReviewForm>
-
-      <ReviewWrap>
+      <CommentList>
         {isLoading
           ? "loading..."
-          : data.data.content.map((comment) => {
+          : data.data.content.map((comment: CommentFromServerData) => {
               return (
                 <Comment
                   key={comment.id}
@@ -89,7 +88,7 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
                 />
               );
             })}
-      </ReviewWrap>
+      </CommentList>
       <div className="pagenation">
         {data.data.totalPages > 1 ? (
           <Pagination
@@ -128,136 +127,52 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
 export default ThemeReview;
 
 const Container = styled.div`
-  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  .test1 {
-    height: 400px;
-    max-height: 300px;
-    width: 100%;
+  margin-bottom: 7rem;
+  .pagination {
     display: flex;
+    justify-content: center;
+    align-items: center;
 
-    transition: all 1s ease-in-out;
-    overflow: hidden;
-  }
-  .test2 {
-    width: 100%;
-    display: flex;
-    height: 0;
-    overflow: hidden;
-    transition: all 0.5s ease-in-out;
-  }
-  .pagenation {
-    .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 15px;
-      align-items: center;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    ul.pagination li {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1rem;
-    }
-
-    ul.pagination li:first-child {
-      border-radius: 5px 0 0 5px;
-    }
-
-    ul.pagination li:last-child {
-      border-radius: 0 5px 5px 0;
-    }
-
-    ul.pagination li a {
+    a {
+      font-size: 1.1rem;
       text-decoration: none;
+      cursor: pointer;
+      margin: 0 0.8rem;
       color: black;
-      font-size: 24px;
+      &:visited {
+      }
     }
-
-    ul.pagination li.active a {
-      color: white;
+    img {
+      width: 1.1rem;
+      height: 1.1rem;
+      @media ${devices.md} {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
     }
-
-    ul.pagination li.active {
-      border-radius: 50% 50%;
-      background-color: var(--color-main);
-    }
-
-    ul.pagination li a:hover {
-      color: black;
-    }
-    ul.pagination li a.active {
-      color: blue;
-    }
-
-    .page-selection {
-      width: 48px;
-      height: 30px;
-      color: #337ab7;
+    .active {
+      a {
+        color: var(--color-main);
+      }
     }
   }
 `;
 
-const ReviewWrap = styled.div`
-  height: 100%;
+const CommentList = styled.div`
   width: 100%;
-
-  justify-content: space-between;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  margin-bottom: 0.5rem;
 `;
 const ReviewHeader = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin: 20px 0 10px 0;
+  margin: 0.5rem 0;
   align-items: center;
-
-  .review-score-wrap {
-    display: flex;
-    font-size: 18px;
-
-    .review {
-      margin-right: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .score {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .star {
-        color: var(--color-main);
-      }
-    }
-  }
-
-  .comment {
-    cursor: pointer;
-    border: 1px solid grey;
-    height: 30px;
-    width: 120px;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-  }
 `;
 
 const ReviewCnt = styled.span`
@@ -288,11 +203,4 @@ const WriteReviewBtn = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-`;
-
-const WriteReviewForm = styled.div<{ isEdit: boolean }>`
-  height: ${(props) => (props.isEdit ? "15rem" : "0")};
-  width: 100%;
-  transition: all 1s ease-in-out;
-  overflow: hidden;
 `;
