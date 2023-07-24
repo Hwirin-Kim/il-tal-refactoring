@@ -304,10 +304,10 @@ const Btn = styled.button<{ bgColor?: boolean }>`
   background-color: ${(props) =>
     props.bgColor ? "var(--color-main)" : "white"};
   border: ${(props) =>
-      props.bgColor
-        ? "1px solid var(--color-main);"
-        : "1px solid var(--color-border);"}
-    ${(props) => props.bgColor && "color:white"};
+    props.bgColor
+      ? "1px solid var(--color-main);"
+      : "1px solid var(--color-border);"};
+  ${(props) => props.bgColor && "color:white"};
   width: 4.3rem;
   height: 1.5rem;
   border-radius: 0.3rem;

@@ -1,15 +1,16 @@
 import styled from "styled-components";
-import SelectBox from "./SelectBox";
-import React, { useState } from "react";
-import SelectIndex from "./SelectIndex";
+import SelectBox from "../SelectBox";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import SelectIndex from "../SelectIndex";
 import { useMutation } from "@tanstack/react-query";
-import { postBadgeCheck, postComment } from "../../api/ThemeApi";
+import { postBadgeCheck, postComment } from "../../../api/ThemeApi";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { CommentEditType } from "components/types";
+import StarCount from "./StarCount";
 interface CommentEditProps {
-  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
 }
 const CommentForm = ({ setIsEdit }: CommentEditProps) => {
   //오늘 날짜 (month는 0~11을 출력하므로 +1 필요)
@@ -26,7 +27,7 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
     playDate: "",
     comment: "",
   };
-  //useQuery refetch해주는거
+
   const queryClient = useQueryClient();
 
   //댓글 작성시 테마 id값을 보내기 위해 사용
@@ -128,53 +129,49 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
 
   return (
     <Container>
-      <FormWrap>
-        <FormHeaderWrap>
-          <div>
-            <SelectBox
-              name="score"
-              props={SelectIndex.optionStar}
-              onChangeHandler={onChangeHandler}
-              value={cmt.score}
-            />
-            <SelectBox
-              name="success"
-              props={SelectIndex.success}
-              onChangeHandler={onChangeHandler}
-              value={cmt.success}
-            />
-            <SelectBox
-              name="difficulty"
-              props={SelectIndex.optionLevel}
-              onChangeHandler={onChangeHandler}
-              value={cmt.difficulty}
-            />
-            <SelectBox
-              name="hint"
-              props={SelectIndex.optionHint}
-              onChangeHandler={onChangeHandler}
-              value={cmt.hint}
-            />
-
-            <DateInput
-              name="playDate"
-              type="date"
-              onChange={onChangeHandler}
-              value={cmt.playDate}
-              max={date}
-            />
-          </div>
-
-          <Btn onClick={() => onSubmitHandler()}>작성완료</Btn>
-        </FormHeaderWrap>
-        <TextInput
-          placeholder="후기를 공유해보세요! (150자 미만)"
-          maxLength={150}
-          name="comment"
-          onChange={onChangeHandler}
-          value={cmt.comment}
+      <FormHeaderWrap>
+        <SelectBox
+          name="score"
+          props={SelectIndex.optionStar}
+          onChangeHandler={onChangeHandler}
+          value={cmt.score}
         />
-      </FormWrap>
+        <SelectBox
+          name="success"
+          props={SelectIndex.success}
+          onChangeHandler={onChangeHandler}
+          value={cmt.success}
+        />
+        <SelectBox
+          name="difficulty"
+          props={SelectIndex.optionLevel}
+          onChangeHandler={onChangeHandler}
+          value={cmt.difficulty}
+        />
+        <SelectBox
+          name="hint"
+          props={SelectIndex.optionHint}
+          onChangeHandler={onChangeHandler}
+          value={cmt.hint}
+        />
+
+        <DateInput
+          name="playDate"
+          type="date"
+          onChange={onChangeHandler}
+          value={cmt.playDate}
+          max={date}
+        />
+
+        <Btn onClick={() => onSubmitHandler()}>작성완료</Btn>
+      </FormHeaderWrap>
+      <TextInput
+        placeholder="후기를 공유해보세요! (150자 미만)"
+        maxLength={150}
+        name="comment"
+        onChange={onChangeHandler}
+        value={cmt.comment}
+      />
     </Container>
   );
 };
@@ -182,15 +179,13 @@ const CommentForm = ({ setIsEdit }: CommentEditProps) => {
 export default CommentForm;
 
 const Container = styled.div`
-  height: 200px;
+  box-sizing: border-box;
   width: 100%;
-  border: 1px solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border: 1px solid grey;
 `;
 const DateInput = styled.input`
@@ -221,15 +216,6 @@ const FormHeaderWrap = styled.div`
   div {
     display: flex;
   }
-`;
-const FormWrap = styled.div`
-  height: 100%;
-  width: 100%;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const Btn = styled.div`

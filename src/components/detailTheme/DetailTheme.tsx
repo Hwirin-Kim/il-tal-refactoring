@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getDetailTheme, wishTheme } from "../../api/ThemeApi";
 import Modal from "../modal/Modal";
-import ThemeReview from "./ThemeReview";
+import ThemeReview from "./Review/ThemeReview";
 import ThemeSynopsis from "./ThemeSynopsis";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
 import { useRecoilValue } from "recoil";
@@ -12,6 +12,9 @@ import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 import ThemePicComponent from "./ThemePicComponent";
 import { useLoginCheck } from "components/context/LoginCheckContext";
+import { devices } from "styles/devices";
+import { addComma } from "utils/addComma";
+import NewCommentForm from "./Review/NewCommentForm";
 const DetailTheme = () => {
   //상세페이지 조회용 id
   const { id } = useParams();
@@ -24,7 +27,8 @@ const DetailTheme = () => {
   const { isLogin, setIsLogin } = useLoginCheck();
 
   //포스터 사진 모달창
-  const [isPic, setIsPic] = useState(true);
+  const [isPic, setIsPic] = useState(false);
+  const [openComment, setOpenComment] = useState(false);
 
   //navigate
   const navigate = useNavigate();
@@ -81,219 +85,236 @@ const DetailTheme = () => {
   return (
     <Container>
       <ThemeInfoWrap>
-        <ThemePicWrap>
-          <ThemePic onClick={() => setIsPic(false)}>
-            <img src={data.data.themeImgUrl} alt="themePic" />
-          </ThemePic>
-        </ThemePicWrap>
-
+        <ThemePic
+          onClick={() => setIsPic(true)}
+          src={data.data.themeImgUrl}
+          alt="themePic"
+        />
         <ThemeTextWrap>
-          <ThemeHeaderWrap>
-            <ThemeCompany>{data.data.companyName}</ThemeCompany>
-            <ThemeTitle>{data.data.themeName}</ThemeTitle>
-          </ThemeHeaderWrap>
-
-          <ThemeInfo>
-            <TextGenre>
-              <div className="type">장르</div>
-              <div className="content">{data.data.genre}</div>
-            </TextGenre>
-            <TextDifficulty>
-              <div className="type">난이도</div>
-              <div className="content">{difficult(data.data.difficulty)}</div>
-            </TextDifficulty>
-            <TextPeople>
-              <div className="type">인원</div>
-              <div className="content">
-                {data.data.minPeople}인~{data.data.maxPeople}인
-              </div>
-            </TextPeople>
-            <TextTime>
-              <div className="type">제한시간</div>
-              <div className="content">{data.data.playTime}분</div>
-            </TextTime>
-            <TextPrice>
-              <div className="type">가격</div>
-              <div className="content">{data.data.price}원</div>
-            </TextPrice>
-          </ThemeInfo>
+          <LikeButtonWrapper textColor={data.data.themeLikeCheck}>
+            {data.data.themeLikeCheck ? <BsSuitHeartFill /> : <BsSuitHeart />}
+          </LikeButtonWrapper>
+          <ThemeCompany>{data.data.companyName}</ThemeCompany>
+          <ThemeTitle>{data.data.themeName}</ThemeTitle>
+          <ThemeInfoWrapper>
+            <Type>장르</Type>
+            <ThemeInformation>{data.data.genre}</ThemeInformation>
+            <Type>난이도</Type>
+            <ThemeInformation>
+              {difficult(data.data.difficulty)}
+            </ThemeInformation>
+            <Type>인원</Type>
+            <ThemeInformation>
+              {data.data.minPeople}인~{data.data.maxPeople}인
+            </ThemeInformation>
+            <Type>제한시간</Type>
+            <ThemeInformation>{data.data.playTime}분</ThemeInformation>
+            <Type>가격</Type>
+            <ThemeInformation>{addComma(data.data.price)}원</ThemeInformation>
+          </ThemeInfoWrapper>
           <ThemeBtnWrap>
-            <div onClick={() => likeOnlyMember()}>
-              {data.data.themeLikeCheck ? (
-                <Btn>
-                  {<BsSuitHeartFill color="var(--color-main)" size="20" />}
-                  찜하기 {data.data.totalLikeCnt}
-                </Btn>
-              ) : (
-                <Btn>
-                  {<BsSuitHeart size="20" />} 찜하기 {data.data.totalLikeCnt}
-                </Btn>
-              )}
-            </div>
+            <BottomLikeButtonWrapper textColor={data.data.themeLikeCheck}>
+              {data.data.themeLikeCheck ? <BsSuitHeartFill /> : <BsSuitHeart />}
+            </BottomLikeButtonWrapper>
             <Btn onClick={() => navigate(`/company/${data.data.companyId}`)}>
               업체보기
             </Btn>
-            <Btn2 onClick={() => window.open(data.data.themeUrl)}>
+            <Btn bgColor={true} onClick={() => window.open(data.data.themeUrl)}>
               예약하기
-            </Btn2>
+            </Btn>
           </ThemeBtnWrap>
         </ThemeTextWrap>
       </ThemeInfoWrap>
       <ThemeSynopsis synopsis={data.data.synopsis} />
+      {/* <NewCommentForm /> */}
       <ThemeReview props={data.data} />
-      {isPic ? null : (
-        <Modal closeModal={() => setIsPic(true)}>
-          <ThemePicComponent pic={data.data.themeImgUrl} />
+      {isPic ? (
+        <Modal closeModal={() => setIsPic(false)}>
+          <ThemePicComponent
+            pic={data.data.themeImgUrl}
+            onClick={() => setIsPic(false)}
+          />
         </Modal>
-      )}
+      ) : null}
     </Container>
   );
 };
 export default DetailTheme;
 
 const Container = styled.div`
-  height: 100%;
   width: 100%;
-  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const ThemeInfoWrap = styled.div`
-  height: 610px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin-top: 0.5rem;
   box-sizing: border-box;
 `;
 
-const ThemePicWrap = styled.div`
-  height: 464px;
-  width: 684px;
-  margin-right: 30px;
-`;
-
-const ThemePic = styled.div`
-  height: 464px;
-  width: 684px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+const ThemePic = styled.img`
+  height: 12rem;
+  width: 9rem;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  object-fit: cover;
   cursor: pointer;
-  img {
-    display: flex;
-    object-fit: cover;
-    width: 100%;
+  @media ${devices.md} {
+    height: 18rem;
+    width: 16rem;
+  }
+  @media ${devices.lg} {
+    height: 23rem;
+    width: 21rem;
   }
 `;
 const ThemeTextWrap = styled.div`
-  height: 464px;
-  width: 800px;
+  width: 100%;
+  margin-left: 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+
+  position: relative;
+  @media ${devices.md} {
+    margin-left: 1rem;
+  }
+  @media ${devices.lg} {
+    margin-left: 2rem;
+  }
 `;
 
-const TextGenre = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-`;
-const TextDifficulty = styled.div`
-  width: 100%;
-  display: flex;
-`;
-const TextPeople = styled.div`
-  width: 100%;
-  display: flex;
-`;
-const TextTime = styled.div`
-  width: 100%;
-  display: flex;
-`;
-const TextPrice = styled.div`
-  width: 100%;
-  display: flex;
-`;
-
-const ThemeInfo = styled.div`
-  height: 100%;
+const ThemeInfoWrapper = styled.div`
   width: 100%;
   margin: 10px 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  .type {
-    height: 50px;
-    width: 130px;
-    font-size: 20px;
-    color: grey;
-    display: flex;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  grid-row-gap: 0.5rem;
+  @media ${devices.md} {
+    margin-top: 2rem;
+    grid-row-gap: 1rem;
   }
-  .content {
-    font-size: 20px;
-    height: 50px;
-    display: flex;
-    align-items: center;
+  @media ${devices.lg} {
+    grid-template-columns: 7rem 1fr;
+    grid-row-gap: 1.5rem;
   }
 `;
 
-const ThemeHeaderWrap = styled.div`
-  height: 60px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const ThemeCompany = styled.div`
-  height: 23px;
-  width: 830px;
-
-  font-size: 20px;
+const Type = styled.span`
+  font-size: 0.8rem;
   color: grey;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.3rem;
+  }
 `;
-const ThemeTitle = styled.div`
-  height: 52px;
-  width: 830px;
-  margin-top: 20px;
-  font-size: 40px;
+const ThemeInformation = styled.span`
+  font-size: 0.8rem;
+  @media ${devices.md} {
+    font-size: 1rem;
+  }
+  @media ${devices.lg} {
+    font-size: 1.3rem;
+  }
+`;
+
+const ThemeCompany = styled.span`
+  font-size: 0.65rem;
+  color: grey;
+  @media ${devices.md} {
+    font-size: 0.9rem;
+  }
+`;
+const ThemeTitle = styled.h1`
+  margin-top: 0.5rem;
+  font-size: 1rem;
   font-weight: bold;
+  @media ${devices.md} {
+    font-size: 1.5rem;
+  }
+  @media ${devices.lg} {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
 `;
 const ThemeBtnWrap = styled.div`
-  height: 50px;
-  width: 700px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  margin-top: auto;
+  @media ${devices.sm} {
+    width: 23rem;
+  }
+  @media ${devices.lg} {
+    width: 28rem;
+  }
 `;
 
-const Btn = styled.div`
-  height: 48px;
-  width: 220px;
-  border: 1px solid;
-  border-radius: 8px;
+const Btn = styled.div<{ bgColor?: boolean }>`
+  height: 1.5rem;
+  width: 5.5rem;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  cursor: pointer;
+  ${(props) => props.bgColor && "background-color:var(--color-main)"};
+  ${(props) => props.bgColor && "border:1px solid var(--color-main)"};
+  ${(props) => props.bgColor && "color:white"};
+  @media ${devices.sm} {
+    width: 7rem;
+    height: 2rem;
+  }
+  @media ${devices.lg} {
+    width: 8rem;
+    height: 2.3rem;
+    font-size: 1rem;
+  }
 `;
-const Btn2 = styled.div`
-  height: 48px;
-  width: 220px;
-  color: white;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--color-main);
 
+const LikeButtonWrapper = styled.div<{ textColor: boolean }>`
+  position: absolute;
   cursor: pointer;
+
+  top: 0.5rem;
+  right: 0;
+  color: ${(props) => (props.textColor ? "var(--color-main)" : "black")};
+  @media ${devices.sm} {
+    display: none;
+  }
+`;
+
+const BottomLikeButtonWrapper = styled.div<{ textColor: boolean }>`
+  height: 1.5rem;
+  width: 5.5rem;
+  cursor: pointer;
+
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+  display: none;
+  color: ${(props) => (props.textColor ? "var(--color-main)" : "black")};
+  @media ${devices.sm} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7rem;
+    height: 2rem;
+  }
+
+  @media ${devices.lg} {
+    width: 8rem;
+    height: 2.3rem;
+    font-size: 1rem;
+  }
 `;

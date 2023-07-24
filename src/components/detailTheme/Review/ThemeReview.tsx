@@ -2,27 +2,36 @@ import styled from "styled-components";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import { useState } from "react";
-import { getComment } from "../../api/ThemeApi";
+import { getComment } from "../../../api/ThemeApi";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
-import { commnetPages } from "../../api/store";
+import { commnetPages } from "../../../api/store";
 import { useRecoilState, useRecoilValue } from "recoil";
-import nextgray from "../../asset/next-gray.png";
-import prevgray from "../../asset/prev-gray.png";
-import nextgreen from "../../asset/next-green.png";
-import prevgreen from "../../asset/prev-green.png";
+import nextgray from "../../../asset/next-gray.png";
+import prevgray from "../../../asset/prev-gray.png";
+import nextgreen from "../../../asset/next-green.png";
+import prevgreen from "../../../asset/prev-green.png";
 import { useLoginCheck } from "components/context/LoginCheckContext";
+import { Theme } from "components/theme/ThemePoster";
+import NewCommentForm from "./NewCommentForm";
+import Modal from "components/modal/Modal";
 
-const ThemeReview = ({ props }) => {
+interface ThemeReviewProps {
+  props: Theme;
+}
+
+const ThemeReview = ({ props }: ThemeReviewProps) => {
   //코멘트 조회용 테마 id
   const { id } = useParams();
 
+  console.log(props);
   //로그인 유무 판별
-  const { isLogin, setIsLogin } = useLoginCheck();
+  const { isLogin } = useLoginCheck();
 
   //리뷰 작성하기 토글
   const [isEdit, setIsEdit] = useState(true);
+  const [openComment, setOpenComment] = useState(false);
 
   //댓글 페이지 전역 스테이트
   const [commentPage, setCommentPage] = useRecoilState(commnetPages);
@@ -45,23 +54,22 @@ const ThemeReview = ({ props }) => {
   return (
     <Container>
       <ReviewHeader>
-        <div className="review-score-wrap">
-          <div className="review">리뷰({props.reviewCnt})</div>
-          <div className="score">
-            총 평점 :{" "}
-            <span className="star">{"★".repeat(props.themeScore)}</span> (
+        <ReviewHeaderLeftWrapper>
+          <ReviewCnt>리뷰({props.reviewCnt})</ReviewCnt>
+          <Score>
+            총 평점 : <Star>{"★".repeat(props.themeScore)}</Star> (
             {props.themeScore})
-          </div>
-        </div>
+          </Score>
+        </ReviewHeaderLeftWrapper>
         {isLogin ? (
-          <span className="comment" onClick={() => setIsEdit(!isEdit)}>
+          <WriteReviewBtn onClick={() => setOpenComment(!openComment)}>
             {isEdit ? "리뷰작성" : "취소"}
-          </span>
+          </WriteReviewBtn>
         ) : null}
       </ReviewHeader>
-      <div className={isEdit ? "test2" : "test1"}>
-        <CommentForm isEdit={isEdit} setIsEdit={setIsEdit} />
-      </div>
+      <WriteReviewForm isEdit={isEdit}>
+        <CommentForm setIsEdit={setIsEdit} />
+      </WriteReviewForm>
 
       <ReviewWrap>
         {isLoading
@@ -108,6 +116,11 @@ const ThemeReview = ({ props }) => {
           />
         ) : null}
       </div>
+      {openComment ? (
+        <Modal closeModal={() => setOpenComment(false)}>
+          <NewCommentForm setOpenComment={setOpenComment} />
+        </Modal>
+      ) : null}
     </Container>
   );
 };
@@ -208,7 +221,6 @@ const ReviewWrap = styled.div`
   align-items: center;
 `;
 const ReviewHeader = styled.div`
-  height: 20px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -246,4 +258,41 @@ const ReviewHeader = styled.div`
     align-items: center;
     border-radius: 8px;
   }
+`;
+
+const ReviewCnt = styled.span`
+  font-size: 0.8rem;
+`;
+
+const Score = styled.span`
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+`;
+
+const Star = styled.span`
+  font-size: 0.8rem;
+  color: var(--color-main);
+`;
+
+const ReviewHeaderLeftWrapper = styled.div``;
+
+const WriteReviewBtn = styled.button`
+  font-size: 0.8rem;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  height: 1.5rem;
+  width: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+`;
+
+const WriteReviewForm = styled.div<{ isEdit: boolean }>`
+  height: ${(props) => (props.isEdit ? "15rem" : "0")};
+  width: 100%;
+  transition: all 1s ease-in-out;
+  overflow: hidden;
 `;
