@@ -1,22 +1,23 @@
 import styled from "styled-components";
 import Comment from "./Comment";
-import CommentForm from "./CommentForm";
+
 import { useState } from "react";
 import { getComment } from "../../../api/ThemeApi";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import { commnetPages } from "../../../api/store";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import nextgray from "../../../asset/next-gray.png";
 import prevgray from "../../../asset/prev-gray.png";
 import nextgreen from "../../../asset/next-green.png";
 import prevgreen from "../../../asset/prev-green.png";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import { Theme } from "components/theme/ThemePoster";
-import NewCommentForm from "./NewCommentForm";
+
 import Modal from "components/modal/Modal";
 import { devices } from "styles/devices";
+import CommentForm from "./CommentForm";
 
 interface ThemeReviewProps {
   props: Theme;
@@ -117,7 +118,7 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
       </div>
       {openComment ? (
         <Modal closeModal={() => setOpenComment(false)}>
-          <NewCommentForm setOpenComment={setOpenComment} />
+          <CommentForm setOpenComment={setOpenComment} />
         </Modal>
       ) : null}
     </Container>
@@ -166,6 +167,11 @@ const Container = styled.div`
 const CommentList = styled.div`
   width: 100%;
   margin-bottom: 0.5rem;
+  @media ${devices.lg} {
+    display: grid;
+    grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
+    grid-column-gap: 1rem;
+  }
 `;
 const ReviewHeader = styled.div`
   width: 100%;
@@ -177,16 +183,25 @@ const ReviewHeader = styled.div`
 
 const ReviewCnt = styled.span`
   font-size: 0.8rem;
+  @media ${devices.lg} {
+    font-size: 1rem;
+  }
 `;
 
 const Score = styled.span`
   margin-left: 0.5rem;
   font-size: 0.8rem;
+  @media ${devices.lg} {
+    font-size: 1rem;
+  }
 `;
 
 const Star = styled.span`
   font-size: 0.8rem;
   color: var(--color-main);
+  @media ${devices.lg} {
+    font-size: 1rem;
+  }
 `;
 
 const ReviewHeaderLeftWrapper = styled.div``;

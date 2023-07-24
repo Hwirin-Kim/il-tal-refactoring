@@ -1,10 +1,5 @@
 import styled from "styled-components";
-import {
-  AiOutlineEdit,
-  AiOutlineSave,
-  AiOutlineDelete,
-  AiOutlineClose,
-} from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import React, { useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
@@ -13,7 +8,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { CommentProps, UserInfoInSessionStorage } from "components/types";
 import Modal from "components/modal/Modal";
-import NewCommentForm, { CommentType } from "./NewCommentForm";
+import { CommentType } from "./CommentForm";
+import CommentForm from "./CommentForm";
 
 const Comment = ({
   id,
@@ -111,7 +107,7 @@ const Comment = ({
       <CommentArea>{comment}</CommentArea>
       {isEdit && (
         <Modal closeModal={() => setIsEdit(false)}>
-          <NewCommentForm
+          <CommentForm
             setOpenComment={setIsEdit}
             isEdit={isEdit}
             editInitial={editInitial}
@@ -190,4 +186,5 @@ const CommentArea = styled.div`
   margin-top: 0.5rem;
   line-height: 1.1rem;
   font-size: 0.9rem;
+  overflow-wrap: break-word;
 `;

@@ -1,4 +1,3 @@
-import { userInfo } from "os";
 import styled from "styled-components";
 
 const ThemePicComponent = ({

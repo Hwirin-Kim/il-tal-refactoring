@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import TitleText from "./TitleText";
-import { CommentType, onChangeHandler } from "./NewCommentForm";
+import { CommentType, onChangeHandler } from "./CommentForm";
 
 interface CategoryComponentProps {
   name: string;

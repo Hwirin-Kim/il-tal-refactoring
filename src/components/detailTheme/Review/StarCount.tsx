@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import TitleText from "./TitleText";
-import { CommentType } from "./NewCommentForm";
+import { CommentType } from "./CommentForm";
 
 interface StarCountProps {
   title: string;
