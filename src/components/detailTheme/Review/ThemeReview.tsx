@@ -14,6 +14,8 @@ import nextgreen from "../../../asset/next-green.png";
 import prevgreen from "../../../asset/prev-green.png";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import { Theme } from "components/theme/ThemePoster";
+import NewCommentForm from "./NewCommentForm";
+import Modal from "components/modal/Modal";
 
 interface ThemeReviewProps {
   props: Theme;
@@ -29,6 +31,7 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
 
   //리뷰 작성하기 토글
   const [isEdit, setIsEdit] = useState(true);
+  const [openComment, setOpenComment] = useState(false);
 
   //댓글 페이지 전역 스테이트
   const [commentPage, setCommentPage] = useRecoilState(commnetPages);
@@ -59,7 +62,7 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
           </Score>
         </ReviewHeaderLeftWrapper>
         {isLogin ? (
-          <WriteReviewBtn onClick={() => setIsEdit(!isEdit)}>
+          <WriteReviewBtn onClick={() => setOpenComment(!openComment)}>
             {isEdit ? "리뷰작성" : "취소"}
           </WriteReviewBtn>
         ) : null}
@@ -113,6 +116,11 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
           />
         ) : null}
       </div>
+      {openComment ? (
+        <Modal closeModal={() => setOpenComment(false)}>
+          <NewCommentForm setOpenComment={setOpenComment} />
+        </Modal>
+      ) : null}
     </Container>
   );
 };

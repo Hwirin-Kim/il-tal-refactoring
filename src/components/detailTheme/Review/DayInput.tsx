@@ -6,9 +6,14 @@ import { onChangeHandler } from "./NewCommentForm";
 interface DayInputProps {
   title: string;
   onChangeHandler: onChangeHandler;
+  value: string;
 }
 
-export default function DayInput({ title, onChangeHandler }: DayInputProps) {
+export default function DayInput({
+  title,
+  onChangeHandler,
+  value,
+}: DayInputProps) {
   const offset = new Date().getTimezoneOffset() * 60000;
   const today = new Date(Date.now() - offset);
   const todayString = today.toISOString().split("T")[0];
@@ -21,6 +26,7 @@ export default function DayInput({ title, onChangeHandler }: DayInputProps) {
         type="date"
         name="playDate"
         max={todayString}
+        value={value}
       />
     </Container>
   );
@@ -29,4 +35,8 @@ const Container = styled.div`
   margin-bottom: 1rem;
 `;
 
-const Input = styled.input``;
+const Input = styled.input`
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: white;
+`;

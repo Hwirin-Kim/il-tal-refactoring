@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import StarCount from "./StarCount";
 import { difficultyIndex, hintIndex, successIndex } from "./optionindex";
@@ -26,7 +26,11 @@ export type onChangeHandler = (
     | React.ChangeEvent<HTMLTextAreaElement>
 ) => void;
 
-export default function NewCommentForm() {
+interface CommentFormProps {
+  setOpenComment: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function NewCommentForm({ setOpenComment }: CommentFormProps) {
   const initial = {
     score: "",
     success: "",
@@ -123,7 +127,9 @@ export default function NewCommentForm() {
         return;
       }
     }
-    writheCommentMutation.mutate({ id, data: cmt });
+    if (id !== undefined) {
+      writheCommentMutation.mutate({ id, data: cmt });
+    }
   };
 
   return (
@@ -152,15 +158,41 @@ export default function NewCommentForm() {
         cmt={cmt}
         onChangeHandler={onChangeHandler}
       />
-      <DayInput onChangeHandler={onChangeHandler} title="플레이 날짜" />
-      <CommentInput onChangeHandler={onChangeHandler} />
-      <SubmitBtn onClick={onSubmitHandler}>작성완료</SubmitBtn>
+      <DayInput
+        onChangeHandler={onChangeHandler}
+        title="플레이 날짜"
+        value={cmt.playDate}
+      />
+      <CommentInput onChangeHandler={onChangeHandler} value={cmt.comment} />
+      <SubmitBtn onClick={onSubmitHandler} bgColor={true}>
+        작성완료
+      </SubmitBtn>
+      <SubmitBtn mgLeft={true} onClick={() => setOpenComment(false)}>
+        작성취소
+      </SubmitBtn>
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: white;
 `;
 
-const SubmitBtn = styled.button``;
+const SubmitBtn = styled.button<{ bgColor?: boolean; mgLeft?: boolean }>`
+  cursor: pointer;
+  color: ${(props) => (props.bgColor ? "white;" : "black;")};
+  background-color: ${(props) =>
+    props.bgColor ? "var(--color-main);" : "white;"};
+  border: ${(props) =>
+    props.bgColor
+      ? "1px solid var(--color-main);"
+      : "1px solid var(--color-border);"};
+  padding: 0.2rem 1rem;
+  border-radius: 0.3rem;
+  ${(props) => props.mgLeft && "margin-left: 1rem;"}
+`;

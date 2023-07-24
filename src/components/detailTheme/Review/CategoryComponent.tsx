@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import styled from "styled-components";
 import TitleText from "./TitleText";
 import { CommentType, onChangeHandler } from "./NewCommentForm";

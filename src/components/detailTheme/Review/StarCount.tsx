@@ -57,6 +57,6 @@ const Container = styled.div`
 const Star = styled.div<{ filled: boolean }>`
   cursor: pointer;
   display: inline-block;
-  font-size: 30px;
+  font-size: 1.5rem;
   color: ${(props) => (props.filled ? "gold" : "grey")};
 `;

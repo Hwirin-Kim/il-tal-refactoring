@@ -34,9 +34,8 @@ const StModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   .modalBody {
-    /* position: absolute; */
-    /* background-color: transparent; */
     box-shadow: 0 10px 3px 0 rgba(34, 36, 38, 0.15);
   }
 `;

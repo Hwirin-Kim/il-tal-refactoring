@@ -27,7 +27,8 @@ const DetailTheme = () => {
   const { isLogin, setIsLogin } = useLoginCheck();
 
   //포스터 사진 모달창
-  const [isPic, setIsPic] = useState(true);
+  const [isPic, setIsPic] = useState(false);
+  const [openComment, setOpenComment] = useState(false);
 
   //navigate
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ const DetailTheme = () => {
     <Container>
       <ThemeInfoWrap>
         <ThemePic
-          onClick={() => setIsPic(false)}
+          onClick={() => setIsPic(true)}
           src={data.data.themeImgUrl}
           alt="themePic"
         />
@@ -125,16 +126,16 @@ const DetailTheme = () => {
         </ThemeTextWrap>
       </ThemeInfoWrap>
       <ThemeSynopsis synopsis={data.data.synopsis} />
-      <NewCommentForm />
+      {/* <NewCommentForm /> */}
       <ThemeReview props={data.data} />
-      {isPic ? null : (
-        <Modal closeModal={() => setIsPic(true)}>
+      {isPic ? (
+        <Modal closeModal={() => setIsPic(false)}>
           <ThemePicComponent
             pic={data.data.themeImgUrl}
-            onClick={() => setIsPic(true)}
+            onClick={() => setIsPic(false)}
           />
         </Modal>
-      )}
+      ) : null}
     </Container>
   );
 };
