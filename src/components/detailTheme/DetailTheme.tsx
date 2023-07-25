@@ -7,14 +7,13 @@ import Modal from "../modal/Modal";
 import ThemeReview from "./Review/ThemeReview";
 import ThemeSynopsis from "./ThemeSynopsis";
 import { BsSuitHeartFill, BsSuitHeart } from "react-icons/bs";
-import { useRecoilValue } from "recoil";
-// import { loginCheck } from "../../api/store";
 import Swal from "sweetalert2";
 import ThemePicComponent from "./ThemePicComponent";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import { devices } from "styles/devices";
 import { addComma } from "utils/addComma";
-import NewCommentForm from "./Review/NewCommentForm";
+import GetBadgeComponent from "./getBadge/GetBadgeComponent";
+
 const DetailTheme = () => {
   //상세페이지 조회용 id
   const { id } = useParams();
@@ -23,25 +22,18 @@ const DetailTheme = () => {
     themeId = parseInt(id, 10);
   }
 
-  //로그인 유무 판별
-  const { isLogin, setIsLogin } = useLoginCheck();
+  const { isLogin } = useLoginCheck();
 
-  //포스터 사진 모달창
   const [isPic, setIsPic] = useState(false);
-  const [openComment, setOpenComment] = useState(false);
 
-  //navigate
   const navigate = useNavigate();
 
-  //테마 상세정보 조회 GET 요청 useQuery
   const { data, isLoading } = useQuery(["getDetail", isLogin], () =>
     getDetailTheme(id)
   );
 
-  //데이터 refetch를 위한 쿼리클라이언트
   const queryClient = useQueryClient();
 
-  //좋아요 회원만 가능하도록 알람띄우기
   const likeOnlyMember = () => {
     if (isLogin) {
       themeLike.mutate(themeId);
@@ -112,8 +104,27 @@ const DetailTheme = () => {
             <Type>가격</Type>
             <ThemeInformation>{addComma(data.data.price)}원</ThemeInformation>
           </ThemeInfoWrapper>
+          <ReservationTime>
+            <Type>오늘 예약가능시간</Type>
+            {data.data.reservationDay1[0] === "" ? (
+              <NoReservation>예약 정보가 없습니다!</NoReservation>
+            ) : (
+              <ReservationBtnWrapper>
+                {data.data.reservationDay1.map((time: string) => {
+                  return (
+                    <ReservationTimeButton key={time}>
+                      {time}
+                    </ReservationTimeButton>
+                  );
+                })}
+              </ReservationBtnWrapper>
+            )}
+          </ReservationTime>
           <ThemeBtnWrap>
-            <BottomLikeButtonWrapper textColor={data.data.themeLikeCheck}>
+            <BottomLikeButtonWrapper
+              onClick={likeOnlyMember}
+              textColor={data.data.themeLikeCheck}
+            >
               {data.data.themeLikeCheck ? <BsSuitHeartFill /> : <BsSuitHeart />}
             </BottomLikeButtonWrapper>
             <Btn onClick={() => navigate(`/company/${data.data.companyId}`)}>
@@ -125,8 +136,8 @@ const DetailTheme = () => {
           </ThemeBtnWrap>
         </ThemeTextWrap>
       </ThemeInfoWrap>
+
       <ThemeSynopsis synopsis={data.data.synopsis} />
-      {/* <NewCommentForm /> */}
       <ThemeReview props={data.data} />
       {isPic ? (
         <Modal closeModal={() => setIsPic(false)}>
@@ -158,19 +169,19 @@ const ThemeInfoWrap = styled.div`
 `;
 
 const ThemePic = styled.img`
-  height: 12rem;
-  width: 9rem;
+  height: 14rem;
+  width: 10rem;
   border-radius: 0.5rem;
   box-sizing: border-box;
   object-fit: cover;
   cursor: pointer;
   @media ${devices.md} {
-    height: 18rem;
-    width: 16rem;
+    height: 21rem;
+    width: 18rem;
   }
   @media ${devices.lg} {
-    height: 23rem;
-    width: 21rem;
+    height: 25rem;
+    width: 23rem;
   }
 `;
 const ThemeTextWrap = styled.div`
@@ -190,7 +201,7 @@ const ThemeTextWrap = styled.div`
 
 const ThemeInfoWrapper = styled.div`
   width: 100%;
-  margin: 10px 0px;
+  margin: 0.5rem 0;
   display: grid;
   grid-template-columns: 5rem 1fr;
   grid-row-gap: 0.5rem;
@@ -200,7 +211,7 @@ const ThemeInfoWrapper = styled.div`
   }
   @media ${devices.lg} {
     grid-template-columns: 7rem 1fr;
-    grid-row-gap: 1.5rem;
+    grid-row-gap: 1rem;
   }
 `;
 
@@ -316,5 +327,42 @@ const BottomLikeButtonWrapper = styled.div<{ textColor: boolean }>`
     width: 8rem;
     height: 2.3rem;
     font-size: 1rem;
+  }
+`;
+
+const ReservationTime = styled.div`
+  @media ${devices.md} {
+    margin-top: 0.5rem;
+  }
+`;
+
+const NoReservation = styled.p`
+  font-size: 0.7em;
+  margin-top: 0.3rem;
+  @media ${devices.md} {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+`;
+
+const ReservationBtnWrapper = styled.div`
+  box-sizing: border-box;
+  margin-top: 0.3rem;
+  margin-bottom: 0.5rem;
+  @media ${devices.md} {
+    margin-top: 0.7rem;
+  }
+`;
+
+const ReservationTimeButton = styled.span`
+  box-sizing: border-box;
+  margin: 0.1rem 0.2rem 0.1rem 0;
+  padding: 0.1rem;
+  font-size: 0.7em;
+  border-radius: 0.4rem;
+  border: 1px solid var(--color-border);
+  @media ${devices.md} {
+    font-size: 0.9rem;
+    padding: 0.1rem 0.3rem;
   }
 `;

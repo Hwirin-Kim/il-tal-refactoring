@@ -66,7 +66,7 @@ export const delComment = async (id) => {
 
 //테마&디테일테마 페이지 찜하기 POST요청
 export const wishTheme = async (payload) => {
-  const { data } = await api.post("/theme/wish", { themeId: payload });
+  const { data } = await api.post("/theme/wish", payload);
   return data;
 };
 

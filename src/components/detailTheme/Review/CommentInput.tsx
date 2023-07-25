@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import TitleText from "./TitleText";
-import { onChangeHandler } from "./NewCommentForm";
-import { devices } from "styles/devices";
+import { onChangeHandler } from "./CommentForm";
 
 interface CommentInputProps {
   onChangeHandler: onChangeHandler;
@@ -41,6 +40,7 @@ const Textarea = styled.textarea`
   border-radius: 0.5rem;
   border: 1px solid var(--color-border);
   width: 100%;
+  font-size: 16px;
   min-height: 11rem;
   resize: none;
 `;
