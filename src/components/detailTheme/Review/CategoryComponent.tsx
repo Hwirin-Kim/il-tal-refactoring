@@ -31,7 +31,7 @@ CategoryComponentProps) {
       <TitleText>{title}</TitleText>
       {index.map((category) => {
         return (
-          <React.Fragment>
+          <React.Fragment key={name + category.value}>
             <CategoryInput
               name={name}
               id={name + category.value}

@@ -58,7 +58,11 @@ export default function ThemeFilterBox({ setOnfilter }: ThemeFilterBoxProps) {
   }, []);
 
   //필터링된 테마 개수 미리보기 API GET요청
-  const { data: filterData, isLoading: filterIsLoading } = useQuery(
+  const {
+    data: filterData,
+    isLoading: filterIsLoading,
+    isError,
+  } = useQuery(
     [
       "getFilterCnt",
       genre,
@@ -204,7 +208,11 @@ export default function ThemeFilterBox({ setOnfilter }: ThemeFilterBoxProps) {
       <BtnWrapper>
         <SearchBtn onClick={categoryReset}>초기화</SearchBtn>
         <SearchBtn mainColor={true} onClick={onClickSearchTheme}>
-          {filterIsLoading ? "Loading.." : `총 ${filterData.data}개 결과`}
+          {filterIsLoading
+            ? "Loading.."
+            : isError
+            ? "Error !"
+            : `총 ${filterData.data}개 결과`}
         </SearchBtn>
       </BtnWrapper>
     </Container>

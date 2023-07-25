@@ -113,7 +113,7 @@ export default function ThemeList({ setSearchResult }: ThemeListProps) {
         {data.data.totalPages > 1 ? (
           <Pagination
             activePage={Number(page) + 1}
-            itemsCountPerPage={9}
+            itemsCountPerPage={12}
             totalItemsCount={data.data.totalElements}
             pageRangeDisplayed={5}
             hideFirstLastPages={true}
