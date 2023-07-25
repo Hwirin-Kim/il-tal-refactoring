@@ -12,6 +12,7 @@ import ThemePicComponent from "./ThemePicComponent";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 import { devices } from "styles/devices";
 import { addComma } from "utils/addComma";
+import GetBadgeComponent from "./getBadge/GetBadgeComponent";
 
 const DetailTheme = () => {
   //상세페이지 조회용 id
@@ -135,6 +136,7 @@ const DetailTheme = () => {
           </ThemeBtnWrap>
         </ThemeTextWrap>
       </ThemeInfoWrap>
+      <GetBadgeComponent />
       <ThemeSynopsis synopsis={data.data.synopsis} />
       <ThemeReview props={data.data} />
       {isPic ? (

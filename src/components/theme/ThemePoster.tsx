@@ -26,7 +26,7 @@ export interface Theme {
   id: number;
   playTime: number;
   price: number;
-
+  themeUrl: string;
   reservationDay1: string[];
   reservationDay2: string[];
   reservationDay3: string[];
@@ -172,7 +172,7 @@ const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
             </HeartIcon>
           )}
         </Btn>
-        <Btn bgColor={true} onClick={() => window.open()}>
+        <Btn bgColor={true} onClick={() => window.open(theme.themeUrl)}>
           예약
         </Btn>
       </BtnWrapper>
@@ -312,6 +312,7 @@ const Btn = styled.button<{ bgColor?: boolean }>`
   height: 1.5rem;
   border-radius: 0.3rem;
   margin: 0 0.5rem;
+  cursor: pointer;
 `;
 
 const HeartIcon = styled.span<{ textColor: boolean }>`
