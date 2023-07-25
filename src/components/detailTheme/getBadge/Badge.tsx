@@ -1,8 +1,12 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
-export default function Badge() {
-  return <BadgeImg />;
+interface BadgeProps {
+  badgeImgUrl: string;
+}
+
+export default function Badge({ badgeImgUrl }: BadgeProps) {
+  return <BadgeImg bgImg={badgeImgUrl} />;
 }
 
 const rotateAndScaleAnimation = keyframes`
@@ -22,12 +26,25 @@ const rotateAndScaleAnimation = keyframes`
     transform: rotateY(2520deg) scale(1);
   }
 `;
+const shine = keyframes`
+0% {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+50% {
+  opacity: 1;
+}
+100% {
+  transform: translateX(100%);
+  opacity: 0;
+}
+`;
 
-const BadgeImg = styled.div`
-  position: absolute;
+const BadgeImg = styled.div<{ bgImg: string }>`
   width: 80px;
   height: 80px;
-  background-color: teal;
+  background-image: url(${(props) => props.bgImg});
+  background-size: cover;
   border-radius: 50%;
   transform-style: preserve-3d;
   transform-origin: center;
@@ -39,7 +56,6 @@ const BadgeImg = styled.div`
   &::before {
     content: "";
     position: absolute;
-
     top: -50%;
     left: -50%;
     width: 200%;
@@ -52,20 +68,6 @@ const BadgeImg = styled.div`
       rgba(255, 255, 255, 0) 100%
     );
     transform: translateX(-100%);
-    animation: shine 3s infinite;
-  }
-
-  @keyframes shine {
-    0% {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(100%);
-      opacity: 0;
-    }
+    animation: ${shine} 3s infinite;
   }
 `;

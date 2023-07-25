@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postBadgeCheck, postComment, putComment } from "api/ThemeApi";
 import { useParams } from "react-router-dom";
+import { BadgeData } from "./ThemeReview";
 
 export interface CommentType {
   [key: string]: string;
@@ -28,6 +29,8 @@ export type onChangeHandler = (
 
 interface CommentFormProps {
   setOpenComment: Dispatch<SetStateAction<boolean>>;
+  setIsGetBadge?: Dispatch<SetStateAction<boolean>>;
+  setBadgeData?: Dispatch<SetStateAction<BadgeData>>;
   isEdit?: boolean;
   editInitial?: CommentType;
   commentId?: number;
@@ -38,6 +41,8 @@ export default function CommentForm({
   isEdit,
   editInitial,
   commentId,
+  setBadgeData,
+  setIsGetBadge,
 }: CommentFormProps) {
   const initial = {
     score: "",
@@ -53,7 +58,22 @@ export default function CommentForm({
   const [cmt, setCmt] = useState<CommentType>(isEdit ? editInitial! : initial);
   const queryClient = useQueryClient();
 
-  const getBadgeMutation = useMutation(postBadgeCheck);
+  const getBadgeMutation = useMutation(postBadgeCheck, {
+    onSuccess: (res) => {
+      if (res.data.hasNewBadge) {
+        setBadgeData!(res.data.newBadges[0]);
+        setIsGetBadge!(true);
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: "댓글 작성완료!",
+          text: "소중한 의견 감사합니다!!😊",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+    },
+  });
 
   const writheCommentMutation = useMutation(
     (payload: { id: string; data: CommentType }) => postComment(payload),
@@ -61,13 +81,6 @@ export default function CommentForm({
       onSuccess: () => {
         queryClient.invalidateQueries(["getComments"]);
         queryClient.invalidateQueries(["getDetail"]);
-
-        Swal.fire({
-          icon: "success",
-          title: "댓글 작성완료!",
-          text: "소중한 의견 감사합니다!!😊",
-        });
-
         setCmt(initial);
         setOpenComment(false);
         getBadgeMutation.mutate();
@@ -77,6 +90,8 @@ export default function CommentForm({
           icon: "warning",
           title: "댓글 작성실패!",
           text: "댓글 작성 실패!",
+          showConfirmButton: false,
+          timer: 1000,
         });
         setCmt(initial);
       },
@@ -94,6 +109,8 @@ export default function CommentForm({
           icon: "success",
           title: "댓글이 수정되었습니다",
           text: "다른 유저분들이 더욱 자세한 사항을 알게되었네요!👍",
+          showConfirmButton: false,
+          timer: 1000,
         });
         setOpenComment(false);
       },

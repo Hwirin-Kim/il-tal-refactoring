@@ -18,6 +18,7 @@ import { Theme } from "components/theme/ThemePoster";
 import Modal from "components/modal/Modal";
 import { devices } from "styles/devices";
 import CommentForm from "./CommentForm";
+import GetBadgeComponent from "../getBadge/GetBadgeComponent";
 
 interface ThemeReviewProps {
   props: Theme;
@@ -34,12 +35,32 @@ interface CommentFromServerData {
   comment: string;
 }
 
+export interface BadgeData {
+  badgeExplain: string;
+  badgeFailCnt: number;
+  badgeImgUrl: string;
+  badgeName: string;
+  badgeSuccessCnt: number;
+  id: number;
+}
+
 const ThemeReview = ({ props }: ThemeReviewProps) => {
+  const badgeInitial: BadgeData = {
+    badgeExplain: "이 정도로 넘어질 당신이 아닙니다",
+    badgeFailCnt: 10,
+    badgeImgUrl:
+      "https://myxzbucket.s3.ap-northeast-2.amazonaws.com/iltal/badge/%E1%84%8C%E1%85%A1%E1%84%8B%E1%85%B2%E1%84%8B%E1%85%B5%E1%86%AB.jpg",
+    badgeName: "열번 찍힌 나무",
+    badgeSuccessCnt: 0,
+    id: 7,
+  };
   const { id } = useParams();
 
   const { isLogin } = useLoginCheck();
 
   const [openComment, setOpenComment] = useState(false);
+  const [isGetBadge, setIsGetBadge] = useState(false);
+  const [badgeData, setBadgeData] = useState(badgeInitial);
 
   const [commentPage, setCommentPage] = useRecoilState(commnetPages);
 
@@ -65,6 +86,7 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
             {props.themeScore})
           </Score>
         </ReviewHeaderLeftWrapper>
+
         {isLogin ? (
           <WriteReviewBtn onClick={() => setOpenComment(!openComment)}>
             리뷰작성
@@ -118,9 +140,21 @@ const ThemeReview = ({ props }: ThemeReviewProps) => {
       </div>
       {openComment ? (
         <Modal closeModal={() => setOpenComment(false)}>
-          <CommentForm setOpenComment={setOpenComment} />
+          <CommentForm
+            setOpenComment={setOpenComment}
+            setBadgeData={setBadgeData}
+            setIsGetBadge={setIsGetBadge}
+          />
         </Modal>
       ) : null}
+      {isGetBadge && (
+        <Modal closeModal={() => setIsGetBadge(true)}>
+          <GetBadgeComponent
+            setIsGetBadge={setIsGetBadge}
+            badgeData={badgeData}
+          />
+        </Modal>
+      )}
     </Container>
   );
 };

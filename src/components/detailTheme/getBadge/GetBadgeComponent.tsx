@@ -1,20 +1,18 @@
 import styled, { keyframes } from "styled-components";
 import Badge from "./Badge";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { badgeRequired } from "components/mypage/components/mybadge/badgeRequierd";
+import { BadgeData } from "../Review/ThemeReview";
 
-interface BadgeData {
-  badgeExplain: string;
-  badgeFailCnt: number;
-  badgeImgUrl: string;
-  badgeName: string;
-  badgeSuccessCnt: number;
-  id: number;
-}
 interface GetBadgeComponentProps {
-  data: BadgeData;
+  badgeData: BadgeData;
+  setIsGetBadge: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function GetBadgeComponent() {
+export default function GetBadgeComponent({
+  setIsGetBadge,
+  badgeData,
+}: GetBadgeComponentProps) {
   const [showTitle, setShowTitle] = useState(true);
   const [showBadge, setShowBadge] = useState(false);
   const [showBadgeInfo, setShowBadgeInfo] = useState(false);
@@ -27,7 +25,7 @@ export default function GetBadgeComponent() {
 
     const timer2 = setTimeout(() => {
       setShowBadgeInfo(true);
-    }, 4000);
+    }, 5000);
 
     return () => {
       clearTimeout(timer1);
@@ -38,18 +36,21 @@ export default function GetBadgeComponent() {
   return (
     <Container>
       {showTitle && <Title>뱃지 획득!</Title>}
-      {showBadge && <Badge />}
+      {showBadge && <Badge badgeImgUrl={badgeData.badgeImgUrl} />}
       {showBadgeInfo && (
         <BadgeInfo>
-          <BadgeName>열번 찍힌 나무</BadgeName>
-          <BadgeExplain>이 정도로 넘어질 당신이 아닙니다.</BadgeExplain>
-          <BadgeRequire>뱃지 조건 : 실패 10회</BadgeRequire>
-          <BadgeExplain>
+          <BadgeName>{badgeData.badgeName}</BadgeName>
+          <BadgeExplain>{badgeData.badgeExplain}</BadgeExplain>
+          <BadgeRequire>
+            뱃지 조건 :{" "}
+            {badgeRequired(badgeData.badgeSuccessCnt, badgeData.badgeFailCnt)}
+          </BadgeRequire>
+          <NoticeText>
             획득한 뱃지는 마이페이지에서 확인 가능 합니다.
-          </BadgeExplain>
+          </NoticeText>
+          <CloseBtn onClick={() => setIsGetBadge(false)}>확인</CloseBtn>
         </BadgeInfo>
       )}
-      <CloseBtn>확인</CloseBtn>
     </Container>
   );
 }
@@ -63,6 +64,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: white;
 `;
 
 const fadeInAndEnlargeAnimation = keyframes`
@@ -97,12 +99,41 @@ const Title = styled.h1`
 
 const BadgeInfo = styled.div`
   animation: 2s ease-in-out 1 forwards ${slideInFromBottom};
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
 `;
 
-const BadgeName = styled.span``;
+const BadgeName = styled.p`
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+`;
 
-const BadgeExplain = styled.p``;
+const BadgeExplain = styled.p`
+  font-style: italic;
+  text-align: center;
+  margin-top: 0.5rem;
+`;
 
-const BadgeRequire = styled.p``;
+const BadgeRequire = styled.p`
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+`;
 
-const CloseBtn = styled.button``;
+const NoticeText = styled.p`
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  color: grey;
+`;
+
+const CloseBtn = styled.button`
+  margin: 1rem auto 0 auto;
+  background-color: var(--color-main);
+  border: 1px solid var(--color-main);
+  color: white;
+  padding: 0.2rem 1rem;
+  border-radius: 0.5rem;
+`;

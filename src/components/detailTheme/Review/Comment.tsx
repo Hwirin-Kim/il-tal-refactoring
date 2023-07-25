@@ -55,6 +55,8 @@ const Comment = ({
         icon: "success",
         title: "댓글이 삭제되었습니다",
         text: "더 좋은 댓글 남겨주실거죠?😊",
+        showConfirmButton: false,
+        timer: 1000,
       });
     },
     onError: () => {
@@ -62,6 +64,8 @@ const Comment = ({
         icon: "error",
         title: "댓글삭제에 실패하였습니다",
         text: "페이지를 새로고침 후 다시 이용해보세요!",
+        showConfirmButton: false,
+        timer: 1000,
       });
     },
   });

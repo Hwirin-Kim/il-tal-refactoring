@@ -136,7 +136,7 @@ const DetailTheme = () => {
           </ThemeBtnWrap>
         </ThemeTextWrap>
       </ThemeInfoWrap>
-      <GetBadgeComponent />
+
       <ThemeSynopsis synopsis={data.data.synopsis} />
       <ThemeReview props={data.data} />
       {isPic ? (

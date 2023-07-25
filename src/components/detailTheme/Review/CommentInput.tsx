@@ -40,6 +40,7 @@ const Textarea = styled.textarea`
   border-radius: 0.5rem;
   border: 1px solid var(--color-border);
   width: 100%;
+  font-size: 16px;
   min-height: 11rem;
   resize: none;
 `;
