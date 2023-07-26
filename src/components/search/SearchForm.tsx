@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { searchState } from "../../api/store";
 import { BsSearch } from "react-icons/bs";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { devices } from "styles/devices";
 
 const SearchForm = () => {
-  //페이지 이동에 사용
   const navigate = useNavigate();
 
-  //검색어 전역 스테이트
-  const [search, setSearch] = useRecoilState(searchState);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const filterParam = searchParams.get("filter") ?? "theme";
 
   //검색어 스테이트
   const [onChange, setOnChange] = useState("");
@@ -28,8 +28,7 @@ const SearchForm = () => {
 
   //검색요청 함수
   const onSubmitHandler = () => {
-    setSearch(onChange);
-    navigate("/search");
+    navigate(`/search?filter=${filterParam}&keyword=${onChange}&page=0`);
   };
   return (
     <Container>
