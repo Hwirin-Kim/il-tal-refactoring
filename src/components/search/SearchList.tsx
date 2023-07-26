@@ -1,24 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import Pagination from "react-js-pagination";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useSearchParams } from "react-router-dom";
+
 import styled from "styled-components";
-import { getSearchCompany, getSearchTheme } from "../../api/searchApi";
-import { searchComPages, searchState, searchThemePages } from "../../api/store";
 
-import nextgray from "../../asset/next-gray.png";
-import prevgray from "../../asset/prev-gray.png";
-import nextgreen from "../../asset/next-green.png";
-import prevgreen from "../../asset/prev-green.png";
-import noDataImg from "../../asset/no-data-word.png";
-
-import React, { useState } from "react";
+import React from "react";
 import { searchCategoryIndex } from "./searchCategoryIndex";
 import ThemeResult from "./ThemeResult";
 import CompanyResult from "./CompanyResult";
 
 const SearchList = () => {
-  const [checkedRadioBtn, setCheckedRadioBtn] = useState("theme");
   const isChecked = (currentState: string, thisName: string): boolean => {
     return currentState === thisName ? true : false;
   };
@@ -26,15 +15,13 @@ const SearchList = () => {
     setSearchParams({
       filter: e.target.value,
       keyword: keywordParam!,
-      page: pageParam,
+      page: "0",
     });
   };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const filterParam = searchParams.get("filter") ?? "theme";
   const keywordParam = searchParams.get("keyword");
-
-  const pageParam = searchParams.get("page") ?? "0";
 
   return (
     <Container>
@@ -92,4 +79,5 @@ const CurrentViewRadioLabel = styled.label`
   border-radius: 0.5rem;
   margin-right: 1rem;
   font-size: 0.9rem;
+  cursor: pointer;
 `;

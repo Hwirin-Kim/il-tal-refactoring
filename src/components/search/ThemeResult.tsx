@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSearchTheme } from "api/searchApi";
-import { searchState } from "api/store";
+
 import ThemePoster, { Theme } from "components/theme/ThemePoster";
 import React from "react";
-import { useRecoilValue } from "recoil";
+
 import styled from "styled-components";
 import { devices } from "styles/devices";
 
@@ -34,6 +34,7 @@ export default function ThemeResult() {
       keyword: keywordParam!,
       page: String(pageIndex),
     });
+    window.scrollTo(0, 0);
   };
 
   if (themeList.isLoading) {

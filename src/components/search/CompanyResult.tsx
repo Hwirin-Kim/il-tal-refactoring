@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSearchCompany, getSearchTheme } from "api/searchApi";
-import { searchState } from "api/store";
-import ThemePoster, { Theme } from "components/theme/ThemePoster";
-import React from "react";
-import { useRecoilValue } from "recoil";
+import { getSearchCompany } from "api/searchApi";
+
 import styled from "styled-components";
 import { devices } from "styles/devices";
 
@@ -36,6 +33,7 @@ export default function CompanyResult() {
       keyword: keywordParam!,
       page: String(pageIndex),
     });
+    window.scrollTo(0, 0);
   };
 
   if (companyList.isLoading) {

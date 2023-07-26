@@ -1,6 +1,5 @@
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { searchState } from "../../api/store";
+
 import { BsSearch } from "react-icons/bs";
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";

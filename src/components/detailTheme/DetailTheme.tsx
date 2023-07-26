@@ -13,9 +13,11 @@ import { useLoginCheck } from "components/context/LoginCheckContext";
 import { devices } from "styles/devices";
 import { addComma } from "utils/addComma";
 import GetBadgeComponent from "./getBadge/GetBadgeComponent";
+import useFirstScrollTop from "hooks/useFirstScrollTop";
 
 const DetailTheme = () => {
-  //상세페이지 조회용 id
+  useFirstScrollTop();
+
   const { id } = useParams();
   let themeId: number;
   if (id) {
