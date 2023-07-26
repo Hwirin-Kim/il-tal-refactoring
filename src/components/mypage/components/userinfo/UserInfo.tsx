@@ -16,7 +16,6 @@ export default function UserInfo() {
 
   const { data, isLoading } = useQuery(["myAchieve"], getAchieve);
 
-  console.log(data, "userInfo");
   if (isLoading) {
     return null;
   }

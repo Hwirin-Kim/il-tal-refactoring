@@ -50,6 +50,7 @@ export default function ThemeResult() {
         {themeList.data.data.content.map((theme: Theme) => {
           return (
             <ThemePoster
+              key={theme.id}
               queryKey={[
                 "getThemeSearch",
                 keywordParam,
