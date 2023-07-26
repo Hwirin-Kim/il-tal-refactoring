@@ -28,8 +28,8 @@ const Container = styled.div`
   border-bottom: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  @media ${devices.lg} {
-    margin-top: 2rem;
+  @media ${devices.md} {
+    margin-top: 1rem;
   }
 `;
 const Title = styled.p`

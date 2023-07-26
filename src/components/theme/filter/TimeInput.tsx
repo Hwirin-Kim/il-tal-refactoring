@@ -1,7 +1,7 @@
-import { timeState } from "api/store";
+import { dayState, timeState } from "api/store";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import CategoryTitle from "./common/CategoryTitle";
 import { firstTimeOptionGenerator } from "./utils/firstTimeOptionGenerator";
@@ -10,6 +10,7 @@ import { secondTimeOptionGenerator } from "./utils/secondTimeOptionGenerator";
 const TimeInput = () => {
   const [searchParams, _] = useSearchParams();
   const timeParam = searchParams.get("time")?.split(",") ?? ["", ""];
+  const dayStates = useRecoilValue(dayState);
 
   const [time, setTime] = useRecoilState(timeState);
 
@@ -38,28 +39,38 @@ const TimeInput = () => {
   return (
     <Container>
       <CategoryTitle>시간</CategoryTitle>
-      <Select value={time[0]} onChange={(e) => setFirstTime(e.target.value)}>
-        {firstTimeOptionGenerator(START_TIME, END_TIME).map((time) => {
-          return (
-            <Option key={time.value} value={time.value}>
-              {time.name}
-            </Option>
-          );
-        })}
-      </Select>
-      <Dash>-</Dash>
-      <Select
-        value={secondTime}
-        onChange={(e) => setSecondTime(e.target.value)}
-      >
-        {secondTimeOptions.map((time) => {
-          return (
-            <Option key={time.value} value={time.value}>
-              {time.name}
-            </Option>
-          );
-        })}
-      </Select>
+      <Wrapper>
+        <SelectWrapper>
+          <Select
+            value={time[0]}
+            onChange={(e) => setFirstTime(e.target.value)}
+          >
+            {firstTimeOptionGenerator(START_TIME, END_TIME).map((time) => {
+              return (
+                <Option key={time.value} value={time.value}>
+                  {time.name}
+                </Option>
+              );
+            })}
+          </Select>
+          <Dash>-</Dash>
+          <Select
+            value={secondTime}
+            onChange={(e) => setSecondTime(e.target.value)}
+          >
+            {secondTimeOptions.map((time) => {
+              return (
+                <Option key={time.value} value={time.value}>
+                  {time.name}
+                </Option>
+              );
+            })}
+          </Select>
+        </SelectWrapper>
+        {dayStates !== "" && (firstTime === "" || secondTime === "") && (
+          <WarningText>• 시간 입력도 필수</WarningText>
+        )}
+      </Wrapper>
     </Container>
   );
 };
@@ -80,4 +91,16 @@ const Option = styled.option``;
 
 const Dash = styled.span`
   margin: 0 0.5rem;
+`;
+
+const SelectWrapper = styled.div``;
+
+const WarningText = styled.p`
+  color: red;
+  font-size: 0.9rem;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;

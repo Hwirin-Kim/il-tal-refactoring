@@ -25,7 +25,7 @@ export const getFilterTheme = async ({
   };
 
   const { data } = await api.get(
-    `/themes?location=${fixParams(location)}&genreFilter=${fixParams(
+    `/newthemes?location=${fixParams(location)}&genreFilter=${fixParams(
       genreFilter
     )}&people=${fixParams(
       people

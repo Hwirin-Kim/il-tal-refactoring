@@ -41,13 +41,17 @@ export default function DateInput() {
     const selectDate = new Date(e.target.value);
 
     const diffTime = Math.abs(selectDate.getDate() - today.getDate()) + 1;
-
-    setDay(diffTime.toString());
+    if (e.target.value !== "") {
+      setDay(diffTime.toString());
+    } else {
+      setDay("");
+    }
   };
 
   return (
     <Container>
       <CategoryTitle>날짜</CategoryTitle>
+
       <Input
         type="date"
         onChange={onChange}
@@ -55,6 +59,7 @@ export default function DateInput() {
         max={oneWeekLaterString}
         value={selectedDate}
       />
+      {/* {selectedDate !== "" && <WarningText>• 시간 입력도 필수</WarningText>} */}
     </Container>
   );
 }
