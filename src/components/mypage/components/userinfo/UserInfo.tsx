@@ -16,6 +16,7 @@ export default function UserInfo() {
 
   const { data, isLoading } = useQuery(["myAchieve"], getAchieve);
 
+  console.log(data, "userInfo");
   if (isLoading) {
     return null;
   }
@@ -65,6 +66,8 @@ export default function UserInfo() {
           nickname={data.nickname}
           mainBadgeImg={data.mainBadgeImg}
           mainBadgeName={data.mainBadgeName}
+          totalPlayCnt={data.totalPlayCnt}
+          successCnt={data.successCnt}
         />
       </WebWrap>
       {/* <WebWrap>
