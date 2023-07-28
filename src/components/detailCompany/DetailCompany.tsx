@@ -155,7 +155,7 @@ const DetailCompany = () => {
         })}
       </ThemeWrap>
       <DividerLine />
-
+      <Title>업체 위치</Title>
       <MapBox>
         <KakaoMap address={data.data.address} company={data.data.companyName} />
       </MapBox>

@@ -13,9 +13,11 @@ import { useLoginCheck } from "components/context/LoginCheckContext";
 import { devices } from "styles/devices";
 import { addComma } from "utils/addComma";
 import GetBadgeComponent from "./getBadge/GetBadgeComponent";
+import useFirstScrollTop from "hooks/useFirstScrollTop";
 
 const DetailTheme = () => {
-  //상세페이지 조회용 id
+  useFirstScrollTop();
+
   const { id } = useParams();
   let themeId: number;
   if (id) {
@@ -104,22 +106,7 @@ const DetailTheme = () => {
             <Type>가격</Type>
             <ThemeInformation>{addComma(data.data.price)}원</ThemeInformation>
           </ThemeInfoWrapper>
-          <ReservationTime>
-            <Type>오늘 예약가능시간</Type>
-            {data.data.reservationDay1[0] === "" ? (
-              <NoReservation>예약 정보가 없습니다!</NoReservation>
-            ) : (
-              <ReservationBtnWrapper>
-                {data.data.reservationDay1.map((time: string) => {
-                  return (
-                    <ReservationTimeButton key={time}>
-                      {time}
-                    </ReservationTimeButton>
-                  );
-                })}
-              </ReservationBtnWrapper>
-            )}
-          </ReservationTime>
+
           <ThemeBtnWrap>
             <BottomLikeButtonWrapper
               onClick={likeOnlyMember}
@@ -136,7 +123,20 @@ const DetailTheme = () => {
           </ThemeBtnWrap>
         </ThemeTextWrap>
       </ThemeInfoWrap>
-
+      <ReservationTime>
+        <Title>오늘 예약가능시간</Title>
+        {data.data.reservationDay1[0] === "" ? (
+          <NoReservation>예약 정보가 없습니다!</NoReservation>
+        ) : (
+          <ReservationBtnWrapper>
+            {data.data.reservationDay1.map((time: string) => {
+              return (
+                <ReservationTimeButton key={time}>{time}</ReservationTimeButton>
+              );
+            })}
+          </ReservationBtnWrapper>
+        )}
+      </ReservationTime>
       <ThemeSynopsis synopsis={data.data.synopsis} />
       <ThemeReview props={data.data} />
       {isPic ? (
@@ -169,24 +169,24 @@ const ThemeInfoWrap = styled.div`
 `;
 
 const ThemePic = styled.img`
-  height: 14rem;
+  height: 12rem;
   width: 10rem;
   border-radius: 0.5rem;
   box-sizing: border-box;
   object-fit: cover;
   cursor: pointer;
   @media ${devices.md} {
-    height: 21rem;
-    width: 18rem;
+    height: 18rem;
+    width: 16rem;
   }
   @media ${devices.lg} {
-    height: 25rem;
-    width: 23rem;
+    height: 21rem;
+    width: 18rem;
   }
 `;
 const ThemeTextWrap = styled.div`
   width: 100%;
-  margin-left: 0.5rem;
+  margin-left: 1.2rem;
   display: flex;
   flex-direction: column;
 
@@ -201,10 +201,10 @@ const ThemeTextWrap = styled.div`
 
 const ThemeInfoWrapper = styled.div`
   width: 100%;
-  margin: 0.5rem 0;
+  margin: 0.7rem 0 0.5rem 0;
   display: grid;
   grid-template-columns: 5rem 1fr;
-  grid-row-gap: 0.5rem;
+  grid-row-gap: 0.7rem;
   @media ${devices.md} {
     margin-top: 2rem;
     grid-row-gap: 1rem;
@@ -331,8 +331,27 @@ const BottomLikeButtonWrapper = styled.div<{ textColor: boolean }>`
 `;
 
 const ReservationTime = styled.div`
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   @media ${devices.md} {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+  }
+`;
+const Title = styled.p`
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  @media ${devices.md} {
+    font-size: 1.1rem;
+  }
+  @media ${devices.lg} {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
   }
 `;
 

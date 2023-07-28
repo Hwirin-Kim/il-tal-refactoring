@@ -11,7 +11,11 @@ import { useNavigate } from "react-router-dom";
 import Score from "components/common/Score";
 import { themePages } from "api/store";
 
-const CompanyCard = ({ company, location, pageNumber }: CompanyType) => {
+const CompanyCard = ({
+  company,
+
+  queryKey,
+}: CompanyType) => {
   const { isLogin } = useLoginCheck();
   const navigator = useNavigate();
   const queryClient = useQueryClient();
@@ -19,42 +23,31 @@ const CompanyCard = ({ company, location, pageNumber }: CompanyType) => {
     (companyId: number) => companyWish(companyId),
     {
       onMutate: async (companyId) => {
-        await queryClient.cancelQueries([
-          "getCompanyList",
-          location,
-          pageNumber,
-        ]);
-        const previousData = queryClient.getQueryData([
-          "getCompanyList",
-          location,
-          pageNumber,
-        ]);
+        await queryClient.cancelQueries(queryKey);
+        const previousData = queryClient.getQueryData(queryKey);
 
-        queryClient.setQueryData(
-          ["getCompanyList", location, pageNumber],
-          (oldData: any) => {
-            return {
-              ...oldData,
-              data: {
-                ...oldData.data,
-                content: oldData.data.content.map((company: Company) => {
-                  if (company.id === companyId) {
-                    return {
-                      ...company,
-                      companyLikeCheck: !company.companyLikeCheck,
-                    };
-                  }
-                  return company;
-                }),
-              },
-            };
-          }
-        );
+        queryClient.setQueryData(queryKey, (oldData: any) => {
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              content: oldData.data.content.map((company: Company) => {
+                if (company.id === companyId) {
+                  return {
+                    ...company,
+                    companyLikeCheck: !company.companyLikeCheck,
+                  };
+                }
+                return company;
+              }),
+            },
+          };
+        });
 
         return previousData;
       },
       onSuccess: (res) => {
-        queryClient.invalidateQueries(["getCompanyList", location, pageNumber]);
+        queryClient.invalidateQueries(queryKey);
       },
       onError: () => {
         Swal.fire({
@@ -122,7 +115,7 @@ export default CompanyCard;
 const Container = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 2rem;
+
   border-radius: 0.5rem;
   flex-direction: column;
   border: 1px solid rgb(224, 224, 224);

@@ -65,6 +65,8 @@ export default function UserInfo() {
           nickname={data.nickname}
           mainBadgeImg={data.mainBadgeImg}
           mainBadgeName={data.mainBadgeName}
+          totalPlayCnt={data.totalPlayCnt}
+          successCnt={data.successCnt}
         />
       </WebWrap>
       {/* <WebWrap>

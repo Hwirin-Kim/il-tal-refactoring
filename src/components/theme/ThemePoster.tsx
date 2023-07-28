@@ -48,7 +48,7 @@ const ThemePoster = ({ theme, queryKey }: ThemePosterProps) => {
   const day = useRecoilValue(dayState);
 
   //좋아요 기능 mutation
-  const themeLike = useMutation((themeId: number) => wishTheme(themeId), {
+  const themeLike = useMutation((themeId: number) => wishTheme({ themeId }), {
     onSuccess: (res) => {
       queryClient.invalidateQueries(queryKey);
     },

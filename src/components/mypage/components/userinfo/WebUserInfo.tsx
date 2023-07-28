@@ -12,6 +12,8 @@ interface WebUserInfoProps {
   achieveBadgeCnt: number;
   mainBadgeName: string;
   mainBadgeImg: string;
+  totalPlayCnt: number;
+  successCnt: number;
 }
 
 export default function WebUserInfo({
@@ -19,8 +21,17 @@ export default function WebUserInfo({
   mainBadgeName,
   mainBadgeImg,
   achieveBadgeCnt,
+  totalPlayCnt,
+  successCnt,
 }: WebUserInfoProps) {
   const [isEditModeOn, setIsEditModeOn] = useState(false);
+
+  const successRatio = (success: number, total: number): string => {
+    const ratio = Math.floor((success / total) * 100);
+
+    return `${ratio}% (${success} / ${total})`;
+  };
+
   return (
     <Container>
       <TopSecretWaterMark src={confidential} />
@@ -66,7 +77,7 @@ export default function WebUserInfo({
         </RowText>
         <RowText>
           <ReportItem>탈출성공률 : </ReportItem>
-          <ReportItem>55% (55 / 100)</ReportItem>
+          <ReportItem>{successRatio(successCnt, totalPlayCnt)}</ReportItem>
         </RowText>
       </UserReport>
     </Container>

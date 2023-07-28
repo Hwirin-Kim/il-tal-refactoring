@@ -83,8 +83,7 @@ const CompanyList = () => {
             <CompanyCard
               key={company.id}
               company={company}
-              location={location}
-              pageNumber={pageNumber}
+              queryKey={["getCompanyList", location, pageNumber]}
             />
           );
         })}
@@ -124,6 +123,7 @@ const Container = styled.div`
   padding: 0 0.5rem;
   margin-bottom: 8rem;
   .pagination {
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -157,10 +157,10 @@ const ListWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
-  grid-column-gap: 0.5rem;
+  gap: 0.5rem;
   @media ${devices.sm} {
     grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 1rem;
+    gap: 1rem;
   }
   @media ${devices.lg} {
     grid-template-columns: 1fr 1fr 1fr 1fr;
