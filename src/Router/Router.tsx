@@ -13,28 +13,28 @@ import MyReviewPage from "components/mypage/MyReviewPage";
 import MyThemePage from "components/mypage/MyThemePage";
 import MyCompanyPage from "components/mypage/MyCompanyPage";
 import ThemePage from "components/theme/ThemePage";
+import RouterChangeTracker from "RouterChangeTracker";
 
 const Router = () => {
+  RouterChangeTracker();
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/mypage/reviews/:page" element={<MyReviewPage />} />
-          <Route path="/mypage/themes" element={<MyThemePage />} />
-          <Route path="/mypage/companies" element={<MyCompanyPage />} />
-          <Route path="/kakao/callback" element={<KakaoLogin />} />
-          <Route path="/theme" element={<ThemePage />} />
-          <Route path="/theme/:id" element={<DetailTheme />} />
-          <Route path="/company" element={<CompanyPage />} />
-          <Route path="/company/:id" element={<DetailCompanyPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/test" element={<BestTheme />} />
-        </Route>
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/reviews/:page" element={<MyReviewPage />} />
+        <Route path="/mypage/themes" element={<MyThemePage />} />
+        <Route path="/mypage/companies" element={<MyCompanyPage />} />
+        <Route path="/kakao/callback" element={<KakaoLogin />} />
+        <Route path="/theme" element={<ThemePage />} />
+        <Route path="/theme/:id" element={<DetailTheme />} />
+        <Route path="/company" element={<CompanyPage />} />
+        <Route path="/company/:id" element={<DetailCompanyPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/test" element={<BestTheme />} />
+      </Route>
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
   );
 };
 

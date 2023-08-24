@@ -1,10 +1,13 @@
 import { LoginCheckProvider } from "components/context/LoginCheckContext";
 import Router from "./Router/Router";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <LoginCheckProvider>
-      <Router />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     </LoginCheckProvider>
   );
 }
