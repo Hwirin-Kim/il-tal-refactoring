@@ -16,7 +16,11 @@ import Logo from "../../asset/LoginLogo.png";
 import Swal from "sweetalert2";
 import { useLoginCheck } from "components/context/LoginCheckContext";
 
-const RegisterForm = ({ setLoginModal }) => {
+interface Props {
+  setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const RegisterForm = ({ setLoginModal }: Props) => {
   const { isLogin, setIsLogin } = useLoginCheck();
 
   const navigator = useNavigate();
@@ -56,8 +60,8 @@ const RegisterForm = ({ setLoginModal }) => {
         text: "사용 가능한 아이디 입니다!",
       });
     },
-    onError: (err) => {
-      if (err.response.status === 409) {
+    onError: ({ response }) => {
+      if (response.status === 409) {
         Swal.fire({
           icon: "error",
           title: "중복된 아이디",
@@ -81,8 +85,8 @@ const RegisterForm = ({ setLoginModal }) => {
         text: "사용 가능한 닉네임 입니다!",
       });
     },
-    onError: (err) => {
-      if (err.response.status === 409) {
+    onError: ({ response }) => {
+      if (response.status === 409) {
         Swal.fire({
           icon: "error",
           title: "중복된 닉네임",
