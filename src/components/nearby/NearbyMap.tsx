@@ -69,5 +69,6 @@ export default NearbyMap;
 const MapContainer = styled.div`
   display: flex;
   flex: 1;
+  background-color: red;
   border-radius: 10px;
 `;

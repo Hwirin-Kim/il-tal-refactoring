@@ -73,14 +73,14 @@ export default function NearbyPage() {
         </CategoriesWrapper>
       </TopInfoWrapper>
 
-      {/* <BodyWrap> */}
-      {/* <FilterWrapper hide={onFilter}>
+      <BodyWrap>
+        <FilterWrapper hide={onFilter}>
           <ThemeFilterBox setOnfilter={setOnFilter} />
-        </FilterWrapper> */}
-      {/* <ThemeList setSearchResult={setSearchResult} /> */}
-      {/* <NearbyMap /> */}
-      {/* </BodyWrap> */}
-      {/* <BottomSheet /> */}
+        </FilterWrapper>
+        {/* <ThemeList setSearchResult={setSearchResult} /> */}
+        <NearbyMap />
+      </BodyWrap>
+      <BottomSheet />
     </Container>
   );
 }
@@ -92,7 +92,7 @@ const Container = styled.div`
   flex: 1;
   box-sizing: border-box;
   padding: 0 0.5rem;
-  padding-bottom: 8rem;
+  position: relative;
 `;
 
 const TopInfoWrapper = styled.div`
