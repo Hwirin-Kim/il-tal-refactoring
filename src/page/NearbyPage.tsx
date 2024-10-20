@@ -1,3 +1,4 @@
+import BottomSheet from "components/nearby/BottomSheet";
 import NearbyMap from "components/nearby/NearbyMap";
 import { categoryIndex } from "components/theme/categoryIndex";
 import ThemeFilterBox from "components/theme/filter/ThemeFilterBox";
@@ -72,13 +73,14 @@ export default function NearbyPage() {
         </CategoriesWrapper>
       </TopInfoWrapper>
 
-      <BodyWrap>
-        <FilterWrapper hide={onFilter}>
+      {/* <BodyWrap> */}
+      {/* <FilterWrapper hide={onFilter}>
           <ThemeFilterBox setOnfilter={setOnFilter} />
-        </FilterWrapper>
-        {/* <ThemeList setSearchResult={setSearchResult} /> */}
-        <NearbyMap />
-      </BodyWrap>
+        </FilterWrapper> */}
+      {/* <ThemeList setSearchResult={setSearchResult} /> */}
+      {/* <NearbyMap /> */}
+      {/* </BodyWrap> */}
+      {/* <BottomSheet /> */}
     </Container>
   );
 }

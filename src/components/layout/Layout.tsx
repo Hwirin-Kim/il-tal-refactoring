@@ -11,11 +11,13 @@ export default Layout;
 const STLayout = styled.div`
   max-width: 1280px;
   width: 100%;
-  height: calc(100% + 8rem);
-  min-height: 100vh;
+  /* height: calc(100% + 8rem);
+  min-height: 100vh; */
   display: flex;
+  flex: 1;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
   margin: 0 auto;
+  padding-bottom: 75px; // footer높이
 `;

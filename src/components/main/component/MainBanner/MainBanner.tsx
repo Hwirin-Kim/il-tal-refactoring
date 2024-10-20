@@ -65,7 +65,7 @@ const Container = styled.section`
   background-color: var(--color-main);
   @media ${devices.md} {
     background-color: transparent;
-    height: 100%;
+    height: fit-content;
   }
 `;
 

@@ -23,5 +23,8 @@ export default MainLayout;
 
 const LayoutBody = styled.div`
   width: 100vw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
 `;

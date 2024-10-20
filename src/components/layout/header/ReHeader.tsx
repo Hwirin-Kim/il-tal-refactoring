@@ -139,7 +139,7 @@ const Container = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  flex-shrink: 0;
   background-color: var(--color-main);
 
   @media ${devices.md} {
