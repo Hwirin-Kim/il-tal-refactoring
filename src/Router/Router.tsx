@@ -14,6 +14,7 @@ import MyThemePage from "components/mypage/MyThemePage";
 import MyCompanyPage from "components/mypage/MyCompanyPage";
 import ThemePage from "components/theme/ThemePage";
 import RouterChangeTracker from "RouterChangeTracker";
+import NearbyPage from "page/NearbyPage";
 
 const Router = () => {
   RouterChangeTracker();
@@ -32,6 +33,7 @@ const Router = () => {
         <Route path="/company/:id" element={<DetailCompanyPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/test" element={<BestTheme />} />
+        <Route path="/nearby" element={<NearbyPage />} />
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>

@@ -30,26 +30,22 @@ export default function BottomMenuBar() {
   return (
     <Container>
       <Btn onClick={() => navigator("/company")}>
-        {" "}
         <Img size={27} src={companyImg} />
         업체별
       </Btn>
       <Btn onClick={() => navigator("/theme")}>
-        {" "}
         <Img size={27} src={themeImg} />
         테마별
       </Btn>
       <MainBtn onClick={() => navigator("/")}>
         <Img size={70} src={logo} alt="home" />
       </MainBtn>
-      <Btn onClick={warningMessage}>
-        {" "}
+      <Btn onClick={() => navigator("/nearby")}>
         <Img size={27} src={mapImg} />
         내주변 방탈출
       </Btn>
       {isLogin ? (
         <Btn onClick={() => navigator("/mypage")}>
-          {" "}
           <Img size={27} src={mypageImg} />
           마이페이지
         </Btn>
